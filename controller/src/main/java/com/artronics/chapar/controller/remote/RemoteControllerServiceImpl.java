@@ -7,4 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RemoteControllerServiceImpl implements RemoteControllerService{
     private final static Logger log = Logger.getLogger(RemoteControllerServiceImpl.class);
+
+    @Override
+    public void registerDevice() {
+        log.debug("Registering new Device");
+    }
 }
