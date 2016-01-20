@@ -3,10 +3,11 @@ package com.artronics.chapar.core.entities;
 import org.apache.log4j.Logger;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public class AbstractBaseEntity {
+public class AbstractBaseEntity implements Serializable{
     private final static Logger log = Logger.getLogger(AbstractBaseEntity.class);
 
     protected Long id;

@@ -15,7 +15,7 @@ public class ControllerResolverImpl implements ControllerResolver{
     @Override
     public void connect(String url) {
         log.debug("Connecting to controller");
-        remoteControllerService.registerDevice();
+        remoteControllerService.connect(url);
     }
 
     @Autowired

@@ -1,4 +1,6 @@
 package com.artronics.chapar.core.remote;
 
-public interface RemoteService {
+import java.io.Serializable;
+
+public interface RemoteService extends Serializable{
 }
