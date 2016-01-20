@@ -1,5 +1,6 @@
 package com.artronics.chapar.device.connection;
 
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Session;
 import com.artronics.chapar.core.remote.RemoteControllerService;
 import com.artronics.chapar.core.remote.SessionManager;
@@ -17,11 +18,20 @@ public class ControllerResolverImpl implements ControllerResolver{
     private SessionManager sessionManager;
 
     @Override
-    public void connect(String url) {
+    public Session connect(String url) {
         log.debug("Connecting to controller");
         Session session=remoteControllerService.connect(url);
         log.debug("Set current session: " + session);
         sessionManager.setSession(session);
+
+        return session;
+    }
+
+    @Override
+    public Device registerDevice(Device device) {
+        remoteControllerService.registerDevice(device);
+
+        return device;
     }
 
     @Autowired

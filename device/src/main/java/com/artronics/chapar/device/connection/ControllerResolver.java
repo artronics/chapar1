@@ -1,5 +1,9 @@
 package com.artronics.chapar.device.connection;
 
+import com.artronics.chapar.core.entities.Device;
+import com.artronics.chapar.core.entities.Session;
+
 public interface ControllerResolver {
-    void connect(String url);
+    Session connect(String url);
+    Device registerDevice(Device device);
 }

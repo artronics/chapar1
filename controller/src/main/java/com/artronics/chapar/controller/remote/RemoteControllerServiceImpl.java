@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.remote;
 
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Session;
 import com.artronics.chapar.core.remote.RemoteControllerService;
 import org.apache.log4j.Logger;
@@ -15,7 +16,9 @@ public class RemoteControllerServiceImpl implements RemoteControllerService{
     }
 
     @Override
-    public void registerDevice() {
+    public Device registerDevice(Device device) {
         log.debug("Registering new Device");
+
+        return device;
     }
 }
