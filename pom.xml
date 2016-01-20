@@ -35,6 +35,12 @@
                 <artifactId>chapar-core</artifactId>
                 <version>1.0.SNAPSHOT</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.caucho</groupId>
+                <artifactId>hessian</artifactId>
+                <version>4.0.7</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
