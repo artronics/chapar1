@@ -6,8 +6,8 @@ import com.artronics.chapar.core.exceptions.ControllerConnectionException;
 
 public interface RemoteControllerService extends RemoteService{
 
-    Session connect(String controllerUrl) throws ControllerConnectionException;
+    Session connect() throws ControllerConnectionException;
 
-    Device registerDevice(Device device);
+    Device registerDeviceService(Device device,RemoteDeviceService remoteDeviceServiceProxy);
 
 }
