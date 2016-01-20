@@ -16,7 +16,6 @@ public class ControllerApplication {
     private final static Logger log = Logger.getLogger(ControllerApplication.class);
 
     public static void main(String[] args){
-        log.debug("kir");
         new SpringApplicationBuilder(
                 ControllerApplication.class
         )

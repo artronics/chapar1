@@ -25,7 +25,7 @@ public class HessianControllerRemoteServiceConfig {
         return s;
     }
 
-    @Value("${com.artronics.chapar.controller.url}")
+    @Value("${com.artronics.chapar.device.controller.url}")
     public void setControllerUrl(String controllerUrl) {
         this.controllerUrl = controllerUrl;
     }
