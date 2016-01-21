@@ -16,4 +16,8 @@ public class BaseEvent<T> extends ApplicationEvent{
         super(source);
         this.message = message;
     }
+
+    public T getMessage() {
+        return message;
+    }
 }
