@@ -13,7 +13,7 @@ public class HttpInvokerServiceExporterConfig {
 
     private RemoteControllerService remoteControllerService;
 
-    @Bean(name = "/controller")
+    @Bean(name = "/rmi/controller")
     public HttpInvokerServiceExporter sdwnControllerServiceExport() {
         HttpInvokerServiceExporter he = new HttpInvokerServiceExporter();
         log.debug("Creating Hessian service exporter for: "+remoteControllerService.toString());

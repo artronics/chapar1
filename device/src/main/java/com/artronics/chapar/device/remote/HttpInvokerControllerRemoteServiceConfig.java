@@ -16,7 +16,7 @@ public class HttpInvokerControllerRemoteServiceConfig {
     @Bean(name = "httpInvokerControllerRemoteService")
     public RemoteControllerService getRemoteControllerService() {
         HttpInvokerProxyFactoryBean pb = new HttpInvokerProxyFactoryBean();
-        pb.setServiceUrl(controllerUrl+"/controller");
+        pb.setServiceUrl(controllerUrl+"/rmi/controller");
         pb.setServiceInterface(RemoteControllerService.class);
         pb.afterPropertiesSet();
         RemoteControllerService s = (RemoteControllerService) pb.getObject();
