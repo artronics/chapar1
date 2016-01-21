@@ -1,8 +1,10 @@
 package com.artronics.chapar.device;
 
 import com.artronics.chapar.device.connection.ControllerResolver;
+import com.artronics.chapar.device.driver.DeviceDriver;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,14 +18,24 @@ public class DeviceInitializer implements ApplicationListener<ContextRefreshedEv
 
     private ControllerResolver controllerResolver;
 
+    private DeviceDriver deviceDriver;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        controllerResolver.connect(controllerUrl);
+//        controllerResolver.connect(controllerUrl);
+        deviceDriver.init();
+        deviceDriver.open();
     }
 
     @Autowired
     public void setControllerResolver(ControllerResolver controllerResolver) {
         this.controllerResolver = controllerResolver;
+    }
+
+    @Autowired
+    @Qualifier("fakeDeviceDriver")
+    public void setDeviceDriver(DeviceDriver deviceDriver) {
+        this.deviceDriver = deviceDriver;
     }
 
     @Value("${com.artronics.chapar.device.controller.url}")

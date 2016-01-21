@@ -15,7 +15,7 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
-@Component
+@Component("deviceDriverSerialPort")
 public class DeviceDriverSerialPort implements DeviceDriver, SerialPortEventListener {
     private final static Logger log = Logger.getLogger(DeviceDriverSerialPort.class);
 
