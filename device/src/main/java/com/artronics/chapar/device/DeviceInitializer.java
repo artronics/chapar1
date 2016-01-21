@@ -1,6 +1,5 @@
 package com.artronics.chapar.device;
 
-import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.device.connection.ControllerResolver;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ public class DeviceInitializer implements ApplicationListener<ContextRefreshedEv
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         controllerResolver.connect(controllerUrl);
-        Device device = new Device();
-
     }
 
     @Autowired
