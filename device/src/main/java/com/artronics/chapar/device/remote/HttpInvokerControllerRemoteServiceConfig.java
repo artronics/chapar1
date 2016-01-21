@@ -4,18 +4,18 @@ import com.artronics.chapar.core.remote.RemoteControllerService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.remoting.caucho.HessianProxyFactoryBean;
+import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HessianControllerRemoteServiceConfig {
-    private final static Logger log = Logger.getLogger(HessianControllerRemoteServiceConfig.class);
+public class HttpInvokerControllerRemoteServiceConfig {
+    private final static Logger log = Logger.getLogger(HttpInvokerControllerRemoteServiceConfig.class);
 
     private String controllerUrl;
 
-    @Bean(name = "hessianRemoteControllerService")
+    @Bean(name = "httpInvokerControllerRemoteService")
     public RemoteControllerService getRemoteControllerService() {
-        HessianProxyFactoryBean pb = new HessianProxyFactoryBean();
+        HttpInvokerProxyFactoryBean pb = new HttpInvokerProxyFactoryBean();
         pb.setServiceUrl(controllerUrl+"/controller");
         pb.setServiceInterface(RemoteControllerService.class);
         pb.afterPropertiesSet();

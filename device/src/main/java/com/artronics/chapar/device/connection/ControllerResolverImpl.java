@@ -27,7 +27,7 @@ public class ControllerResolverImpl implements ControllerResolver{
     }
 
     @Autowired
-    @Qualifier("hessianRemoteControllerService")
+    @Qualifier("httpInvokerControllerRemoteService")
     public void setRemoteControllerService(RemoteControllerService remoteControllerService) {
         this.remoteControllerService = remoteControllerService;
     }
