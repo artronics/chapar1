@@ -1,9 +1,7 @@
 package com.artronics.chapar.core.map.graph;
 
 import com.artronics.chapar.core.entities.Node;
-import com.artronics.chapar.core.support.graph.GraphCreator;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultWeightedEdge;
+import com.artronics.chapar.core.map.BaseGraphTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,50 +11,12 @@ import java.util.Set;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
-public class JGraphTDelegatorTest {
+public class JGraphTDelegatorTest extends BaseGraphTest {
 
-    private GraphCreator graphCreator = new GraphCreator();
-
-    private GraphDelegator graphDelegator;
-
-    Graph<Node, DefaultWeightedEdge> sampleGraph1;
-
-    protected Node sink1;
-    protected Node node30;
-    protected Node node135;
-    protected Node node136;
-    protected Node node137;
-
-    /*
-     * node number 30 is sameAddNode
-     *
-     * Graph is like
-     *       sink:0
-     *       /   \
-     *      w50  w10
-     *      /      \
-     *   135 --w20-- 30
-     *     \         /
-     *     w25    w100
-     *       \    /
-     *        136
-     *         |
-     *        w30
-     *         |
-     *        137
-     *
-     *
-     */
+    @Override
     @Before
     public void setUp() throws Exception {
-        sampleGraph1 = graphCreator.getSampleGraph1();
-        graphDelegator = new JGraphTDelegator(sampleGraph1);
-
-        sink1 = graphCreator.getSink1();
-        node30 = graphCreator.getSameAddNode1();
-        node135 = graphCreator.getNode135();
-        node136 = graphCreator.getNode136();
-        node137 = graphCreator.getNode137();
+        super.setUp();
     }
 
     @Test(expected = IllegalStateException.class)
