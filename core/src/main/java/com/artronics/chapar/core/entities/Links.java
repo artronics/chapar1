@@ -1,15 +1,24 @@
 package com.artronics.chapar.core.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "links")
-public class NodeLinks extends AbstractBaseEntity {
+public class Links extends AbstractBaseEntity {
 
     private Node srcNode;
 
-    private List<NodeLink> nodeLinks;
+    private List<NodeLink> nodeLinks = new ArrayList<>();
+
+    public Links() {
+    }
+
+    public Links(Node srcNode, List<NodeLink> nodeLinks) {
+        this.srcNode = srcNode;
+        this.nodeLinks = nodeLinks;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "src_node", nullable = false)
