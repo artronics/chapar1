@@ -7,8 +7,6 @@ import javax.persistence.Table;
 @Table(name = "links")
 public class NodeLink implements Link{
 
-    private Node srcNode;
-
     private Node dstNode;
 
     private Double weight;
@@ -16,15 +14,9 @@ public class NodeLink implements Link{
     public NodeLink() {
     }
 
-    public NodeLink(Node srcNode, Node dstNode, Double weight) {
-        this.srcNode = srcNode;
+    public NodeLink(Node dstNode, Double weight) {
         this.dstNode = dstNode;
         this.weight = weight;
-    }
-
-    @Override
-    public Node getSrcNode() {
-        return null;
     }
 
     @Override
@@ -35,10 +27,6 @@ public class NodeLink implements Link{
     @Override
     public Double getWeight() {
         return null;
-    }
-
-    public void setSrcNode(Node srcNode) {
-        this.srcNode = srcNode;
     }
 
     public void setDstNode(Node dstNode) {
