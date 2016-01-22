@@ -29,6 +29,10 @@ public class BaseHttpClient {
 
     private String controllerUrl;
 
+    public BaseHttpClient(CloseableHttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
     public BaseHttpClient() {
         Header header = new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         List<Header> headers = Lists.newArrayList();
@@ -41,8 +45,30 @@ public class BaseHttpClient {
         this.controllerUrl = controllerUrl;
     }
 
-    public CloseableHttpResponse sendRequest(Object msg, String path){
-        throw new NotImplementedException();
+    public void sendRequest(Object msg,Long deviceId, String... segments) throws IOException {
+        CloseableHttpResponse response = null;
+        HttpPost httpPost;
+        try {
+            URI uri= createUri(deviceId,segments);
+            httpPost = new HttpPost(uri);
+            httpPost.setEntity(new StringEntity(toJson(msg)));
+
+
+            response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            // do something useful with the response body
+            // and ensure it is fully consumed
+            EntityUtils.consume(entity);
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (response != null) {
+                response.close();
+            }
+        }
     }
 
     public CloseableHttpResponse sendRequest(String msg, URI uri) throws IOException {
@@ -60,30 +86,25 @@ public class BaseHttpClient {
         throw new NotImplementedException();
     }
 
-    public URI createUri(Long deviceId,String... segments){
-        URI uri = null;
+    public URI createUri(Long deviceId,String... segments) throws URISyntaxException {
         String path = "/device";
+
         if (deviceId != null) {
             path+="/"+deviceId.toString();
         }
+
         for (String segment : segments) {
             path+="/"+segment;
         }
-        try {
-            uri = new URIBuilder()
-                    .setScheme("http")
-                    .setHost(controllerUrl)
-                    .setPath(path)
-                    .build();
 
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        return uri;
+        return new URIBuilder()
+                .setScheme("http")
+                .setHost(controllerUrl)
+                .setPath(path)
+                .build();
     }
 
-    public URI createUri(String... segments){
+    public URI createUri(String... segments) throws URISyntaxException {
         return createUri(null,segments);
     }
 
@@ -91,5 +112,9 @@ public class BaseHttpClient {
         final ObjectMapper objectMapper = new ObjectMapper();
 
         return objectMapper.writeValueAsString(msg);
+    }
+
+    public void setControllerUrl(String controllerUrl) {
+        this.controllerUrl = controllerUrl;
     }
 }

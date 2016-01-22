@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -18,27 +19,27 @@ public class BaseHttpClientTest {
     }
 
     @Test
-    public void it_should_append_segments(){
+    public void it_should_append_segments() throws URISyntaxException {
         URI act = client.createUri("register");
         String exp = "http://foo.com/device/register";
 
-        assertThat(act.toString(),is(equalTo(exp)));
+        assertThat(act.toString(), is(equalTo(exp)));
     }
 
     @Test
-    public void it_should_append_device_id(){
-        URI act = client.createUri(3L,"buffer/register");
+    public void it_should_append_device_id() throws URISyntaxException {
+        URI act = client.createUri(3L, "buffer/register");
         String exp = "http://foo.com/device/3/buffer/register";
 
-        assertThat(act.toString(),is(equalTo(exp)));
+        assertThat(act.toString(), is(equalTo(exp)));
     }
 
     @Test
-    public void it_should_work_without_segments(){
+    public void it_should_work_without_segments() throws URISyntaxException {
         URI act = client.createUri(3L);
         String exp = "http://foo.com/device/3";
 
-        assertThat(act.toString(),is(equalTo(exp)));
+        assertThat(act.toString(), is(equalTo(exp)));
     }
 
 }
