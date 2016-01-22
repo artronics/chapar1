@@ -1,13 +1,21 @@
 package com.artronics.chapar.core.entities;
 
-import org.apache.log4j.Logger;
+public final class Session {
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+    private Long deviceId;
 
-@Entity
-@Table(name = "sessions")
-public final class Session extends AbstractBaseEntity {
-    private final static Logger log = Logger.getLogger(Session.class);
+    public Session() {
+    }
 
+    public Session(Long deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Long getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
+    }
 }
