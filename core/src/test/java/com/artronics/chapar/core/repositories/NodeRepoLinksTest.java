@@ -20,6 +20,9 @@ public class NodeRepoLinksTest extends BaseRepoTest{
     @Autowired
     private NodeRepo nodeRepo;
 
+    @Autowired
+    private NodeLinkRepo linkRepo;
+
     private Node node0;
     private Node n1;
     private Node n2;
@@ -41,12 +44,14 @@ public class NodeRepoLinksTest extends BaseRepoTest{
         NodeLink l0_1=new NodeLink(n1,23D);
         NodeLink l0_2=new NodeLink(n2,32D);
         List<NodeLink> links= new ArrayList<>(Arrays.asList(l0_1,l0_2));
+        linkRepo.save(links);
         node0.setLinks(links);
         nodeRepo.save(node0);
 
         NodeLink l0_1_2=new NodeLink(n1,3455D);
         NodeLink l0_2_2=new NodeLink(n2,34222D);
         List<NodeLink> links2= new ArrayList<>(Arrays.asList(l0_1_2,l0_2_2));
+        linkRepo.save(links2);
         node0.setLinks(links2);
         nodeRepo.save(node0);
 

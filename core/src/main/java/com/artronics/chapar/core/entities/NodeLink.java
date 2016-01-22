@@ -1,11 +1,11 @@
 package com.artronics.chapar.core.entities;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-@Embeddable
-public class NodeLink implements Link{
+@Entity
+public class NodeLink extends AbstractBaseEntity implements Link{
 
     private Node dstNode;
 

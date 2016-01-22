@@ -30,10 +30,12 @@ public class Node extends AbstractBaseEntity {
         this.address = address;
     }
 
-    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionType(type = "java.util.ArrayList")
-    @CollectionTable(name = "neighbors", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "neighbor")
+//    @ElementCollection(fetch = FetchType.EAGER)
+////    @CollectionType(type = "java.util.ArrayList")
+//    @CollectionTable(name = "neighbors", joinColumns = @JoinColumn(name = "id"))
+//    @Column(name = "neighbor")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "links",referencedColumnName = "id")
     public List<NodeLink> getLinks() {
         return links;
     }
