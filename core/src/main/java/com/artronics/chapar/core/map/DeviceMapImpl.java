@@ -12,10 +12,19 @@ import java.util.List;
 import java.util.Set;
 
 public class DeviceMapImpl implements DeviceMap{
-    protected final ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph =
+    protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph =
             new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
-    protected final GraphDelegator graphDelegator = new JGraphTDelegator(graph);
+    protected GraphDelegator graphDelegator;
+
+    public DeviceMapImpl() {
+        graphDelegator = new JGraphTDelegator(graph);
+    }
+
+    public DeviceMapImpl(ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph) {
+        this.graph = graph;
+        graphDelegator = new JGraphTDelegator(graph);
+    }
 
     @Override
     public void addNode(Node node)
