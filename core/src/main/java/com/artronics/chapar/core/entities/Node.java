@@ -10,5 +10,20 @@ import javax.persistence.Table;
 public class Node extends AbstractBaseEntity {
     private final static Logger log = Logger.getLogger(Node.class);
 
+    private Long address;
 
+    public Node() {
+    }
+
+    public Node(Long address) {
+        this.address = address;
+    }
+
+    public Long getAddress() {
+        return address;
+    }
+
+    public void setAddress(Long address) {
+        this.address = address;
+    }
 }
