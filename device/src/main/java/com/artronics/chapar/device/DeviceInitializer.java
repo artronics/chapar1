@@ -1,6 +1,7 @@
 package com.artronics.chapar.device;
 
 import com.artronics.chapar.core.entities.Buffer;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.device.connection.ControllerResolver;
 import com.artronics.chapar.device.driver.DeviceDriver;
 import com.artronics.chapar.device.events.BufferReadyEvent;
@@ -12,6 +13,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class DeviceInitializer implements ApplicationListener<ContextRefreshedEvent>{
@@ -25,7 +28,13 @@ public class DeviceInitializer implements ApplicationListener<ContextRefreshedEv
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-//        controllerResolver.connect(controllerUrl);
+        Device device = new Device();
+        try {
+            controllerResolver.connect(device,controllerUrl);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         deviceDriver.init();
         deviceDriver.open();
     }
