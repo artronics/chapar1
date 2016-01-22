@@ -38,7 +38,14 @@ public class ControllerResolverHttp implements ControllerResolver{
 
     @Override
     public void sendBuffer(Buffer buffer) {
+        CloseableHttpResponse response;
+        try{
+            response = httpClient.sendRequest(toJson(buffer),deviceId,"buffer");
+            HttpEntity entity = response.getEntity();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected static String toJson(Object msg) throws JsonProcessingException {

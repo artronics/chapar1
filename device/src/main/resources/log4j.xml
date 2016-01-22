@@ -35,6 +35,11 @@
         <level value="warn"/>
     </logger>
 
+    <logger name="org.apache.http" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="console"></appender-ref>
+    </logger>
+
     <logger name="com.artronics.chapar.device" additivity="false">
         <level value="debug"/>
         <appender-ref ref="console"></appender-ref>

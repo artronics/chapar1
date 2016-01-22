@@ -51,7 +51,7 @@ public class BaseHttpClient {
             URI uri= createUri(deviceId,segments);
             HttpPost httpPost = new HttpPost(uri);
             httpPost.setEntity(new StringEntity(msg));
-
+            logReq(httpPost);
             response = httpClient.execute(httpPost);
 
         } catch (URISyntaxException e) {
@@ -59,6 +59,10 @@ public class BaseHttpClient {
         }
 
         return response;
+    }
+
+    private static void logReq(HttpPost httpPost) {
+
     }
 
     public URI createUri(Long deviceId,String... segments) throws URISyntaxException {
