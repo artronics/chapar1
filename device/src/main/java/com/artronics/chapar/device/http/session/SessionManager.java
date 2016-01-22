@@ -1,4 +1,4 @@
-package com.artronics.chapar.core.remote;
+package com.artronics.chapar.device.http.session;
 
 import com.artronics.chapar.core.entities.Session;
 

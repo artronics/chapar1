@@ -1,7 +1,7 @@
 package com.artronics.chapar.device.connection;
 
 import com.artronics.chapar.core.entities.Session;
-import com.artronics.chapar.core.remote.SessionManager;
+import com.artronics.chapar.device.http.session.SessionManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
