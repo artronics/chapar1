@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.services;
 
-import com.artronics.chapar.controller.BaseControllerTest;
+import com.artronics.chapar.controller.http.controllers.BaseControllerTest;
 import com.artronics.chapar.controller.services.impl.DeviceRegistrationServiceImpl;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.map.DeviceMap;
