@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/device/{id}/packet")
+@RequestMapping("/device/{id}/buffer")
 public class PacketController {
     private final static Logger log = Logger.getLogger(PacketController.class);
 

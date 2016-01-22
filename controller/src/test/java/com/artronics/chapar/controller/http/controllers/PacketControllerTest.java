@@ -37,7 +37,7 @@ public class PacketControllerTest {
         Buffer buffer = new Buffer(Arrays.asList(1, 2, 3));
         String buff = mapper.writeValueAsString(buffer);
 
-        mockMvc.perform(post("/device/1/packet")
+        mockMvc.perform(post("/device/1/buffer")
                 .contentType(MediaType.APPLICATION_JSON)
         .content(buff))
                 .andDo(print())
