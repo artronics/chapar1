@@ -2,17 +2,18 @@ package com.artronics.chapar.core.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.log4j.Logger;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "nodes")
 public class Node extends AbstractBaseEntity {
-    private final static Logger log = Logger.getLogger(Node.class);
 
     private Long address;
+
+    private Set<NodeLink> links = new HashSet<>();
 
     public Node() {
     }
@@ -27,6 +28,18 @@ public class Node extends AbstractBaseEntity {
 
     public void setAddress(Long address) {
         this.address = address;
+    }
+
+    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionType(type = "java.util.ArrayList")
+    @CollectionTable(name = "neighbors", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "neighbor")
+    public Set<NodeLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(Set<NodeLink> links) {
+        this.links = links;
     }
 
     @Override
