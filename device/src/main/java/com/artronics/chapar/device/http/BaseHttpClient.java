@@ -29,10 +29,6 @@ public class BaseHttpClient {
 
     private String controllerUrl;
 
-    private Long deviceId;
-
-    private URI uri;
-
     public BaseHttpClient() {
         Header header = new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         List<Header> headers = Lists.newArrayList();
@@ -40,15 +36,9 @@ public class BaseHttpClient {
         httpClient= HttpClients.custom().setDefaultHeaders(headers).build();
     }
 
-    public BaseHttpClient(String controllerUrl, Long deviceId) throws URISyntaxException {
+    public BaseHttpClient(String controllerUrl) throws URISyntaxException {
         this();
         this.controllerUrl = controllerUrl;
-        this.deviceId = deviceId;
-        uri = new URIBuilder()
-                .setScheme("http")
-                .setHost(controllerUrl)
-                .setPath("/device/"+deviceId+"/")
-                .build();
     }
 
     public CloseableHttpResponse sendRequest(Object msg, String path){
@@ -68,6 +58,33 @@ public class BaseHttpClient {
             EntityUtils.consume(entity2);
         }
         throw new NotImplementedException();
+    }
+
+    public URI createUri(Long deviceId,String... segments){
+        URI uri = null;
+        String path = "/device";
+        if (deviceId != null) {
+            path+="/"+deviceId.toString();
+        }
+        for (String segment : segments) {
+            path+="/"+segment;
+        }
+        try {
+            uri = new URIBuilder()
+                    .setScheme("http")
+                    .setHost(controllerUrl)
+                    .setPath(path)
+                    .build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return uri;
+    }
+
+    public URI createUri(String... segments){
+        return createUri(null,segments);
     }
 
     protected static String toJson(Object msg) throws JsonProcessingException {
