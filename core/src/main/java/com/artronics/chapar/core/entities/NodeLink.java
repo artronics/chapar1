@@ -1,10 +1,8 @@
 package com.artronics.chapar.core.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "links")
+@Embeddable
 public class NodeLink implements Link{
 
     private Node dstNode;
