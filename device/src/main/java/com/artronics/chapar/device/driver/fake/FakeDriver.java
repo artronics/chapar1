@@ -36,7 +36,7 @@ public class FakeDriver implements DeviceDriver{
                 log.debug("Sending Fake Buffer");
                 publisher.publishEvent(e);
 
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
