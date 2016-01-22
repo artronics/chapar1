@@ -1,6 +1,7 @@
 package com.artronics.chapar.core.entities;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 @Embeddable
 public class NodeLink implements Link{
@@ -18,6 +19,7 @@ public class NodeLink implements Link{
     }
 
     @Override
+    @Transient
     public Node getDstNode() {
         return null;
     }
