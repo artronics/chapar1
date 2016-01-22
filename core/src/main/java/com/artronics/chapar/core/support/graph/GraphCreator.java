@@ -1,7 +1,6 @@
 package com.artronics.chapar.core.support.graph;
 
 import com.artronics.chapar.core.entities.Node;
-import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
@@ -71,7 +70,7 @@ public class GraphCreator extends NodeDefinitions {
      *
      *
      */
-    public Graph<Node, DefaultWeightedEdge> getSampleGraph1() {
+    public ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> getSampleGraph1() {
         return graph1;
     }
 
@@ -90,7 +89,7 @@ public class GraphCreator extends NodeDefinitions {
               246 --w30-- 30
      */
 
-    public Graph<Node, DefaultWeightedEdge> getSampleGraph2() {
+    public ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> getSampleGraph2() {
         return graph1;
     }
 

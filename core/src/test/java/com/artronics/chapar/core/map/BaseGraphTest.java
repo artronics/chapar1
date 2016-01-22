@@ -4,8 +4,8 @@ import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.map.graph.GraphDelegator;
 import com.artronics.chapar.core.map.graph.JGraphTDelegator;
 import com.artronics.chapar.core.support.graph.GraphCreator;
-import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 import org.junit.Before;
 
 public class BaseGraphTest {
@@ -13,7 +13,7 @@ public class BaseGraphTest {
 
     protected GraphDelegator graphDelegator;
 
-    protected Graph<Node, DefaultWeightedEdge> sampleGraph1;
+    protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> sampleGraph1;
 
     protected Node sink1;
     protected Node node30;
