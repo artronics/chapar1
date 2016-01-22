@@ -1,6 +1,5 @@
 package com.artronics.chapar.core.repositories;
 
-import com.artronics.chapar.core.entities.Links;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.NodeLink;
 import org.junit.Before;
@@ -12,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LinksRepoTest extends BaseRepoTest{
-    @Autowired
-    private NodeLinksRepo linksRepo;
+public class NodeRepoLinksTest extends BaseRepoTest{
 
     @Autowired
     private NodeRepo nodeRepo;
@@ -40,7 +37,5 @@ public class LinksRepoTest extends BaseRepoTest{
         NodeLink l0_1=new NodeLink(n1,23D);
         NodeLink l0_2=new NodeLink(n2,32D);
         List<NodeLink> l= new ArrayList<>(Arrays.asList(l0_1,l0_2));
-        Links links = new Links(node0,l);
-        linksRepo.save(links);
     }
 }
