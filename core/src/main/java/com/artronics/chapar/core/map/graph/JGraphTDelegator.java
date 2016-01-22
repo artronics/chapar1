@@ -1,7 +1,6 @@
 package com.artronics.chapar.core.map.graph;
 
 import com.artronics.chapar.core.entities.Node;
-import org.apache.log4j.Logger;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -10,8 +9,6 @@ import java.util.*;
 
 public class JGraphTDelegator implements GraphDelegator
 {
-    private final static Logger log = Logger.getLogger(JGraphTDelegator.class);
-
     private final Graph<Node, DefaultWeightedEdge> graph;
 
     public JGraphTDelegator(Graph<Node,DefaultWeightedEdge> graph)
