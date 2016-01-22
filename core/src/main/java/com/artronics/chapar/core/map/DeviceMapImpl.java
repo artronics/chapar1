@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 public class DeviceMapImpl implements DeviceMap{
+    private static final Double DEF_WEIGHT = 1.0D;
+
     protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph =
             new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
@@ -54,6 +56,15 @@ public class DeviceMapImpl implements DeviceMap{
         }
     }
 
+    @Override
+    public void addLink(Node source, Node target)
+    {
+        DefaultWeightedEdge edge = graph.addEdge(source, target);
+
+        if (edge != null) {
+            this.graph.setEdgeWeight(edge, DEF_WEIGHT);
+        }
+    }
     @Override
     public boolean hasLink(Node source, Node target)
     {

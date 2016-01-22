@@ -15,6 +15,8 @@ public interface DeviceMap extends GraphDelegator
 
     void addLink(Node source, Node target, double weight);
 
+    void addLink(Node source, Node target);
+
     void removeLink(Node srcNode, Node neighbor);
 
     boolean hasLink(Node source, Node target);
