@@ -22,6 +22,8 @@ public class ControllerResolverHttp implements ControllerResolver{
 
     private String controllerUrl;
 
+    private Long deviceId;
+
     private BaseHttpClient httpClient;
 
     public ControllerResolverHttp() {
@@ -47,6 +49,11 @@ public class ControllerResolverHttp implements ControllerResolver{
     protected static Object toObject(String msg , Class clazz) throws IOException {
 
         return OBJECT_MAPPER.readValue(msg,clazz);
+    }
+
+    @Override
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
     }
 
     @Autowired

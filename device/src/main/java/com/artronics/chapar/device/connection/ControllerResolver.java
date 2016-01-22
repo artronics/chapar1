@@ -9,4 +9,6 @@ public interface ControllerResolver {
     Device connect(Device device, String url) throws IOException;
 
     void sendBuffer(Buffer buffer);
+
+    void setDeviceId(Long deviceId);
 }

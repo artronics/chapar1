@@ -26,17 +26,24 @@ public class DeviceInitializer implements ApplicationListener<ContextRefreshedEv
 
     private DeviceDriver deviceDriver;
 
+    private Device device;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         Device device = new Device();
         try {
-            controllerResolver.connect(device,controllerUrl);
+            device = controllerResolver.connect(device,controllerUrl);
 
+            if (device != null && device.getId()!=null) {
+                controllerResolver.setDeviceId(device.getId());
+                this.device = device;
+
+                deviceDriver.init();
+                deviceDriver.open();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        deviceDriver.init();
-        deviceDriver.open();
     }
 
     @EventListener
