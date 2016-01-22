@@ -1,5 +1,6 @@
 package com.artronics.chapar.core.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
@@ -21,12 +22,13 @@ public class NodeLink implements Link{
     @Override
     @Transient
     public Node getDstNode() {
-        return null;
+        return dstNode;
     }
 
     @Override
+    @Column(name = "weight")
     public Double getWeight() {
-        return null;
+        return weight;
     }
 
     public void setDstNode(Node dstNode) {

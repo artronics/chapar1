@@ -7,9 +7,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NodeRepoLinksTest extends BaseRepoTest{
 
@@ -36,8 +40,19 @@ public class NodeRepoLinksTest extends BaseRepoTest{
     public void it_should_persist_links_to_node(){
         NodeLink l0_1=new NodeLink(n1,23D);
         NodeLink l0_2=new NodeLink(n2,32D);
-        Set<NodeLink> links= new HashSet<>(Arrays.asList(l0_1,l0_2));
+        List<NodeLink> links= new ArrayList<>(Arrays.asList(l0_1,l0_2));
         node0.setLinks(links);
         nodeRepo.save(node0);
+
+        NodeLink l0_1_2=new NodeLink(n1,3455D);
+        NodeLink l0_2_2=new NodeLink(n2,34222D);
+        List<NodeLink> links2= new ArrayList<>(Arrays.asList(l0_1_2,l0_2_2));
+        node0.setLinks(links2);
+        nodeRepo.save(node0);
+
+        Node persistedNode = nodeRepo.findOne(node0.getId());
+        assertThat(persistedNode.getLinks().size(),is(equalTo(2)));
     }
+
+
 }

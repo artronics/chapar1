@@ -4,8 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "nodes")
@@ -13,7 +13,7 @@ public class Node extends AbstractBaseEntity {
 
     private Long address;
 
-    private Set<NodeLink> links = new HashSet<>();
+    private List<NodeLink> links = new ArrayList<>();
 
     public Node() {
     }
@@ -34,11 +34,11 @@ public class Node extends AbstractBaseEntity {
 //    @CollectionType(type = "java.util.ArrayList")
     @CollectionTable(name = "neighbors", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "neighbor")
-    public Set<NodeLink> getLinks() {
+    public List<NodeLink> getLinks() {
         return links;
     }
 
-    public void setLinks(Set<NodeLink> links) {
+    public void setLinks(List<NodeLink> links) {
         this.links = links;
     }
 
