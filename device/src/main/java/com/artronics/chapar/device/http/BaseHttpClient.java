@@ -15,15 +15,17 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@Component
 public class BaseHttpClient {
     private final static Logger log = Logger.getLogger(BaseHttpClient.class);
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private CloseableHttpClient httpClient;
 
@@ -45,9 +47,11 @@ public class BaseHttpClient {
         this.controllerUrl = controllerUrl;
     }
 
-    public void sendRequest(Object msg,Long deviceId, String... segments) throws IOException {
+    public String sendRequest(String msg,Long deviceId, String... segments)
+            throws IOException {
         CloseableHttpResponse response = null;
         HttpPost httpPost;
+        String res = null;
         try {
             URI uri= createUri(deviceId,segments);
             httpPost = new HttpPost(uri);
@@ -56,6 +60,8 @@ public class BaseHttpClient {
 
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
+            res= EntityUtils.toString(entity);
+
             // do something useful with the response body
             // and ensure it is fully consumed
             EntityUtils.consume(entity);
@@ -69,21 +75,8 @@ public class BaseHttpClient {
                 response.close();
             }
         }
-    }
 
-    public CloseableHttpResponse sendRequest(String msg, URI uri) throws IOException {
-        HttpPost httpPost = new HttpPost("http://localhost:8080/device/3/buffer");
-        httpPost.setEntity(new StringEntity(msg));
-
-
-        try (CloseableHttpResponse response2 = httpClient.execute(httpPost)) {
-            System.out.println(response2.getStatusLine());
-            HttpEntity entity2 = response2.getEntity();
-            // do something useful with the response body
-            // and ensure it is fully consumed
-            EntityUtils.consume(entity2);
-        }
-        throw new NotImplementedException();
+        return res;
     }
 
     public URI createUri(Long deviceId,String... segments) throws URISyntaxException {
@@ -109,9 +102,13 @@ public class BaseHttpClient {
     }
 
     protected static String toJson(Object msg) throws JsonProcessingException {
-        final ObjectMapper objectMapper = new ObjectMapper();
 
-        return objectMapper.writeValueAsString(msg);
+        return OBJECT_MAPPER.writeValueAsString(msg);
+    }
+
+    protected static Object toObject(String msg , Class clazz) throws IOException {
+
+        return OBJECT_MAPPER.readValue(msg,clazz);
     }
 
     public void setControllerUrl(String controllerUrl) {

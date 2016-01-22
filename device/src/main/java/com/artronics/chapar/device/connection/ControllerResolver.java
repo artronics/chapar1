@@ -4,7 +4,7 @@ import com.artronics.chapar.core.entities.Buffer;
 import com.artronics.chapar.core.entities.Device;
 
 public interface ControllerResolver {
-    Device connect(String url);
+    Device connect(Device device, String url);
 
     void sendBuffer(Buffer buffer);
 }
