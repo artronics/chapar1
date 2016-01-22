@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.artronics.chapar.core.repositories")
+@EnableJpaRepositories(basePackages = {"com.artronics.chapar.core.repositories",
+        "com.artronics.chapar.core.repositories.jpa"})
 @EnableTransactionManagement
 @EntityScan(basePackages = "com.artronics.chapar.core.entities")
 public class RepositoryConfig

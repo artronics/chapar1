@@ -1,6 +1,5 @@
-package com.artronics.chapar.controller.config;
+package com.artronics.chapar.core.repositories;
 
-import com.artronics.chapar.core.repositories.RepositoryConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
