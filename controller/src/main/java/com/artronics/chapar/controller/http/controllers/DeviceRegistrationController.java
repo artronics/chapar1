@@ -1,10 +1,10 @@
 package com.artronics.chapar.controller.http.controllers;
 
+import com.artronics.chapar.controller.services.DeviceRegistrationService;
 import com.artronics.chapar.core.entities.Device;
-import com.artronics.chapar.core.repositories.DeviceRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,11 +15,11 @@ public class DeviceRegistrationController {
     private final static Logger log = Logger.getLogger(DeviceRegistrationController.class);
 
     @Autowired
-    DeviceRepo deviceRepo;
+    private DeviceRegistrationService deviceRegistrationService;
 
-    @RequestMapping(method = RequestMethod.GET,produces = "application/json")
-    public Device registerDevice(@PathVariable Long sinkAddress){
-        return deviceRepo.save(new Device());
+    @RequestMapping(method = RequestMethod.POST,produces = "application/json")
+    public Device registerDevice(@RequestBody Device device){
+        return deviceRegistrationService.registerDevice(device);
     }
 
 }
