@@ -57,7 +57,9 @@ public class JGraphTDelegator implements GraphDelegator
         if (!graph.containsVertex(node))
             throw new IllegalStateException("This node is not in map.");
 
-        Map<Node,DefaultWeightedEdge> nodes = new HashMap<>();
+        Set<Node> neighbors = new HashSet<>();
+        if (isIsland(node))
+            return neighbors;
 
         Set<DefaultWeightedEdge> edges = graph.edgesOf(node);
 
@@ -65,17 +67,12 @@ public class JGraphTDelegator implements GraphDelegator
             Node srcNode = graph.getEdgeSource(edge);
             Node dstNode = graph.getEdgeTarget(edge);
 
-            nodes.put(srcNode,edge);
-            nodes.put(dstNode,edge);
+            neighbors.add(srcNode);
+            neighbors.add(dstNode);
         }
 
         //remove node from set. we just need its neighbors
-        nodes.remove(node);
-
-        Set<Node> neighbors = new HashSet();
-        for (Node n : nodes.keySet()) {
-            DefaultWeightedEdge e = nodes.get(n);
-        }
+        neighbors.remove(node);
 
         return neighbors;
     }

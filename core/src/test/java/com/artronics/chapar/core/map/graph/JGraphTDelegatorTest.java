@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
@@ -87,5 +88,29 @@ public class JGraphTDelegatorTest {
         assertThat(path.get(3).getAddress(),equalTo(137L));
     }
 
+    @Test
+    public void it_should_return_a_set_of_neighbors_not_containing_itself()
+    {
+        Set<Node> neighbors = graphDelegator.getNeighbors(node135);
+
+
+        //should not contain itself
+        assertFalse(neighbors.contains(node135));
+
+        assertFalse(neighbors.contains(node137));
+
+        assertTrue(neighbors.contains(node30));
+        assertTrue(neighbors.contains(sink1));
+        assertTrue(neighbors.contains(node136));
+    }
+
+    @Test
+    public void it_should_return_empty_set_if_node_has_no_neighbors()
+    {
+        Node node = new Node(3432L);
+        sampleGraph1.addVertex(node);
+        Set<Node> nodes = graphDelegator.getNeighbors(node);
+        assertTrue(nodes.isEmpty());
+    }
 
 }
