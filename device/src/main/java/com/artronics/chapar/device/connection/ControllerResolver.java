@@ -1,10 +1,10 @@
 package com.artronics.chapar.device.connection;
 
 import com.artronics.chapar.core.entities.Buffer;
-import com.artronics.chapar.core.entities.Session;
+import com.artronics.chapar.core.entities.Device;
 
 public interface ControllerResolver {
-    Session connect(String url);
+    Device connect(String url);
 
     void sendBuffer(Buffer buffer);
 }

@@ -1,5 +1,7 @@
 package com.artronics.chapar.device.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Lists;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -13,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -48,12 +51,14 @@ public class BaseHttpClient {
                 .build();
     }
 
-    public void sendRequest(String msg, String path){
-
+    public CloseableHttpResponse sendRequest(Object msg, String path){
+        throw new NotImplementedException();
     }
-    public void sendRequest(String msg, URI uri) throws IOException {
+
+    public CloseableHttpResponse sendRequest(String msg, URI uri) throws IOException {
         HttpPost httpPost = new HttpPost("http://localhost:8080/device/3/buffer");
         httpPost.setEntity(new StringEntity(msg));
+
 
         try (CloseableHttpResponse response2 = httpClient.execute(httpPost)) {
             System.out.println(response2.getStatusLine());
@@ -62,6 +67,12 @@ public class BaseHttpClient {
             // and ensure it is fully consumed
             EntityUtils.consume(entity2);
         }
+        throw new NotImplementedException();
     }
 
+    protected static String toJson(Object msg) throws JsonProcessingException {
+        final ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.writeValueAsString(msg);
+    }
 }

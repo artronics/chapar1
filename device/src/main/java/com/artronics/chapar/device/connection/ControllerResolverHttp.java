@@ -1,7 +1,7 @@
 package com.artronics.chapar.device.connection;
 
 import com.artronics.chapar.core.entities.Buffer;
-import com.artronics.chapar.core.entities.Session;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.device.http.BaseHttpClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.utils.URIBuilder;
@@ -25,7 +25,7 @@ public class ControllerResolverHttp implements ControllerResolver{
     }
 
     @Override
-    public Session connect(String url) {
+    public Device connect(String url) {
         return null;
     }
 
