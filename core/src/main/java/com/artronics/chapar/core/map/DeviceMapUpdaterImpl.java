@@ -13,6 +13,9 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
     @Override
     public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
         checkIfNodesAreRegistered(deviceMap,srcNode,links);
+
+        Set<Link> oldLinks = deviceMap.getLinks(srcNode);
+
     }
 
     private static void checkIfNodesAreRegistered(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
