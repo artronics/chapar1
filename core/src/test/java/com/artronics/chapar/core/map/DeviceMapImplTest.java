@@ -1,13 +1,14 @@
 package com.artronics.chapar.core.map;
 
+import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
 public class DeviceMapImplTest extends BaseMapTest {
@@ -74,6 +75,12 @@ public class DeviceMapImplTest extends BaseMapTest {
         assertThat(neighbors.size(),equalTo(3));
     }
 
+    @Test
+    public void it_should_give_all_links_to_a_node(){
+        Set<Link> links = deviceMap.getLinks(node135);
+        assertThat(links.size(),is(equalTo(3)));
+    }
+    
     @Test
     public void it_should_get_DEF_WEIGHT_if_src_and_dst_are_equal(){
         Double weight = deviceMap.getWeigh(node136,node136);

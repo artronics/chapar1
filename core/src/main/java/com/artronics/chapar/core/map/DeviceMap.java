@@ -1,11 +1,13 @@
 package com.artronics.chapar.core.map;
 
+import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.map.graph.GraphDelegator;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.List;
+import java.util.Set;
 
 public interface DeviceMap extends GraphDelegator
 {
@@ -18,6 +20,8 @@ public interface DeviceMap extends GraphDelegator
     void addLink(Node source, Node target, double weight);
 
     void addLink(Node source, Node target);
+
+    Set<Link> getLinks(Node node);
 
     void removeLink(Node srcNode, Node neighbor);
 
