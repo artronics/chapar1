@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
 public class JGraphTDelegatorTest extends BaseGraphTest {
@@ -77,6 +77,12 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
     @Test
     public void it_should_getWeight_of_two_nodes(){
         Double weight = graphDelegator.getWeigh(node135,node136);
+        assertThat(weight,is(equalTo(25D)));
+    }
+
+    @Test
+    public void getWeigh_should_be_mutaul_between_src_and_dst_node(){
+        Double weight = graphDelegator.getWeigh(node136,node135);
         assertThat(weight,is(equalTo(25D)));
     }
 
