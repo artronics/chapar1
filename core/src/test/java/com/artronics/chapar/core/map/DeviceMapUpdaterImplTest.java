@@ -33,6 +33,18 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         deviceMap.addNode(node2);
     }
 
+    @Test
+    public void it_should_create_new_links() throws NodeNotRegistered {
+        Link l0_1 = new Link(node1,23D);
+        Link l0_2 = new Link(node2,22D);
+        Set<Link> links = new HashSet<>(Arrays.asList(l0_1,l0_2));
+        mapUpdater.update(deviceMap,node0,links);
+
+    }
+
+    /*
+        Exception tests
+     */
     @Test(expected = NodeNotRegistered.class)
     public void it_should_throw_exp_if_srcNode_is_not_already_in_map() throws NodeNotRegistered {
         Set<Link> links = new HashSet<>();
@@ -44,15 +56,6 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         Set<Link> links = new HashSet<>();
         links.add(new Link(new Node(233L),23D));
         mapUpdater.update(deviceMap,node135,links);
-    }
-
-    @Test
-    public void it_should_create_new_links() throws NodeNotRegistered {
-        Link l0_1 = new Link(node1,23D);
-        Link l0_2 = new Link(node2,22D);
-        Set<Link> links = new HashSet<>(Arrays.asList(l0_1,l0_2));
-        mapUpdater.update(deviceMap,node0,links);
-
     }
 
 }
