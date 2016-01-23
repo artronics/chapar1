@@ -55,6 +55,16 @@ public class DeviceMapImpl implements DeviceMap{
     }
 
     @Override
+    public void addLink(Node source, Node target)
+    {
+        DefaultWeightedEdge edge = graph.addEdge(source, target);
+
+        if (edge != null) {
+            this.graph.setEdgeWeight(edge, DEF_WEIGHT);
+        }
+    }
+
+    @Override
     public boolean hasLink(Node source, Node target)
     {
         return graph.containsEdge(source, target);
