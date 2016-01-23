@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
 public class DeviceMapUpdaterImplTest extends BaseMapTest {
 
     private DeviceMapUpdater mapUpdater;
@@ -17,6 +20,25 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
     private Node node1;
     private Node node2;
 
+    /*
+     * node number 30 is sameAddNode
+     *
+     * Graph is like
+     *       sink:0
+     *       /   \
+     *      w50  w10
+     *      /      \
+     *   135 --w20-- 30
+     *     \         /
+     *     w25    w100
+     *       \    /
+     *        136
+     *         |
+     *        w30
+     *         |
+     *        137
+     *
+     */
     @Override
     @Before
     public void setUp() throws Exception {
@@ -40,6 +62,22 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         Set<Link> links = new HashSet<>(Arrays.asList(l0_1,l0_2));
         mapUpdater.update(deviceMap,node0,links);
 
+        assertThat(deviceMap.hasLink(node0,node1),is(true));
+        assertThat(deviceMap.hasLink(node0,node2),is(true));
+    }
+
+    @Test
+    public void it_should_drop_links_which_are_not_present_in_new_set() throws NodeNotRegistered {
+        Link l136_135 = new Link(node135,23D);
+        Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
+
+        //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
+        mapUpdater.update(deviceMap,node136,links);
+
+        assertFalse(deviceMap.hasLink(node136,node30));
+        assertFalse(deviceMap.hasLink(node136,node137));
+
+        assertTrue(deviceMap.hasLink(node136,node135));
     }
 
     /*
