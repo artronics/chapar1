@@ -41,19 +41,21 @@ public class NodeRepoLinksTest extends BaseRepoTest{
     @Test
     @Rollback(value = false)
     public void it_should_persist_links_to_node(){
-        NodeLink l0_1=new NodeLink(n1,23D);
-        NodeLink l0_2=new NodeLink(n2,32D);
+        NodeLink l0_1=new NodeLink(node0,n1,23D);
+        NodeLink l0_2=new NodeLink(node0,n2,32D);
         List<NodeLink> links= new ArrayList<>(Arrays.asList(l0_1,l0_2));
-        linkRepo.save(links);
-        node0.setLinks(links);
+//        linkRepo.save(links);
+//        node0.setLinks(links);
+        node0.addLink(l0_1);
+        node0.addLink(l0_2);
         nodeRepo.save(node0);
-
-        NodeLink l0_1_2=new NodeLink(n1,3455D);
-        NodeLink l0_2_2=new NodeLink(n2,34222D);
-        List<NodeLink> links2= new ArrayList<>(Arrays.asList(l0_1_2,l0_2_2));
-        linkRepo.save(links2);
-        node0.setLinks(links2);
-        nodeRepo.save(node0);
+//
+//        NodeLink l0_1_2=new NodeLink(n1,3455D);
+//        NodeLink l0_2_2=new NodeLink(n2,34222D);
+//        List<NodeLink> links2= new ArrayList<>(Arrays.asList(l0_1_2,l0_2_2));
+//        linkRepo.save(links2);
+//        node0.setLinks(links2);
+//        nodeRepo.save(node0);
 
         Node persistedNode = nodeRepo.findOne(node0.getId());
         assertThat(persistedNode.getLinks().size(),is(equalTo(2)));

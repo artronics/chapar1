@@ -34,14 +34,26 @@ public class Node extends AbstractBaseEntity {
 ////    @CollectionType(type = "java.util.ArrayList")
 //    @CollectionTable(name = "neighbors", joinColumns = @JoinColumn(name = "id"))
 //    @Column(name = "neighbor")
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "links",referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+//    @JoinColumn(name = "links",referencedColumnName = "id")
+    @JoinTable(
+            name = "node_links",joinColumns = {@JoinColumn(name = "node_id",referencedColumnName = "id")},
+            inverseJoinColumns = @JoinColumn(name = "link_id", referencedColumnName = "id")
+    )
     public List<NodeLink> getLinks() {
         return links;
     }
 
     public void setLinks(List<NodeLink> links) {
         this.links = links;
+    }
+
+    public void addLink(NodeLink link){
+        this.links.add(link);
+
+        if (link.getSrcNode()!=this) {
+            link.setSrcNode(this);
+        }
     }
 
     @Override
