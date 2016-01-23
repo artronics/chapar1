@@ -14,7 +14,7 @@ public class LinkUtils {
         return removedSet;
     }
 
-    public static Set<Link> merge(Set<Link> srcLinks,Set<Link> dstLinks,Set<Link> addedLinks){
+    public static Set<Link> merge(Set<Link> oldLinks, Set<Link> newLinks, Set<Link> addedLinks){
         Set<Link> mergedLinks = new HashSet<>();
 
         if (addedLinks == null) {
@@ -25,21 +25,21 @@ public class LinkUtils {
         }
 
         //First update merged links
-        mergedLinks.addAll(dstLinks);
-        mergedLinks.addAll(srcLinks);
+        mergedLinks.addAll(newLinks);
+        mergedLinks.addAll(oldLinks);
         //new check if weight is different
 
         //make a copy of dst
-        Set<Link> tempDstLinks = new HashSet<>(dstLinks);
+        Set<Link> tempDstLinks = new HashSet<>(newLinks);
         //remove what is common between src and dst
-        tempDstLinks.removeAll(srcLinks);
+        tempDstLinks.removeAll(oldLinks);
         //add what is not present in srsLinks
         addedLinks.addAll(tempDstLinks);
 
         return mergedLinks;
     }
 
-    public static Set<Link> merge(Set<Link> srcLinks,Set<Link> dstLinks){
-        return merge(srcLinks,dstLinks,null);
+    public static Set<Link> merge(Set<Link> oldLinks, Set<Link> newLinks){
+        return merge(oldLinks, newLinks,null);
     }
 }
