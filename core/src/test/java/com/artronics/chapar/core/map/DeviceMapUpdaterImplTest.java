@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -78,6 +79,20 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         assertFalse(deviceMap.hasLink(node136,node137));
 
         assertTrue(deviceMap.hasLink(node136,node135));
+    }
+
+    @Test
+    public void it_should_update_weight_value_for_links() throws NodeNotRegistered {
+        Link l136_135 = new Link(node135,23D);
+        Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
+
+        //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
+        mapUpdater.update(deviceMap,node136,links);
+
+
+//        Double weight = deviceMap.getWeigh(node136,node135);
+        Double weight = deviceMap.getWeigh(node135,node136);
+        assertThat(weight,is(equalTo(23D)));
     }
 
     /*
