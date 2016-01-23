@@ -75,6 +75,12 @@ public class JGraphTDelegator implements GraphDelegator
     }
 
     @Override
+    public Double getWeigh(Node srcNode, Node dstNode) {
+        DefaultWeightedEdge e = graph.getEdge(srcNode,dstNode);
+        return graph.getEdgeWeight(e);
+    }
+
+    @Override
     public boolean isIsland(Node node)
     {
         return graph.edgesOf(node).isEmpty();

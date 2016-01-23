@@ -79,6 +79,11 @@ public class DeviceMapImpl implements DeviceMap{
     }
 
     @Override
+    public Double getWeigh(Node srcNode, Node dstNode) {
+        return graphDelegator.getWeigh(srcNode,dstNode);
+    }
+
+    @Override
     public List<Node> getAllNodes()
     {
         return new ArrayList<>(graph.vertexSet());

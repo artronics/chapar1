@@ -11,5 +11,7 @@ public interface GraphDelegator
 
     Set<Node> getNeighbors(Node node);
 
+    Double getWeigh(Node srcNode,Node dstNode);
+
     boolean isIsland(Node neighbor);
 }
