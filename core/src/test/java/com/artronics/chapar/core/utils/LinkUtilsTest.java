@@ -73,5 +73,23 @@ public class LinkUtilsTest {
         assertThat(addedLinks.size(),is(equalTo(1)));
     }
 
+    @Test
+    public void addedLinks_should_NOT_contains_those_links_with_same_node_but_diff_weight(){
+        set1.add(link1);
+        set1.add(link2);
+
+        set2.add(link3);
+        // create a new link with n1 and diff weight
+        Link link1_new = new Link(n1,23D);
+        set2.add(link1_new);//Now set2 has an updated value of link1
+
+        Set<Link> addedLinks = new HashSet<>();
+
+        LinkUtils.merge(set1,set2,addedLinks);
+
+        //set2 has link1_new but the addedLinks size must remain 1-> link3
+        assertThat(addedLinks.size(),is(equalTo(1)));
+    }
+
 
 }
