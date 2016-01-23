@@ -21,15 +21,13 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void it_should_throw_exp_if_node_does_not_exist()
-    {
+    public void it_should_throw_exp_if_node_does_not_exist() {
         Node node = new Node(3432L);
         assertNull(graphDelegator.getNeighbors(node));
     }
 
     @Test
-    public void test_isIsland()
-    {
+    public void test_isIsland() {
         Node node = new Node(3432L);
         sampleGraph1.addVertex(node);
 
@@ -38,20 +36,18 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
     }
 
     @Test
-    public void It_should_give_the_shortest_path()
-    {
+    public void It_should_give_the_shortest_path() {
         List<Node> path = graphDelegator.getShortestPath(node30, node137);
 
         assertThat(path.size(), equalTo(4));
-        assertThat(path.get(0).getAddress(),equalTo(30L));
-        assertThat(path.get(1).getAddress(),equalTo(135L));
-        assertThat(path.get(2).getAddress(),equalTo(136L));
-        assertThat(path.get(3).getAddress(),equalTo(137L));
+        assertThat(path.get(0).getAddress(), equalTo(30L));
+        assertThat(path.get(1).getAddress(), equalTo(135L));
+        assertThat(path.get(2).getAddress(), equalTo(136L));
+        assertThat(path.get(3).getAddress(), equalTo(137L));
     }
 
     @Test
-    public void it_should_return_a_set_of_neighbors_not_containing_itself()
-    {
+    public void it_should_return_a_set_of_neighbors_not_containing_itself() {
         Set<Node> neighbors = graphDelegator.getNeighbors(node135);
 
 
@@ -66,8 +62,7 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
     }
 
     @Test
-    public void it_should_return_empty_set_if_node_has_no_neighbors()
-    {
+    public void it_should_return_empty_set_if_node_has_no_neighbors() {
         Node node = new Node(3432L);
         sampleGraph1.addVertex(node);
         Set<Node> nodes = graphDelegator.getNeighbors(node);
@@ -75,15 +70,15 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
     }
 
     @Test
-    public void it_should_getWeight_of_two_nodes(){
-        Double weight = graphDelegator.getWeigh(node135,node136);
-        assertThat(weight,is(equalTo(25D)));
+    public void it_should_getWeight_of_two_nodes() {
+        Double weight = graphDelegator.getWeigh(node135, node136);
+        assertThat(weight, is(equalTo(25D)));
     }
 
     @Test
-    public void getWeigh_should_be_mutaul_between_src_and_dst_node(){
-        Double weight = graphDelegator.getWeigh(node136,node135);
-        assertThat(weight,is(equalTo(25D)));
+    public void getWeigh_should_be_mutaul_between_src_and_dst_node() {
+        Double weight = graphDelegator.getWeigh(node136, node135);
+        assertThat(weight, is(equalTo(25D)));
     }
 
 }
