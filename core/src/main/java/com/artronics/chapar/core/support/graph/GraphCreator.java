@@ -40,6 +40,10 @@ public class GraphCreator extends NodeDefinitions {
         graph1.addEdge(node135, node136);
         e = graph1.getEdge(node135, node136);
         graph1.setEdgeWeight(e, 25D);
+        //link 136 -> sameNode1:30136
+        graph1.addEdge(sameAddNode1, node136);
+        e = graph1.getEdge(sameAddNode1, node136);
+        graph1.setEdgeWeight(e, 100D);
         //link 137 -> 136
         graph1.addEdge(node137, node136);
         e = graph1.getEdge(node137, node136);
