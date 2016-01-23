@@ -2,14 +2,14 @@ package com.artronics.chapar.core.map;
 
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
-import com.artronics.chapar.core.map.graph.GraphDelegator;
+import com.artronics.chapar.core.map.graph.GraphOperations;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.List;
 import java.util.Set;
 
-public interface DeviceMap extends GraphDelegator
+public interface DeviceMap extends GraphOperations
 {
     Double DEF_WEIGHT = 1.0D;
 
