@@ -12,7 +12,16 @@ import javax.persistence.Table;
 public class Node extends AbstractBaseEntity {
     private final static Logger log = Logger.getLogger(Node.class);
 
+    public enum Type
+    {
+        SINK,
+        NORMAL
+    }
+
     private Long address;
+
+    //Normal as default value
+    private Type type = Type.NORMAL;
 
     public Node() {
     }
@@ -27,6 +36,14 @@ public class Node extends AbstractBaseEntity {
 
     public void setAddress(Long address) {
         this.address = address;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
@@ -58,4 +75,15 @@ public class Node extends AbstractBaseEntity {
         return eb.isEquals();
     }
 
+    @Override
+    public String toString() {
+        return printShortNode(this);
+    }
+
+    public static String printShortNode(Node node)
+    {
+        String s = node.getType() == Node.Type.SINK ? "Sink-> " : "Node-> ";
+
+        return String.format(s + "ADD:%-3d ", node.getAddress());
+    }
 }
