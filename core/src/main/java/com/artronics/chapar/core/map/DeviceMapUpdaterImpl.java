@@ -15,7 +15,7 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
         checkIfNodesAreRegistered(deviceMap,srcNode,links);
     }
 
-    private void checkIfNodesAreRegistered(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
+    private static void checkIfNodesAreRegistered(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
         log.debug("Check if source node is registered.");
         if (!deviceMap.contains(srcNode))
             throw new NodeNotRegistered();
