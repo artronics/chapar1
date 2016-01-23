@@ -51,4 +51,18 @@ public class Link {
         return eb.isEquals();
     }
 
+    @Override
+    public String toString()
+    {
+        return formatNeighbor(this.weight,this.dstNode);
+    }
+
+    public static String formatNeighbor( Double weight, Node n2)
+    {
+        String s ="";
+        s+=String.format(" <---[ %-5.0f ]---> " ,weight);
+        s += n2.toString();
+        return s;
+    }
+
 }
