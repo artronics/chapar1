@@ -22,6 +22,10 @@ public class Link {
         return weight;
     }
 
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
     @Override
     public int hashCode()
     {
