@@ -21,7 +21,7 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
         Set<Link> mergedLinks = LinkUtils.merge(oldLinks,links);
 
         Set<Link> removedLinks = new HashSet<>(oldLinks);
-        removedLinks.remove(links);
+        removedLinks.removeAll(links);
 
         mergedLinks.forEach(link -> {
             Node dstNode = link.getDstNode();
