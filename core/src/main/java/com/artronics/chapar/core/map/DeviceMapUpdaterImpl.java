@@ -11,7 +11,7 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
     private final static Logger log = Logger.getLogger(DeviceMapUpdaterImpl.class);
 
     @Override
-    public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
+    public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {
         checkIfNodesAreRegistered(deviceMap,srcNode,links);
 
         Set<Link> oldLinks = deviceMap.getLinks(srcNode);
