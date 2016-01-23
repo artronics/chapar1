@@ -18,8 +18,9 @@ public class LinkUtils {
         }
 
         //First update merged links
-        mergedLinks.addAll(srcLinks);
         mergedLinks.addAll(dstLinks);
+        mergedLinks.addAll(srcLinks);
+        //new check if weight is different
 
         //make a copy of dst
         Set<Link> tempDstLinks = new HashSet<>(dstLinks);

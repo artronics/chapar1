@@ -45,8 +45,9 @@ public class LinkUtilsTest {
 
         set2.add(link3);
 
-        link1.setWeight(23D);
-        set2.add(link1);//Now set2 has an updated value of link1
+        // create a new link with n1 and diff weight
+        Link link1_new = new Link(n1,23D);
+        set2.add(link1_new);//Now set2 has an updated value of link1
 
         links = LinkUtils.merge(set1,set2);
 
