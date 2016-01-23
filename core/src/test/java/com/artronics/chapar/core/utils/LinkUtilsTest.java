@@ -57,4 +57,20 @@ public class LinkUtilsTest {
 
         });
     }
+
+    @Test
+    public void it_should_create_a_set_of_addedLinks(){
+        set1.add(link1);
+        set1.add(link2);
+
+        set2.add(link3);
+
+        Set<Link> addedLinks = new HashSet<>();
+
+        LinkUtils.merge(set1,set2,addedLinks);
+
+        assertThat(addedLinks.size(),is(equalTo(1)));
+    }
+
+
 }

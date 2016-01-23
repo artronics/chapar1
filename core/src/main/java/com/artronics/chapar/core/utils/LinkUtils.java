@@ -17,8 +17,16 @@ public class LinkUtils {
             addedLinks.clear();
         }
 
+        //First update merged links
         mergedLinks.addAll(srcLinks);
         mergedLinks.addAll(dstLinks);
+
+        //make a copy of dst
+        Set<Link> tempDstLinks = new HashSet<>(dstLinks);
+        //remove what is common between src and dst
+        tempDstLinks.removeAll(srcLinks);
+        //add what is not present in srsLinks
+        addedLinks.addAll(tempDstLinks);
 
         return mergedLinks;
     }
