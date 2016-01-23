@@ -2,6 +2,7 @@ package com.artronics.chapar.core.utils;
 
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import static org.junit.Assert.assertThat;
 public class LinkUtilsTest {
     private static final Double WEIGHT = 1.0D;
 
+    private final LinkUtils linkUtils =new LinkUtils();
+
     private Node n1 = new Node(1L);
     private Node n2 = new Node(2L);
     private Node n3 = new Node(3L);
@@ -22,34 +25,42 @@ public class LinkUtilsTest {
     private Link link2 = new Link(n2,WEIGHT);
     private Link link3 = new Link(n3,WEIGHT);
 
-    private Set<Link> set1 = new HashSet<>();
-    private Set<Link> set2 = new HashSet<>();
+    private Set<Link> oldSet = new HashSet<>();
+    private Set<Link> newSet = new HashSet<>();
 
     private Set<Link> links = new HashSet<>();
 
+    @After
+    public void tearDown() throws Exception {
+        links.clear();
+        oldSet.clear();
+        newSet.clear();
+    }
+
+
     @Test
     public void it_should_merge_what_is_not_in_set2(){
-        set1.add(link1);
-        set1.add(link2);
+        oldSet.add(link1);
+        oldSet.add(link2);
 
-        set2.add(link3);
+        newSet.add(link3);
 
-        links = LinkUtils.merge(set1,set2);
+        links = LinkUtils.merge(oldSet, newSet);
         assertThat(links.size(),is(equalTo(3)));
     }
 
     @Test
     public void it_should_also_update_weight_in_what_is_common_between_two_sets(){
-        set1.add(link1);
-        set1.add(link2);
+        oldSet.add(link1);
+        oldSet.add(link2);
 
-        set2.add(link3);
+        newSet.add(link3);
 
         // create a new link with n1 and diff weight
         Link link1_new = new Link(n1,23D);
-        set2.add(link1_new);//Now set2 has an updated value of link1
+        newSet.add(link1_new);//Now newSet has an updated value of link1
 
-        links = LinkUtils.merge(set1,set2);
+        links = LinkUtils.merge(oldSet, newSet);
 
         links.forEach(link -> {
             if (link.equals(link1)){
@@ -61,33 +72,33 @@ public class LinkUtilsTest {
 
     @Test
     public void it_should_create_a_set_of_addedLinks(){
-        set1.add(link1);
-        set1.add(link2);
+        oldSet.add(link1);
+        oldSet.add(link2);
 
-        set2.add(link3);
+        newSet.add(link3);
 
         Set<Link> addedLinks = new HashSet<>();
 
-        LinkUtils.merge(set1,set2,addedLinks);
+        LinkUtils.merge(oldSet, newSet,addedLinks);
 
         assertThat(addedLinks.size(),is(equalTo(1)));
     }
 
     @Test
     public void addedLinks_should_NOT_contains_those_links_with_same_node_but_diff_weight(){
-        set1.add(link1);
-        set1.add(link2);
+        oldSet.add(link1);
+        oldSet.add(link2);
 
-        set2.add(link3);
+        newSet.add(link3);
         // create a new link with n1 and diff weight
         Link link1_new = new Link(n1,23D);
-        set2.add(link1_new);//Now set2 has an updated value of link1
+        newSet.add(link1_new);//Now newSet has an updated value of link1
 
         Set<Link> addedLinks = new HashSet<>();
 
-        LinkUtils.merge(set1,set2,addedLinks);
+        LinkUtils.merge(oldSet, newSet,addedLinks);
 
-        //set2 has link1_new but the addedLinks size must remain 1-> link3
+        //newSet has link1_new but the addedLinks size must remain 1-> link3
         assertThat(addedLinks.size(),is(equalTo(1)));
     }
 
