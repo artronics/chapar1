@@ -17,6 +17,11 @@ public class JGraphTDelegator implements GraphDelegator
     }
 
     @Override
+    public void addLink(Node source, Node target, double weight) {
+
+    }
+
+    @Override
     public List<Node> getShortestPath(Node source, Node target)
     {
         DijkstraShortestPath<Node,DefaultWeightedEdge> dijkstra =
