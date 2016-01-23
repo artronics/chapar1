@@ -5,6 +5,7 @@ import com.artronics.chapar.core.entities.Node;
 import org.junit.After;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,6 +38,17 @@ public class LinkUtilsTest {
         newSet.clear();
     }
 
+    @Test
+    public void it_should_get_a_list_of_removed_links(){
+        oldSet.add(link1);
+        oldSet.add(link2);
+
+        newSet.add(link3);
+        Set<Link> expRemovedList = new HashSet<>(Arrays.asList(link2));
+
+        links = LinkUtils.getRemovedLinks(oldSet, newSet);
+        assertThat(links,is(equalTo(expRemovedList)));
+    }
 
     @Test
     public void it_should_merge_what_is_not_in_set2(){
