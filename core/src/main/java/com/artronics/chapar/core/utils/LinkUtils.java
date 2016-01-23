@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class LinkUtils {
 
-    public Set<Link> merge(Set<Link> srcLinks,Set<Link> dstLinks,Set<Link> addedLinks){
+    public static Set<Link> merge(Set<Link> srcLinks,Set<Link> dstLinks,Set<Link> addedLinks){
         Set<Link> mergedLinks = new HashSet<>();
 
         if (addedLinks == null) {
@@ -17,10 +17,13 @@ public class LinkUtils {
             addedLinks.clear();
         }
 
+        mergedLinks.addAll(srcLinks);
+        mergedLinks.addAll(dstLinks);
+
         return mergedLinks;
     }
 
-    public Set<Link> merge(Set<Link> srcLinks,Set<Link> dstLinks){
+    public static Set<Link> merge(Set<Link> srcLinks,Set<Link> dstLinks){
         return merge(srcLinks,dstLinks,null);
     }
 }
