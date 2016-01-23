@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
@@ -72,4 +73,11 @@ public class DeviceMapImplTest extends BaseMapTest {
         Set<Node> neighbors = deviceMap.getNeighbors(node135);
         assertThat(neighbors.size(),equalTo(3));
     }
+
+    @Test
+    public void it_should_get_DEF_WEIGHT_if_src_and_dst_are_equal(){
+        Double weight = deviceMap.getWeigh(node136,node136);
+        assertThat(weight,is(equalTo(DeviceMap.DEF_WEIGHT)));
+    }
+
 }
