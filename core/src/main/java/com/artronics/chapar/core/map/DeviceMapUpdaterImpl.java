@@ -14,6 +14,7 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
 
     @Override
     public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {
+
         checkIfNodesAreRegistered(deviceMap,srcNode,links);
 
         Set<Link> oldLinks = deviceMap.getLinks(srcNode);
@@ -26,13 +27,19 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
             Node dstNode = link.getDstNode();
             if (removedLinks.contains(link)){
                 deviceMap.removeLink(srcNode, dstNode);
-                if (deviceMap.isIsland(dstNode))
+                if (islandNodes!=null && deviceMap.isIsland(dstNode)) {
                     islandNodes.add(dstNode);
+                }
             }
             else {
                 deviceMap.addLink(srcNode, dstNode,link.getWeight());
             }
         });
+    }
+
+    @Override
+    public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
+        update(deviceMap,srcNode,links,null);
     }
 
     private static void checkIfNodesAreRegistered(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
