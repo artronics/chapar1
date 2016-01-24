@@ -134,7 +134,7 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         assertTrue(deviceMap.contains(node30));
 
         assertTrue(deviceMap.hasLink(node135,node30));
-        assertTrue(deviceMap.hasLink(node0,node30));
+        assertTrue(deviceMap.hasLink(sink1,node30));
 
         assertThat(deviceMap.getWeigh(node135,node30),is(equalTo(20D)));
     }
