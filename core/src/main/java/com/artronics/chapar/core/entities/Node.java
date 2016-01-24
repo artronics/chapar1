@@ -2,7 +2,6 @@ package com.artronics.chapar.core.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.log4j.Logger;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,18 +9,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "nodes")
 public class Node extends AbstractBaseEntity {
-    private final static Logger log = Logger.getLogger(Node.class);
-
-    public enum Type
-    {
-        SINK,
-        NORMAL
-    }
 
     private Long address;
 
     //Normal as default value
     private Type type = Type.NORMAL;
+
+    protected Status status = Status.UNREGISTERED;
 
     public Node() {
     }
@@ -44,6 +38,14 @@ public class Node extends AbstractBaseEntity {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -73,6 +75,20 @@ public class Node extends AbstractBaseEntity {
         eb.append(this.address,that.address);
 
         return eb.isEquals();
+    }
+
+    public enum Type
+    {
+        SINK,
+        NORMAL
+    }
+
+    public enum Status
+    {
+        UNREGISTERED,
+        IDLE,
+        ACTIVE,
+        DISABLE, ISLAND,
     }
 
     @Override

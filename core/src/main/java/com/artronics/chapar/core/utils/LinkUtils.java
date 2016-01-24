@@ -1,6 +1,7 @@
 package com.artronics.chapar.core.utils;
 
 import com.artronics.chapar.core.entities.Link;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ public class LinkUtils {
         Set<Link> removedSet = new HashSet<>();
 
 
-        return removedSet;
+        throw new NotImplementedException();
     }
 
     public static Set<Link> merge(Set<Link> oldLinks, Set<Link> newLinks, Set<Link> addedLinks){

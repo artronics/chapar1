@@ -3,6 +3,7 @@ package com.artronics.chapar.core.utils;
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -38,6 +39,7 @@ public class LinkUtilsTest {
         newSet.clear();
     }
 
+    @Ignore("not implemented")
     @Test
     public void it_should_get_a_list_of_removed_links(){
         oldSet.add(link1);

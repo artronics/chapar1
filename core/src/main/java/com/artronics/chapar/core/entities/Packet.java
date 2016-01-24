@@ -77,4 +77,11 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
         RX,
         TX
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format("ID: %-5d - src: %s -> dst: %s ",id,srcNode,dstNode);
+    }
+
 }

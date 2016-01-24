@@ -11,13 +11,19 @@ public class ReportPacket extends Packet<SdwnPacketType>{
         this.type = SdwnPacketType.REPORT;
     }
 
-    public static Packet create(List content) {
+    public static Packet create(List<Integer> content) {
         return new ReportPacket(content);
     }
 
     @Override
     public SdwnPacketType getType() {
         return SdwnPacketType.REPORT;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ReportPacket->"+super.toString();
     }
 
 }
