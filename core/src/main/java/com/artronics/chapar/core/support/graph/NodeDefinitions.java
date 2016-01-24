@@ -45,6 +45,12 @@ public class NodeDefinitions {
         node135 = Node.create(add135);
         node136 = Node.create(add136);
         node137 = Node.create(add137);
+
+        Address add245 = Address.create(device2,245L);
+        Address add246 = Address.create(device2,246L);
+
+        node245 = Node.create(add245);
+        node246 = Node.create(add246);
     }
 
     public Device getDevice() {
