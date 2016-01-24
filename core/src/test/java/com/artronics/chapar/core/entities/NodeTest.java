@@ -29,7 +29,7 @@ public class NodeTest {
         assertFalse(aNode.equals(otherNode));
         assertFalse(otherNode.equals(aNode));
 
-        Node otherSameNode = new Node(aNode.getAddress());
+        Node otherSameNode = new Node(aNode.getAdd());
         assertThat(sameNode,equalTo(otherSameNode));
 
         Node nullNode = null;
@@ -47,7 +47,7 @@ public class NodeTest {
         nodes.add(aNode);
         nodes.add(sameNode);
 
-        Node otherSameNode = new Node(aNode.getAddress());
+        Node otherSameNode = new Node(aNode.getAdd());
 
         assertThat(nodes.size(),equalTo(1));
         assertTrue(nodes.contains(otherSameNode));

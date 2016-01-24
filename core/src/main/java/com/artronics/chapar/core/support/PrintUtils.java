@@ -14,7 +14,7 @@ public class PrintUtils {
     {
         String s = node.getType() == Node.Type.SINK ? "Sink-> " : "Node-> ";
 
-        return String.format(s + "ADD:%-3d ", node.getAddress());
+        return String.format(s + "ADD:%-3d ", node.getAdd());
     }
 
     public static String printLongNode(Node node)

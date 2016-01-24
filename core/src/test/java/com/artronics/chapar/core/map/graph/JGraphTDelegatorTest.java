@@ -40,10 +40,10 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
         List<Node> path = graphDelegator.getShortestPath(node30, node137);
 
         assertThat(path.size(), equalTo(4));
-        assertThat(path.get(0).getAddress(), equalTo(30L));
-        assertThat(path.get(1).getAddress(), equalTo(135L));
-        assertThat(path.get(2).getAddress(), equalTo(136L));
-        assertThat(path.get(3).getAddress(), equalTo(137L));
+        assertThat(path.get(0).getAdd(), equalTo(30L));
+        assertThat(path.get(1).getAdd(), equalTo(135L));
+        assertThat(path.get(2).getAdd(), equalTo(136L));
+        assertThat(path.get(3).getAdd(), equalTo(137L));
     }
 
     @Test
