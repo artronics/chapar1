@@ -11,7 +11,7 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity {
 
     protected List<Integer> content;
 
-    protected Node srcNode;
+    protected Address srcAddress;
 
     protected Address dstAddress;
 
@@ -32,8 +32,12 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity {
         return packet;
     }
 
-    public Node getSrcNode() {
-        return srcNode;
+    public Address getSrcAddress() {
+        return srcAddress;
+    }
+
+    public void setSrcAddress(Address srcAddress) {
+        this.srcAddress = srcAddress;
     }
 
     public Address getDstAddress() {
@@ -58,10 +62,6 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-
-    public void setSrcNode(Node srcNode) {
-        this.srcNode = srcNode;
     }
 
     public void setDstAddress(Address dstAddress) {
