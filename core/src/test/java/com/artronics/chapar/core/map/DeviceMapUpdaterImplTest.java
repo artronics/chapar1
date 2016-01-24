@@ -83,16 +83,17 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
 
     @Test
     public void it_should_update_weight_value_for_links() throws NodeNotRegistered {
-        Link l136_135 = new Link(node135,23D);
+        Link l136_135 = new Link(node135,230D);
         Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
 
         //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
         mapUpdater.update(deviceMap,node136,links);
 
+        Double weight = deviceMap.getWeigh(node136,node135);
+        assertThat(weight,is(equalTo(230D)));
 
-//        Double weight = deviceMap.getWeigh(node136,node135);
-        Double weight = deviceMap.getWeigh(node135,node136);
-        assertThat(weight,is(equalTo(23D)));
+        weight = deviceMap.getWeigh(node135,node136);
+        assertThat(weight,is(equalTo(230D)));
     }
 
     /*
