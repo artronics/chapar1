@@ -3,6 +3,7 @@ package com.artronics.chapar.core.entities;
 import com.artronics.chapar.core.entities.packet.PacketType;
 import com.artronics.chapar.core.support.PrintUtils;
 
+import javax.persistence.Transient;
 import java.util.List;
 
 //@Entity
@@ -11,9 +12,13 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
 
     protected List<Integer> content;
 
-    protected Node srcNode;
+    protected Address srcAddress;
 
-    protected Node dstNode;
+    protected Address dstAddress;
+
+    private Node srcNode;
+
+    private Node dstNode;
 
     protected T type;
 
@@ -30,6 +35,16 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
         Packet packet = new Packet(buffer.getContent());
 
         return packet;
+    }
+
+    @Transient
+    public Address getSrcAddress() {
+        return srcAddress;
+    }
+
+    @Transient
+    public Address getDstAddress() {
+        return dstAddress;
     }
 
     @Override
