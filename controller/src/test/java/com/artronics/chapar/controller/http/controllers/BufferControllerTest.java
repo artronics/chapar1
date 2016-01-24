@@ -1,9 +1,11 @@
 package com.artronics.chapar.controller.http.controllers;
 
+import com.artronics.chapar.controller.services.BufferService;
 import com.artronics.chapar.core.entities.Buffer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -16,7 +18,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BufferControllerTest extends BaseControllerTest{
 
     @InjectMocks
-    BufferController bufferController;
+    private BufferController bufferController;
+
+    @Mock
+    private BufferService bufferService;
 
     @Before
     public void setUp() throws Exception {

@@ -15,7 +15,7 @@ public class PacketServiceImpl extends BaseService implements PacketService{
     private PacketFactory packetFactory;
 
     @Override
-    public void addPacket(Packet packet) throws MalformedPacketException {
+    public void addPacket(Packet packet,Long deviceId) throws MalformedPacketException {
         packet = packetFactory.create(packet);
     }
 

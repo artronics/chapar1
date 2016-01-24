@@ -21,7 +21,7 @@ public class BufferServiceImpl extends BaseService implements BufferService{
 
         Packet packet = new Packet(buffer.getContent());
 
-        packetService.addPacket(packet);
+        packetService.addPacket(packet, deviceId);
     }
 
     @Autowired
