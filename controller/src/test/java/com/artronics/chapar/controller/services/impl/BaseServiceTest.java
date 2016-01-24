@@ -6,21 +6,18 @@ import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
-import com.artronics.chapar.core.map.DeviceMap;
-import com.artronics.chapar.core.map.DeviceMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BaseServiceTest {
 
-    protected Map<Device,DeviceMap> registeredDevices;
+    protected Set<Device> registeredDevices;
 
     protected Device device = new Device();
-    protected DeviceMap deviceMap = new DeviceMapImpl();
     protected Buffer buffer;
     protected Packet packet;
     protected Node node;
@@ -30,8 +27,8 @@ public class BaseServiceTest {
         MockitoAnnotations.initMocks(this);
 
         device.setId(1L);
-        registeredDevices = new HashMap<>();
-        registeredDevices.put(device,deviceMap);
+        registeredDevices = new HashSet<>();
+        registeredDevices.add(device);
     }
 
     @Test(expected = DeviceNotRegistered.class)
