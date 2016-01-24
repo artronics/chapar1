@@ -5,12 +5,12 @@ import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
-import java.util.Set;
+import java.util.Map;
 
 public class BaseService {
     private final static Logger log = Logger.getLogger(BaseService.class);
 
-    protected Set<Device> registeredDevices;
+    protected Map<Long,Device> registeredDevices;
 
     protected void checkDevice(Long deviceId){
         Device device = new Device(deviceId);
@@ -18,12 +18,12 @@ public class BaseService {
     }
 
     protected void checkDevice(Device device){
-        if (!registeredDevices.contains(device))
+        if (!registeredDevices.containsKey(device))
             throw new DeviceNotRegistered();
     }
 
     @Resource(name = "registeredDevices")
-    public void setRegisteredDevices(Set<Device> registeredDevices) {
+    public void setRegisteredDevices(Map<Long,Device> registeredDevices) {
         this.registeredDevices = registeredDevices;
     }
 

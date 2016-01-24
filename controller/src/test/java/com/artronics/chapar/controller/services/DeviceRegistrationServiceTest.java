@@ -36,7 +36,7 @@ public class DeviceRegistrationServiceTest extends BaseServiceTest{
     @Test
     public void it_should_add_registered_device_in_registeredDevices(){
         registrationService.registerDevice(device);
-        assertTrue(registeredDevices.contains(device));
+        assertTrue(registeredDevices.containsKey(device.getId()));
     }
 
     @Ignore("refactor")

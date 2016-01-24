@@ -10,12 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseServiceTest {
 
-    protected Set<Device> registeredDevices;
+    protected Map<Long,Device> registeredDevices;
 
     protected Device device = new Device();
     protected Buffer buffer;
@@ -27,8 +27,8 @@ public class BaseServiceTest {
         MockitoAnnotations.initMocks(this);
 
         device.setId(1L);
-        registeredDevices = new HashSet<>();
-        registeredDevices.add(device);
+        registeredDevices = new HashMap<>();
+        registeredDevices.put(device.getId(),device);
     }
 
     @Test(expected = DeviceNotRegistered.class)

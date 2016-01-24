@@ -19,7 +19,7 @@ public class DeviceRegistrationServiceImpl extends BaseService implements Device
 
         deviceRepo.save(device);
 
-        registeredDevices.add(device);
+        registeredDevices.put(device.getId(),device);
 
         return device;
     }
