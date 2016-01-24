@@ -28,9 +28,9 @@ public class LinkUtilsTest {
     private Node n2;
     private Node n3;
 
-    private Link link1 = new Link(n1,WEIGHT);
-    private Link link2 = new Link(n2,WEIGHT);
-    private Link link3 = new Link(n3,WEIGHT);
+    private Link link1;
+    private Link link2;
+    private Link link3;
 
     private Set<Link> oldSet = new HashSet<>();
     private Set<Link> newSet = new HashSet<>();
@@ -42,6 +42,10 @@ public class LinkUtilsTest {
         n1 = Node.create(Address.create(device,1L));
         n2 = Node.create(Address.create(device,2L));
         n3 = Node.create(Address.create(device,3L));
+
+        link1 = new Link(n1,WEIGHT);
+        link2 = new Link(n2,WEIGHT);
+        link3 = new Link(n3,WEIGHT);
     }
 
     @After

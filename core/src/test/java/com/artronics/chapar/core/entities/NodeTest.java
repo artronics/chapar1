@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
@@ -41,6 +43,11 @@ public class NodeTest {
         assertFalse(aNode.equals(nullNode));
     }
 
+    @Test
+    public void two_nodes_with_diff_devices_are_not_eq(){
+        aNode.getAddress().setDevice(new Device(244L));
+        assertThat(aNode,is(not(equalTo(sameNode))));
+    }
     @Test
     public void test_hashCode(){
         assertThat(aNode.hashCode(),equalTo(sameNode.hashCode()));
