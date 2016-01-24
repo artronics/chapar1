@@ -13,16 +13,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class PacketControllerTest extends BaseControllerTest{
+public class BufferControllerTest extends BaseControllerTest{
 
     @InjectMocks
-    PacketController packetController;
+    BufferController bufferController;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(packetController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(bufferController).build();
     }
 
     @Test
