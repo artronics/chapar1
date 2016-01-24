@@ -3,22 +3,17 @@ package com.artronics.chapar.core.entities;
 import com.artronics.chapar.core.entities.packet.PacketType;
 import com.artronics.chapar.core.support.PrintUtils;
 
-import javax.persistence.Transient;
 import java.util.List;
 
 //@Entity
 //@Table(name = "tables")
-public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity implements PacketI{
+public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity {
 
     protected List<Integer> content;
 
-    protected Address srcAddress;
+    protected Node srcNode;
 
     protected Address dstAddress;
-
-    private Node srcNode;
-
-    private Node dstNode;
 
     protected T type;
 
@@ -37,47 +32,24 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
         return packet;
     }
 
-    @Transient
-    public Address getSrcAddress() {
-        return srcAddress;
-    }
-
-    @Transient
-    public Address getDstAddress() {
-        return dstAddress;
-    }
-
-    @Override
-    public List<Integer> getContent() {
-        return content;
-    }
-
-    @Override
     public Node getSrcNode() {
         return srcNode;
     }
 
-    @Override
-    public Node getDstNode() {
-        return dstNode;
+    public Address getDstAddress() {
+        return dstAddress;
     }
 
-    @Override
+    public List<Integer> getContent() {
+        return content;
+    }
+
     public T getType() {
         return type;
     }
 
-    @Override
     public Direction getDirection() {
         return direction;
-    }
-
-    public void setSrcNode(Node srcNode) {
-        this.srcNode = srcNode;
-    }
-
-    public void setDstNode(Node dstNode) {
-        this.dstNode = dstNode;
     }
 
     public void setType(T type) {
@@ -86,6 +58,14 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public void setSrcNode(Node srcNode) {
+        this.srcNode = srcNode;
+    }
+
+    public void setDstAddress(Address dstAddress) {
+        this.dstAddress = dstAddress;
     }
 
     protected enum Direction

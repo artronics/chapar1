@@ -3,19 +3,18 @@ package com.artronics.chapar.core.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Address {
-    private Long id;
+import java.util.Set;
 
-    private Address(Long id) {
-        this.id = id;
+public class Address extends AbstractBaseEntity{
+
+    private Set<Node> nodes;
+
+    public Set<Node> getNodes() {
+        return nodes;
     }
 
-    public static Address create(Long id){
-        return new Address(id);
-    }
-
-    public Long getId() {
-        return id;
+    public void setNodes(Set<Node> nodes) {
+        this.nodes = nodes;
     }
 
     @Override
