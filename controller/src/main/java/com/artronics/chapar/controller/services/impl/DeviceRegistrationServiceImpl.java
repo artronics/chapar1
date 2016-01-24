@@ -9,16 +9,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.Map;
-
 @Service
-public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
+public class DeviceRegistrationServiceImpl extends BaseService implements DeviceRegistrationService{
     private final static Logger log = Logger.getLogger(DeviceRegistrationServiceImpl.class);
 
     private DeviceRepo deviceRepo;
-
-    private Map<Device,DeviceMap> registeredDevices;
 
     @Override
     public Device registerDevice(Device device) {
@@ -30,11 +25,6 @@ public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
         registeredDevices.put(device,deviceMap);
 
         return device;
-    }
-
-    @Resource(name = "registeredDevices")
-    public void setRegisteredDevices(Map<Device, DeviceMap> registeredDevices) {
-        this.registeredDevices = registeredDevices;
     }
 
     @Autowired

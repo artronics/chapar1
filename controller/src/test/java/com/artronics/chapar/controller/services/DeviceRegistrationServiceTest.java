@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.services;
 
-import com.artronics.chapar.controller.http.controllers.BaseControllerTest;
+import com.artronics.chapar.controller.services.impl.BaseServiceTest;
 import com.artronics.chapar.controller.services.impl.DeviceRegistrationServiceImpl;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.map.DeviceMap;
@@ -9,10 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.is;
@@ -22,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 
-public class DeviceRegistrationServiceTest extends BaseControllerTest{
+public class DeviceRegistrationServiceTest extends BaseServiceTest{
 
     @InjectMocks
     private DeviceRegistrationServiceImpl registrationService;
@@ -30,19 +26,12 @@ public class DeviceRegistrationServiceTest extends BaseControllerTest{
     @Mock
     private DeviceRepo deviceRepo;
 
-    private Map<Device,DeviceMap> registeredDevices;
-
-    private Device device;
-
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        super.setUp();
 
-        registeredDevices = new HashMap<>();
         registrationService.setRegisteredDevices(registeredDevices);
 
-        device = new Device();
-        device.setId(1L);
         when(deviceRepo.save(device)).thenReturn(device);
     }
 
