@@ -4,9 +4,9 @@ import com.artronics.chapar.core.entities.Packet;
 
 import java.util.List;
 
-public class ReportPacket extends Packet<SdwnPacketType>{
+public class ReportPacket extends BaseSdwnPacket{
 
-    public ReportPacket(List<Integer> content) {
+    private ReportPacket(List<Integer> content) {
         super(content);
         this.type = SdwnPacketType.REPORT;
     }
