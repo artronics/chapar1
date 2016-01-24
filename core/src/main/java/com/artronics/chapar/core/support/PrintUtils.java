@@ -4,6 +4,7 @@ import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Set;
 
 public class PrintUtils {
@@ -23,6 +24,16 @@ public class PrintUtils {
         return String.format(s + "[%-7s] ID:" + f, node.getStatus(),
                 node.getId() == null ? "UNK" : node.getId());
 
+    }
+
+    public static String printBuffer(List<Integer> content)
+    {
+        String s = "BUFF: ";
+        for (Integer c : content) {
+            s += String.format("%-4d", c);
+        }
+
+        return s;
     }
 
     public static String printNodeLinks(Node srcNode,Set<Link> links)

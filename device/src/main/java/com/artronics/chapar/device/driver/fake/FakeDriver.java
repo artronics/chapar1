@@ -31,7 +31,7 @@ public class FakeDriver implements DeviceDriver{
         try {
             while (isStarted)
             {
-                Buffer buffer = new Buffer(Arrays.asList(1,2,3,4,5,6));
+                Buffer buffer = new Buffer(Arrays.asList(10,1,0,30,0,0,2,0,0,10));
                 BufferReadyEvent e = new BufferReadyEvent(this,buffer);
                 log.debug("Sending Fake Buffer");
                 publisher.publishEvent(e);

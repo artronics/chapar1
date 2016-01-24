@@ -1,6 +1,7 @@
 package com.artronics.chapar.core.entities;
 
 import com.artronics.chapar.core.entities.packet.PacketType;
+import com.artronics.chapar.core.support.PrintUtils;
 
 import java.util.List;
 
@@ -81,7 +82,8 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
     @Override
     public String toString()
     {
-        return String.format("ID: %-5d - src: %s -> dst: %s ",id,srcNode,dstNode);
+//        return String.format("ID: %-5d - src: %s -> dst: %s ",id,srcNode,dstNode);
+        return PrintUtils.printBuffer(content);
     }
 
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PrintUtilsTest {
@@ -34,6 +35,12 @@ public class PrintUtilsTest {
         Set<Link> l = new HashSet<>(Arrays.asList(l1,l2,l3));
 
         System.out.println(PrintUtils.printNodeLinks(src,l));
+    }
+
+    @Test
+    public void print_buffer(){
+        List<Integer> c = Arrays.asList(23,45,67,888,6,44,4);
+        System.out.println(PrintUtils.printBuffer(c));
     }
 
 }
