@@ -25,6 +25,12 @@ public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity i
     public Packet() {
     }
 
+    public static Packet create(Buffer buffer){
+        Packet packet = new Packet(buffer.getContent());
+
+        return packet;
+    }
+
     @Override
     public List<Integer> getContent() {
         return content;
