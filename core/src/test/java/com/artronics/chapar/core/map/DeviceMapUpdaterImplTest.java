@@ -56,6 +56,9 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         deviceMap.addNode(node2);
     }
 
+    /*
+        General behaviour
+     */
     @Test
     public void it_should_create_new_links() throws NodeNotRegistered {
         Link l0_1 = new Link(node1,23D);
@@ -65,6 +68,9 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
 
         assertThat(deviceMap.hasLink(node0,node1),is(true));
         assertThat(deviceMap.hasLink(node0,node2),is(true));
+
+        assertThat(deviceMap.hasLink(node1,node0),is(true));
+        assertThat(deviceMap.hasLink(node2,node0),is(true));
     }
 
     @Test
@@ -94,6 +100,41 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
 
         weight = deviceMap.getWeigh(node135,node136);
         assertThat(weight,is(equalTo(230D)));
+    }
+    
+    @Test
+    public void it_should_find_island_nodes() throws NodeNotRegistered {
+        Link l136_135 = new Link(node135,230D);
+        Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
+
+        //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
+        //then node 137 must be island
+        Set<Node> islands = new HashSet<>();
+        mapUpdater.update(deviceMap,node136,links,islands);
+
+        assertThat(islands.size(),is(equalTo(1)));
+        assertTrue(islands.contains(node137));
+    }
+
+    /*
+        Detailed Tests
+     */
+    @Test
+    public void it_should_not_touch_unrelated_links() throws NodeNotRegistered {
+        Link l136_135 = new Link(node135,23D);
+        Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
+
+        mapUpdater.update(deviceMap,node136,links);
+        //we want to update node136 links. other nodes must be as it was
+        assertTrue(deviceMap.contains(node135));
+        assertTrue(deviceMap.contains(node136));
+        assertTrue(deviceMap.contains(node137));
+        assertTrue(deviceMap.contains(node30));
+
+        assertTrue(deviceMap.hasLink(node135,node30));
+        assertTrue(deviceMap.hasLink(node0,node30));
+
+        assertThat(deviceMap.getWeigh(node135,node30),is(equalTo(20D)));
     }
 
     /*
