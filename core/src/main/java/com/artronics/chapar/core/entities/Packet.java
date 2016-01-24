@@ -1,12 +1,74 @@
 package com.artronics.chapar.core.entities;
 
-import org.apache.log4j.Logger;
+import com.artronics.chapar.core.entities.packet.PacketType;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.List;
 
-@Entity
-@Table(name = "tables")
-public class Packet extends AbstractBaseEntity{
-    private final static Logger log = Logger.getLogger(Packet.class);
+//@Entity
+//@Table(name = "tables")
+public class Packet<T extends Enum<T> & PacketType> extends AbstractBaseEntity implements PacketI{
+
+    protected List<Integer> content;
+
+    protected Node srcNode;
+
+    protected Node dstNode;
+
+    protected T type;
+
+    protected Direction direction;
+
+    public Packet(List<Integer> content) {
+        this.content = content;
+    }
+
+    public Packet() {
+    }
+
+    @Override
+    public List<Integer> getContent() {
+        return content;
+    }
+
+    @Override
+    public Node getSrcNode() {
+        return srcNode;
+    }
+
+    @Override
+    public Node getDstNode() {
+        return dstNode;
+    }
+
+    @Override
+    public T getType() {
+        return type;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setSrcNode(Node srcNode) {
+        this.srcNode = srcNode;
+    }
+
+    public void setDstNode(Node dstNode) {
+        this.dstNode = dstNode;
+    }
+
+    public void setType(T type) {
+        this.type = type;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    protected enum Direction
+    {
+        RX,
+        TX
+    }
 }
