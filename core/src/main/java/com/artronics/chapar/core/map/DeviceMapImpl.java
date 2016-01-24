@@ -2,6 +2,7 @@ package com.artronics.chapar.core.map;
 
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.exceptions.RouteNotFound;
 import com.artronics.chapar.core.map.graph.GraphDelegator;
 import com.artronics.chapar.core.map.graph.JGraphTDelegator;
 import org.jgrapht.Graph;
@@ -123,8 +124,7 @@ public class DeviceMapImpl implements DeviceMap{
     }
 
     @Override
-    public List<Node> getShortestPath(Node source, Node target)
-    {
+    public List<Node> getShortestPath(Node source, Node target) throws RouteNotFound {
         return graphDelegator.getShortestPath(source,target);
     }
 }

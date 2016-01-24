@@ -2,6 +2,7 @@ package com.artronics.chapar.core.map.graph;
 
 import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.exceptions.RouteNotFound;
 import com.artronics.chapar.core.map.BaseGraphTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
     }
 
     @Test
-    public void It_should_give_the_shortest_path() {
+    public void It_should_give_the_shortest_path() throws RouteNotFound {
         List<Node> path = graphDelegator.getShortestPath(node30, node137);
 
         assertThat(path.size(), equalTo(4));

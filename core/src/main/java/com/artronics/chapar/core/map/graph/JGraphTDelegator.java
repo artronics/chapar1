@@ -1,6 +1,7 @@
 package com.artronics.chapar.core.map.graph;
 
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.exceptions.RouteNotFound;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -22,13 +23,14 @@ public class JGraphTDelegator implements GraphDelegator
     }
 
     @Override
-    public List<Node> getShortestPath(Node source, Node target)
-    {
+    public List<Node> getShortestPath(Node source, Node target) throws RouteNotFound {
         DijkstraShortestPath<Node,DefaultWeightedEdge> dijkstra =
                 new DijkstraShortestPath(graph, source, target);
 
         List<DefaultWeightedEdge> links = dijkstra.getPathEdgeList();
 
+        if (links==null)
+            throw new RouteNotFound();
         /*
             Dijkstra returns a list of all links but
             we need a list of nodes. A LinkedHashSet

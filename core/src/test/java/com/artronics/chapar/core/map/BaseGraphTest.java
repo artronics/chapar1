@@ -15,6 +15,7 @@ public class BaseGraphTest {
     protected GraphDelegator graphDelegator;
 
     protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> sampleGraph1;
+    protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> multipleDeviceGraph;
 
     protected Device device;
 
@@ -23,6 +24,9 @@ public class BaseGraphTest {
     protected Node node135;
     protected Node node136;
     protected Node node137;
+
+    protected Node sameAddNode1;
+    protected Node sameAddNode2;
 
     /*
      * node number 30 is sameAddNode
@@ -47,6 +51,7 @@ public class BaseGraphTest {
     @Before
     public void setUp() throws Exception {
         sampleGraph1 = graphCreator.getSampleGraph1();
+        multipleDeviceGraph = graphCreator.getMixedGraph();
         graphDelegator = new JGraphTDelegator(sampleGraph1);
 
         device = graphCreator.getDevice();
@@ -56,6 +61,9 @@ public class BaseGraphTest {
         node135 = graphCreator.getNode135();
         node136 = graphCreator.getNode136();
         node137 = graphCreator.getNode137();
+
+        sameAddNode1 = graphCreator.getSameAddNode1();
+        sameAddNode2 = graphCreator.getSameAddNode2();
     }
 
 }
