@@ -1,8 +1,11 @@
 package com.artronics.chapar.core.utils;
 
+import com.artronics.chapar.core.entities.Address;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -19,9 +22,11 @@ public class LinkUtilsTest {
 
     private final LinkUtils linkUtils =new LinkUtils();
 
-    private Node n1 = new Node(1L);
-    private Node n2 = new Node(2L);
-    private Node n3 = new Node(3L);
+    private Device device = new Device(299L);
+
+    private Node n1;
+    private Node n2;
+    private Node n3;
 
     private Link link1 = new Link(n1,WEIGHT);
     private Link link2 = new Link(n2,WEIGHT);
@@ -31,6 +36,13 @@ public class LinkUtilsTest {
     private Set<Link> newSet = new HashSet<>();
 
     private Set<Link> links = new HashSet<>();
+
+    @Before
+    public void setUp() throws Exception {
+        n1 = Node.create(Address.create(device,1L));
+        n2 = Node.create(Address.create(device,2L));
+        n3 = Node.create(Address.create(device,3L));
+    }
 
     @After
     public void tearDown() throws Exception {

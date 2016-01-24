@@ -5,23 +5,31 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Address extends AbstractBaseEntity{
 
-    private Long address;
+    private Long localAdd;
 
     private Device device;
 
     public Address() {
     }
 
-    public Address(Device device) {
-        this.device = device;
-    }
+    public static Address create(Device device,Long localAdd){
+        Address address = new Address();
+        address.setDevice(device);
+        address.setLocalAdd(localAdd);
 
-    public Long getAddress() {
         return address;
     }
 
-    public void setAddress(Long address) {
-        this.address = address;
+    public static Address create(Long localAdd){
+        return Address.create(null,localAdd);
+    }
+
+    public Long getLocalAdd() {
+        return localAdd;
+    }
+
+    public void setLocalAdd(Long localAdd) {
+        this.localAdd = localAdd;
     }
 
     public Device getDevice() {
@@ -36,7 +44,7 @@ public class Address extends AbstractBaseEntity{
     public int hashCode()
     {
         HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(this.address);
+        hcb.append(this.localAdd);
         hcb.append(this.device);
 
         return hcb.toHashCode();
@@ -54,7 +62,7 @@ public class Address extends AbstractBaseEntity{
         EqualsBuilder eb = new EqualsBuilder();
 
         eb.append(this.device,that.device);
-        eb.append(this.address,that.address);
+        eb.append(this.localAdd,that.localAdd);
 
         return eb.isEquals();
     }

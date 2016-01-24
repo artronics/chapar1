@@ -1,5 +1,6 @@
 package com.artronics.chapar.core.map.graph;
 
+import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.map.BaseGraphTest;
 import org.junit.Before;
@@ -14,24 +15,25 @@ import static org.junit.Assert.*;
 
 public class JGraphTDelegatorTest extends BaseGraphTest {
 
+    private Node notExistNode;
+
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        notExistNode = Node.create(Address.create(device,2323L));
     }
 
     @Test(expected = IllegalStateException.class)
     public void it_should_throw_exp_if_node_does_not_exist() {
-        Node node = new Node(3432L);
-        assertNull(graphDelegator.getNeighbors(node));
+        assertNull(graphDelegator.getNeighbors(notExistNode));
     }
 
     @Test
     public void test_isIsland() {
-        Node node = new Node(3432L);
-        sampleGraph1.addVertex(node);
+        sampleGraph1.addVertex(notExistNode);
 
-        assertTrue(graphDelegator.isIsland(node));
+        assertTrue(graphDelegator.isIsland(notExistNode));
         assertFalse(graphDelegator.isIsland(node135));
     }
 
@@ -40,10 +42,10 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
         List<Node> path = graphDelegator.getShortestPath(node30, node137);
 
         assertThat(path.size(), equalTo(4));
-        assertThat(path.get(0).getAdd(), equalTo(30L));
-        assertThat(path.get(1).getAdd(), equalTo(135L));
-        assertThat(path.get(2).getAdd(), equalTo(136L));
-        assertThat(path.get(3).getAdd(), equalTo(137L));
+        assertThat(path.get(0).getAddress().getLocalAdd(), equalTo(30L));
+        assertThat(path.get(1).getAddress().getLocalAdd(), equalTo(135L));
+        assertThat(path.get(2).getAddress().getLocalAdd(), equalTo(136L));
+        assertThat(path.get(3).getAddress().getLocalAdd(), equalTo(137L));
     }
 
     @Test
@@ -63,9 +65,8 @@ public class JGraphTDelegatorTest extends BaseGraphTest {
 
     @Test
     public void it_should_return_empty_set_if_node_has_no_neighbors() {
-        Node node = new Node(3432L);
-        sampleGraph1.addVertex(node);
-        Set<Node> nodes = graphDelegator.getNeighbors(node);
+        sampleGraph1.addVertex(notExistNode);
+        Set<Node> nodes = graphDelegator.getNeighbors(notExistNode);
         assertTrue(nodes.isEmpty());
     }
 

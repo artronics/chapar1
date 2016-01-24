@@ -1,5 +1,7 @@
 package com.artronics.chapar.core.map;
 
+import com.artronics.chapar.core.entities.Address;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import org.junit.Test;
@@ -58,7 +60,7 @@ public class DeviceMapImplTest extends BaseMapTest {
     @Test
     public void Two_nodes_with_same_address_are_equal()
     {
-        Node eqNode135= new Node(135L);
+        Node eqNode135= Node.create(Address.create(new Device(23L),135L));
         assertThat(deviceMap.contains(eqNode135), equalTo(true));
     }
 

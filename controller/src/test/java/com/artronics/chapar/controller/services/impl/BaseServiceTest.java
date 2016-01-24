@@ -2,6 +2,7 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.core.entities.Buffer;
 import com.artronics.chapar.core.entities.Device;
+import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
@@ -22,6 +23,7 @@ public class BaseServiceTest {
     protected DeviceMap deviceMap = new DeviceMapImpl();
     protected Buffer buffer;
     protected Packet packet;
+    protected Node node;
 
     @Before
     public void setUp() throws Exception {

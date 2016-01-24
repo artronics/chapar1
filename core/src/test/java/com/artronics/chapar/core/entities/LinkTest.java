@@ -1,5 +1,6 @@
 package com.artronics.chapar.core.entities;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -14,14 +15,27 @@ public class LinkTest {
 
     private boolean change;
 
-    Node aNode = new Node(10L);
-    Node sameNode = new Node(10L);
-    Node otherNode = new Node(11L);
+    Device device = new Device(100L);
+    Node aNode;
+    Node sameNode;
+    Node otherNode;
 
-    Link aLink = new Link(aNode,10D);
-    Link sameLink = new Link(sameNode,10D);
-    Link sameLinkWithDiffWeight= new Link(sameNode,423D);
-    Link otherLink = new Link(otherNode,233D);
+    Link aLink;
+    Link sameLink;
+    Link sameLinkWithDiffWeight;
+    Link otherLink;
+
+    @Before
+    public void setUp() throws Exception {
+        aNode = Node.create(Address.create(device,1L));
+        sameNode = Node.create(Address.create(device,1L));
+        otherNode = Node.create(Address.create(device,3L));
+
+        aLink = new Link(aNode,10D);
+        sameLink = new Link(sameNode,10D);
+        sameLinkWithDiffWeight= new Link(sameNode,423D);
+        otherLink = new Link(otherNode,233D);
+    }
 
     @Test
     public void equal_general_test(){

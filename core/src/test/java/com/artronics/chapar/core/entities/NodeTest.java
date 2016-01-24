@@ -11,13 +11,18 @@ import static org.junit.Assert.*;
 
 public class NodeTest {
 
-    Node aNode = new Node(10L);
-    Node sameNode = new Node(10L);
-    Node otherNode = new Node(11L);
+    Device device = new Device(100L);
+
+    Node aNode;
+    Node sameNode;
+    Node otherNode;
 
     @Before
     public void setUp() throws Exception
     {
+        aNode =Node.create(Address.create(device,10L));
+        sameNode = Node.create(Address.create(device,10L));
+        otherNode = Node.create(Address.create(device,11L));
     }
 
     @Test
@@ -29,7 +34,7 @@ public class NodeTest {
         assertFalse(aNode.equals(otherNode));
         assertFalse(otherNode.equals(aNode));
 
-        Node otherSameNode = new Node(aNode.getAdd());
+        Node otherSameNode = Node.create(aNode.getAddress());
         assertThat(sameNode,equalTo(otherSameNode));
 
         Node nullNode = null;
@@ -47,7 +52,7 @@ public class NodeTest {
         nodes.add(aNode);
         nodes.add(sameNode);
 
-        Node otherSameNode = new Node(aNode.getAdd());
+        Node otherSameNode = Node.create(aNode.getAddress());
 
         assertThat(nodes.size(),equalTo(1));
         assertTrue(nodes.contains(otherSameNode));

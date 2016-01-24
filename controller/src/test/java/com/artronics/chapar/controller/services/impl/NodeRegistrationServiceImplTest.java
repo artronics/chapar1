@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.services.impl;
 
+import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.exceptions.NodeConflictException;
 import org.junit.Before;
@@ -14,11 +15,11 @@ public class NodeRegistrationServiceImplTest extends BaseServiceTest {
     @InjectMocks
     private NodeRegistrationServiceImpl nodeRegistrationService;
 
-    private Node node = new Node(10L);
-
     @Before
     public void setUp() throws Exception {
         super.setUp();
+
+        node = Node.create(Address.create(device,10L));
 
         nodeRegistrationService.setRegisteredDevices(registeredDevices);
     }

@@ -1,5 +1,6 @@
 package com.artronics.chapar.core.map;
 
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.map.graph.GraphDelegator;
 import com.artronics.chapar.core.map.graph.JGraphTDelegator;
@@ -14,6 +15,8 @@ public class BaseGraphTest {
     protected GraphDelegator graphDelegator;
 
     protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> sampleGraph1;
+
+    protected Device device;
 
     protected Node sink1;
     protected Node node30;
@@ -45,6 +48,8 @@ public class BaseGraphTest {
     public void setUp() throws Exception {
         sampleGraph1 = graphCreator.getSampleGraph1();
         graphDelegator = new JGraphTDelegator(sampleGraph1);
+
+        device = graphCreator.getDevice();
 
         sink1 = graphCreator.getSink1();
         node30 = graphCreator.getSameAddNode1();

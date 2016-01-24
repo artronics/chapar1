@@ -1,6 +1,5 @@
 package com.artronics.chapar.controller.sdwn.packet;
 
-import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Packet;
 import org.apache.log4j.Logger;
 
@@ -15,8 +14,8 @@ public class BaseSdwnPacket extends Packet<SdwnPacketType> {
         Long srcShortAdd =Integer.toUnsignedLong(PacketUtils.getSourceAddress(content));
         Long dstShortAdd =Integer.toUnsignedLong(PacketUtils.getDestinationAddress(content));
 
-        this.srcAddress = Address.create(srcShortAdd);
-        this.dstAddress = Address.create(dstShortAdd);
+//        this.srcAddress = Address.create(srcShortAdd);
+//        this.dstAddress = Address.create(dstShortAdd);
 
         this.direction = Direction.RX;
     }

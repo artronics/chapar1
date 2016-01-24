@@ -10,8 +10,6 @@ import javax.persistence.Table;
 @Table(name = "nodes")
 public class Node extends AbstractBaseEntity {
 
-    private Long add;
-
     private Address address;
 
     //Normal as default value
@@ -22,16 +20,23 @@ public class Node extends AbstractBaseEntity {
     public Node() {
     }
 
-    public Node(Long add) {
-        this.add = add;
+    public static Node create(Address address){
+        Node n = new Node();
+        n.setAddress(address);
+
+        return n;
     }
 
-    public Long getAdd() {
-        return add;
+    public static Node create(Long localAddress){
+        return new Node();
     }
 
-    public void setAdd(Long add) {
-        this.add = add;
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Type getType() {
@@ -58,7 +63,7 @@ public class Node extends AbstractBaseEntity {
         // -overriding-equals-and-hashcode-in-java
 
         HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(this.add);
+        hcb.append(this.address);
 
         return hcb.toHashCode();
     }
@@ -74,7 +79,7 @@ public class Node extends AbstractBaseEntity {
         Node that = (Node) obj;
         EqualsBuilder eb = new EqualsBuilder();
 
-        eb.append(this.add,that.add);
+        eb.append(this.address,that.address);
 
         return eb.isEquals();
     }
@@ -102,6 +107,6 @@ public class Node extends AbstractBaseEntity {
     {
         String s = node.getType() == Node.Type.SINK ? "Sink-> " : "Node-> ";
 
-        return String.format(s + "ADD:%-3d ", node.getAdd());
+        return String.format(s + "ADD:%-3d ", node.getAddress().getLocalAdd());
     }
 }
