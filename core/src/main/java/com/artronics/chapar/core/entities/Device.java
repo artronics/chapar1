@@ -12,6 +12,13 @@ import javax.persistence.Table;
 public class Device extends AbstractBaseEntity{
     private final static Logger log = Logger.getLogger(Device.class);
 
+    public Device() {
+    }
+
+    public Device(Long id) {
+        super(id);
+    }
+
     @Override
     public int hashCode()
     {

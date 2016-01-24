@@ -10,6 +10,13 @@ import java.util.Date;
 public class AbstractBaseEntity implements Serializable{
     private final static Logger log = Logger.getLogger(AbstractBaseEntity.class);
 
+    public AbstractBaseEntity() {
+    }
+
+    public AbstractBaseEntity(Long id) {
+        this.id = id;
+    }
+
     protected Long id;
 
     protected Date created;
