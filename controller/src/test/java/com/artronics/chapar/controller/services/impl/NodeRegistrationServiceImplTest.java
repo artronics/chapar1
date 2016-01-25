@@ -1,38 +1,87 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.core.entities.Address;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Node;
-import com.artronics.chapar.core.exceptions.NodeConflictException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 
-public class NodeRegistrationServiceImplTest extends BaseServiceTest {
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.artronics.chapar.core.entities.Node.Status.ACTIVE;
+import static com.artronics.chapar.core.entities.Node.Status.IDLE;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+public class NodeRegistrationServiceImplTest {
 
     @InjectMocks
     private NodeRegistrationServiceImpl nodeRegistrationService;
 
+    private Map<Node, Node> registeredNodes;
+
+    private Device device;
+    private Node srcNode;
+    private Node dstNode;
+    private Node eqSrcNode;
+    private Node eqDstNode;
+
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        MockitoAnnotations.initMocks(this);
 
-        node = Node.create(Address.create(device,10L));
+        registeredNodes = new HashMap<>();
+        nodeRegistrationService.setRegisteredNodes(registeredNodes);
 
-        nodeRegistrationService.setRegisteredDevices(registeredDevices);
+        device = new Device(1L);
+        srcNode = Node.create(Address.create(device, 1L));
+        dstNode = Node.create(Address.create(device, 2L));
+
+        eqSrcNode = Node.create(Address.create(device, 1L));
+        eqDstNode = Node.create(Address.create(device, 2L));
     }
 
-    @Ignore("refactor")
     @Test
-    public void it_should_add_node_to_registeredDevices(){
-        nodeRegistrationService.registerNode(device,node);
-//        assertThat(deviceMap.contains(node),is(true));
+    public void it_should_add_srcNode_to_registeredNodes() {
+        nodeRegistrationService.registerNode(srcNode, dstNode);
+        assertThat(registeredNodes.containsKey(srcNode), is(true));
     }
 
-    @Ignore("refactor")
-    @Test(expected = NodeConflictException.class)
-    public void it_should_throw_exp_if_node_is_already_registered(){
-        nodeRegistrationService.registerNode(device,node);
-        nodeRegistrationService.registerNode(device,node);
+    @Test
+    public void it_should_add_dstNode_to_registeredNodes() {
+        nodeRegistrationService.registerNode(srcNode, dstNode);
+        assertThat(registeredNodes.containsKey(dstNode), is(true));
     }
+
+    @Test
+    public void it_should_change_srcNode_status_to_ACTIVE() throws Exception {
+        nodeRegistrationService.registerNode(srcNode, dstNode);
+        Node actNode = registeredNodes.get(eqSrcNode);
+
+        assertThat(actNode.getStatus(), is(equalTo(ACTIVE)));
+    }
+
+    @Test
+    public void it_should_change_dstNode_status_to_IDLE() throws Exception {
+        nodeRegistrationService.registerNode(srcNode, dstNode);
+        Node actNode = registeredNodes.get(eqDstNode);
+
+        assertThat(actNode.getStatus(), is(equalTo(IDLE)));
+    }
+
+    @Test
+    public void it_should_update_srcNode_status_to_ACTIVE_if_it_is_already_registered() throws Exception {
+        nodeRegistrationService.registerNode(srcNode, dstNode);
+
+        Node actNode = registeredNodes.get(eqDstNode);
+        assertThat(actNode.getStatus(), is(equalTo(IDLE)));
+        nodeRegistrationService.registerNode(dstNode, srcNode);
+
+        assertThat(actNode.getStatus(), is(equalTo(ACTIVE)));
+    }
+
 }
