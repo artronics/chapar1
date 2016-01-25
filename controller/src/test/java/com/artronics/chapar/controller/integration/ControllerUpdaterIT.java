@@ -6,6 +6,8 @@ import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
+import com.artronics.chapar.core.exceptions.MalformedPacketException;
+import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 import com.artronics.chapar.core.map.NodeMap;
 import com.artronics.chapar.core.support.NodeMapPrinter;
 import org.junit.Before;
@@ -61,9 +63,7 @@ public class ControllerUpdaterIT {
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_create_links_based_on_ReportPacket() throws Exception {
-        assertThat(nodeMap.hasLink(n30, n40), is(false));
-        Packet packet = createReportPacket(n39, sink, n30, n40);
-        packetService.addPacket(packet, device.getId());
+        firstPacket();
 
         assertThat(nodeMap.hasLink(n39, n30), is(true));
         assertThat(nodeMap.hasLink(n39, n40), is(true));
@@ -76,11 +76,8 @@ public class ControllerUpdaterIT {
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_update_map_when_receive_new_reports() throws Exception {
-        Packet packet = createReportPacket(n39, sink, n30, n40);
-        packetService.addPacket(packet, device.getId());
-
-        Packet packet2 = createReportPacket(n30, sink, n40, sink);
-        packetService.addPacket(packet2, device.getId());
+        firstPacket();
+        secondPacket();
 
         assertThat(nodeMap.hasLink(n30,n40),is(true));
         assertThat(nodeMap.hasLink(n30,sink),is(true));
@@ -92,14 +89,9 @@ public class ControllerUpdaterIT {
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_keep_the_state_of_previous_packet() throws Exception {
-        System.out.println(printer.printDeviceMap(nodeMap, device));
-        Packet packet = createReportPacket(n39, sink, n30, n40);
-        packetService.addPacket(packet, device.getId());
-        System.out.println(printer.printDeviceMap(nodeMap, device));
+        firstPacket();
 
-        Packet packet2 = createReportPacket(n30, sink, n40, sink);
-        packetService.addPacket(packet2, device.getId());
-        System.out.println(printer.printDeviceMap(nodeMap, device));
+        secondPacket();
 
         assertThat(nodeMap.hasLink(n30,sink),is(true));
         assertThat(nodeMap.hasLink(n30,n40),is(true));
@@ -109,6 +101,17 @@ public class ControllerUpdaterIT {
         assertThat(nodeMap.hasLink(n40,sink),is(false));
     }
 
+    private void secondPacket() throws MalformedPacketException, NodeNotRegistered {
+        Packet packet2 = createReportPacket(n30, sink, n40, sink);
+        packetService.addPacket(packet2, device.getId());
+        System.out.println(printer.printDeviceMap(nodeMap, device));
+    }
+
+    private void firstPacket() throws MalformedPacketException, NodeNotRegistered {
+        Packet packet = createReportPacket(n39, sink, n30, n40);
+        packetService.addPacket(packet, device.getId());
+        System.out.println(printer.printDeviceMap(nodeMap, device));
+    }
 
     private static Packet createReportPacket(Node src, Node dst, Node... neighbors) {
         Integer[] ne = new Integer[neighbors.length];
