@@ -1,6 +1,7 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.services.DeviceRegistrationService;
+import com.artronics.chapar.controller.services.NodeRegistrationService;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.repositories.DeviceRepo;
 import org.apache.log4j.Logger;
@@ -18,8 +19,25 @@ public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
 
     private Map<Long,Device> registeredDevices;
 
+    private NodeRegistrationService nodeRegistrationService;
+
+
     @Override
     public Device registerDevice(Device device) {
+        return regDevice(device);
+    }
+
+    @Override
+    public Device registerDevice(Device device, Long sinkAddress) {
+        Device dev = regDevice(device);
+
+        nodeRegistrationService.registerSink(sinkAddress,dev.getId());
+
+        return dev;
+    }
+
+
+    private Device regDevice(Device device){
         log.debug("Registering new device: "+device);
 
         deviceRepo.save(device);
@@ -32,6 +50,11 @@ public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
     @Resource(name = "registeredDevices")
     public void setRegisteredDevices(Map<Long, Device> registeredDevices) {
         this.registeredDevices = registeredDevices;
+    }
+
+    @Autowired
+    public void setNodeRegistrationService(NodeRegistrationService nodeRegistrationService) {
+        this.nodeRegistrationService = nodeRegistrationService;
     }
 
     @Autowired

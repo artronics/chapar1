@@ -59,19 +59,19 @@ public class NodeRegistrationServiceImplTest {
 
     @Test
     public void it_should_add_srcNode_to_registeredNodes() {
-        nodeRegistrationService.registerNode(srcNode, dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode, dstNode);
         assertThat(registeredNodes.containsKey(srcNode), is(true));
     }
 
     @Test
     public void it_should_add_dstNode_to_registeredNodes() {
-        nodeRegistrationService.registerNode(srcNode, dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode, dstNode);
         assertThat(registeredNodes.containsKey(dstNode), is(true));
     }
 
     @Test
     public void it_should_change_srcNode_status_to_ACTIVE() throws Exception {
-        nodeRegistrationService.registerNode(srcNode, dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode, dstNode);
         Node actNode = registeredNodes.get(eqSrcNode);
 
         assertThat(actNode.getStatus(), is(equalTo(ACTIVE)));
@@ -79,7 +79,7 @@ public class NodeRegistrationServiceImplTest {
 
     @Test
     public void it_should_change_dstNode_status_to_IDLE() throws Exception {
-        nodeRegistrationService.registerNode(srcNode, dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode, dstNode);
         Node actNode = registeredNodes.get(eqDstNode);
 
         assertThat(actNode.getStatus(), is(equalTo(IDLE)));
@@ -87,11 +87,11 @@ public class NodeRegistrationServiceImplTest {
 
     @Test
     public void it_should_update_srcNode_status_to_ACTIVE_if_it_is_already_registered() throws Exception {
-        nodeRegistrationService.registerNode(srcNode, dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode, dstNode);
 
         Node actNode = registeredNodes.get(eqDstNode);
         assertThat(actNode.getStatus(), is(equalTo(IDLE)));
-        nodeRegistrationService.registerNode(dstNode, srcNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(dstNode, srcNode);
 
         assertThat(actNode.getStatus(), is(equalTo(ACTIVE)));
     }
@@ -103,7 +103,7 @@ public class NodeRegistrationServiceImplTest {
     //The process of adding to map happens for both src and dst
     @Test
     public void it_should_add_registered_nodes_to_nodeMap() throws Exception {
-        nodeRegistrationService.registerNode(srcNode, dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode, dstNode);
 
         assertThat(nodeMap.contains(srcNode),is(true));
 
@@ -157,7 +157,7 @@ public class NodeRegistrationServiceImplTest {
         assertFalse(nodeMap.contains(srcNode));
         Set<Link> links = createLinks(5,device);
 
-        nodeRegistrationService.registerNode(srcNode,dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode,dstNode);
 
         nodeRegistrationService.registerNeighbors(links);
 

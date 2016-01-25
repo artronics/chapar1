@@ -54,7 +54,7 @@ public class PacketServiceImpl implements PacketService{
 
         Node srcNode = Node.create(srcAddress);
         Node dstNode = Node.create(dstAddress);
-        nodeRegistrationService.registerNode(srcNode,dstNode);
+        nodeRegistrationService.registerSrcDstNodesInPacket(srcNode,dstNode);
 
         networkController.processPacket((BaseSdwnPacket) packet);
     }

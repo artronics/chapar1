@@ -4,4 +4,6 @@ import com.artronics.chapar.core.entities.Device;
 
 public interface DeviceRegistrationService {
     Device registerDevice(Device device);
+
+    Device registerDevice(Device device,Long sinkAddress);
 }

@@ -20,7 +20,17 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
     private NodeMap nodeMap;
 
     @Override
-    public void registerNode(Node srcNode, Node dstNode) {
+    public Node registerNode(Long localAddress, Long deviceId) {
+        return null;
+    }
+
+    @Override
+    public Node registerSink(Long sinkAddress, Long deviceId) {
+        return null;
+    }
+
+    @Override
+    public void registerSrcDstNodesInPacket(Node srcNode, Node dstNode) {
         if (!registeredNodes.containsKey(srcNode)){
             log.debug("Registering new source node: "+srcNode);
             srcNode.setStatus(Node.Status.ACTIVE);
