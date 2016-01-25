@@ -69,6 +69,7 @@ public class SdwnNetworkController implements NetworkController<SdwnPacketType,B
         if (!islandedNodes.isEmpty()){
             islandedNodes.forEach(node -> {
                 log.debug("Find island "+ node);
+                nodeRegistrationService.unregisterNode(node);
             });
         }
     }

@@ -21,8 +21,7 @@ import java.util.Set;
 import static com.artronics.chapar.core.entities.Node.Status.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -203,6 +202,31 @@ public class NodeRegistrationServiceImplTest {
 
         assertThat(registeredNodes.containsKey(eqSrcNode),is(true));
         assertThat(registeredNodes.containsKey(eqANode),is(false));
+    }
+
+    /*
+        Unregisteration
+     */
+
+    @Test
+    public void it_should_remove_island_node_from_registeredNodes() throws Exception {
+        registeredNodes.put(aNode,aNode);
+        assertTrue(registeredNodes.containsKey(aNode));
+
+        nodeRegistrationService.unregisterNode(aNode);
+        assertThat(registeredNodes.containsKey(aNode),is(false));
+    }
+
+    @Test
+    public void it_should_remove_island_node_from_nodeMap() throws Exception {
+        registeredNodes.put(aNode,aNode);
+        assertTrue(registeredNodes.containsKey(aNode));
+
+        nodeMap.addNode(aNode);
+        assertTrue(nodeMap.contains(aNode));
+
+        nodeRegistrationService.unregisterNode(aNode);
+        assertThat(nodeMap.contains(aNode),is(false));
     }
 
     private Set<Link> createLinks(int num, Device device){

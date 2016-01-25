@@ -50,6 +50,9 @@ public class ControllerUpdaterIT {
     @Resource(name = "registeredDevices")
     private Map<Long, Device> registeredDevices;
 
+    @Resource(name = "registeredNodes")
+    private Map<Node,Node> registeredNodes;
+
     @Before
     public void setUp() throws Exception {
         device = new Device(1L);
@@ -115,6 +118,13 @@ public class ControllerUpdaterIT {
         assertThat(n39.getStatus(),is(equalTo(Node.Status.ACTIVE)));
     }
 
+    @Test
+    public void it_should_find_island_node() throws Exception {
+        islandPacket();
+        assertThat(nodeMap.contains(n39),is(false));
+        assertThat(registeredNodes.containsKey(n39),is(false));
+    }
+
     private void secondPacket() throws MalformedPacketException, NodeNotRegistered {
         Packet packet2 = createReportPacket(n30, sink, n40, sink);
         packetService.addPacket(packet2, device.getId());
@@ -124,6 +134,14 @@ public class ControllerUpdaterIT {
     private void firstPacket() throws MalformedPacketException, NodeNotRegistered {
         Packet packet = createReportPacket(n39, sink, n30, n40);
         packetService.addPacket(packet, device.getId());
+        System.out.println(printer.printDeviceMap(nodeMap, device));
+    }
+
+    private void islandPacket() throws MalformedPacketException, NodeNotRegistered {
+        firstPacket();
+        secondPacket();
+        Packet packet = createReportPacket(n40,sink,n30);
+        packetService.addPacket(packet,device.getId());
         System.out.println(printer.printDeviceMap(nodeMap, device));
     }
 

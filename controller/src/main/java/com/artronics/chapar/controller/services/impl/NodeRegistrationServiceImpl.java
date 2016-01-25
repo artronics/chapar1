@@ -79,6 +79,13 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
         return links;
     }
 
+    @Override
+    public void unregisterNode(Node node) {
+        log.debug("Remove "+node+" from registered nodes");
+        registeredNodes.remove(node);
+        nodeMap.removeNode(node);
+    }
+
     @Autowired
     public void setAddressRegistrationService(AddressRegistrationService addressRegistrationService) {
         this.addressRegistrationService = addressRegistrationService;

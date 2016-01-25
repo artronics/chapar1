@@ -13,4 +13,6 @@ public interface NodeRegistrationService {
     void registerSrcDstNodesInPacket(Node srcNode, Node dstNode);
 
     Set<Link> registerNeighbors(Set<Link> links);
+
+    void unregisterNode(Node node);
 }
