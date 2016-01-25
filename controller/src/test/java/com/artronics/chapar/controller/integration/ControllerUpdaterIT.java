@@ -28,8 +28,10 @@ import static org.junit.Assert.assertThat;
 public class ControllerUpdaterIT {
     private Device device;
 
+    private Node sink;
     private Node n30;
     private Node n39;
+    private Node n40;
 
     @Autowired
     private PacketService packetService;
@@ -39,29 +41,88 @@ public class ControllerUpdaterIT {
     private NodeMap nodeMap;
 
     @Resource(name = "registeredDevices")
-    private Map<Long,Device> registeredDevices;
+    private Map<Long, Device> registeredDevices;
 
     @Before
     public void setUp() throws Exception {
         device = new Device(1L);
 
-        n30 = Node.create(Address.create(device,30L));
-        n39 = Node.create(Address.create(device,39L));
+        sink = Node.create(Address.create(device, 0L));
+        n30 = Node.create(Address.create(device, 30L));
+        n39 = Node.create(Address.create(device, 39L));
+        n40 = Node.create(Address.create(device, 40L));
 
-        registeredDevices.put(device.getId(),device);
+        registeredDevices.put(device.getId(), device);
     }
 
     @Test
-    public void it_should_Name() throws Exception {
-        Packet packet = new Packet(FakeSdwnBufferFactory.createReportBuffer().getContent());
-        packetService.addPacket(packet,device.getId());
-        assertThat(nodeMap.hasLink(n30,n39),is(true));
+    public void it_should_create_links_based_on_ReportPacket() throws Exception {
+        Packet packet = createReportPacket(n39, sink, n30, n40);
+        packetService.addPacket(packet, device.getId());
+
+        firstReportAssertion();
+    }
+
+    private void firstReportAssertion(){
+        assertThat(nodeMap.hasLink(n39, n30), is(true));
+        assertThat(nodeMap.hasLink(n39, n40), is(true));
+
+        assertThat(nodeMap.hasLink(n30, n40), is(false));
+        assertThat(nodeMap.hasLink(n30, sink), is(false));
+        assertThat(nodeMap.hasLink(n39,sink),is(false));
+    }
+
+    @Test
+    public void it_should_update_map_when_receive_new_reports() throws Exception {
+        Packet packet = createReportPacket(n39, sink, n30, n40);
+        packetService.addPacket(packet, device.getId());
+
+        Packet packet2 = createReportPacket(n30, sink, n40, sink);
+        packetService.addPacket(packet2, device.getId());
+
+        secondReportAssertion();
+    }
+
+    private void secondReportAssertion(){
+        assertThat(nodeMap.hasLink(n30,n40),is(true));
+        assertThat(nodeMap.hasLink(n30,sink),is(true));
+
+        assertThat(nodeMap.hasLink(n40,sink),is(false));
+        assertThat(nodeMap.hasLink(n39,sink),is(false));
+    }
+
+    @Test
+    public void it_should_keep_the_state_of_previous_packet() throws Exception {
+        Packet packet = createReportPacket(n39, sink, n30, n40);
+        packetService.addPacket(packet, device.getId());
+
+        Packet packet2 = createReportPacket(n30, sink, n40, sink);
+        packetService.addPacket(packet2, device.getId());
+
+        secondReportAssertion();
+        firstReportAssertion();
 
     }
 
+
+    private static Packet createReportPacket(Node src, Node dst, Node... neighbors) {
+        Integer[] ne = new Integer[neighbors.length];
+        for (int i = 0; i < ne.length; i++) {
+            ne[i] = neighbors[i].getAddress().getLocalAdd().intValue();
+        }
+
+        Packet packet = new Packet(FakeSdwnBufferFactory.createReportBuffer(
+                src.getAddress().getLocalAdd().intValue(),
+                dst.getAddress().getLocalAdd().intValue(),
+                ne
+        ).getContent());
+
+        return packet;
+    }
+
     @ComponentScan({"com.artronics.chapar.controller",
-    "com.artronics.chapar.core"})
-    static class CtrlUpConfig{
+            "com.artronics.chapar.core"})
+    static class CtrlUpConfig {
 
     }
 }

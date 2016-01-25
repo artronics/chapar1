@@ -56,48 +56,41 @@ public class FakeSdwnBufferFactory
         return createHeader(30, 0, 20, SdwnPacketType.DATA);
     }
 
+    public static Buffer createReportBuffer(int src,int dst,Integer ... neighbors){
+        List<Integer> b = new ArrayList<>(createHeader(src,dst,SdwnPacketType.REPORT));
 
-    public static Buffer createReportBuffer(){
-        Buffer b = new Buffer(Arrays.asList(
+        List<Integer> m = new ArrayList<>();
+        for (int i = 0; i < neighbors.length; i++) {
+            m.add(PacketUtils.getHighAddress(neighbors[i]));
+            m.add(PacketUtils.getLowAddress(neighbors[i]));
+            m.add(100);
+        }
+        m.add(0,0);//Distance
+        m.add(1,255);//battery
+        m.add(2,neighbors.length);
 
-        ));
-        Integer[] bytes = {
+        b.addAll(m);
+
+        b.set(0,b.size());//set final length
+
+        return new Buffer(b);
+    }
+
+    public static List<Integer> createHeader(int src,int dst,SdwnPacketType type){
+        List<Integer> h = new ArrayList<>(Arrays.asList(
                 22,//length
                 1,//Def net id
-                0,//source H
-                30,//source L
-                0,//destination H
-                10,//destination L
-                2,//type
+                PacketUtils.getHighAddress(src),//source H
+                PacketUtils.getLowAddress(src),//source L
+                PacketUtils.getHighAddress(dst),//destination H
+                PacketUtils.getLowAddress(dst),//destination L
+                type.getValue(),//type
                 20,//TTL_MAX
                 0,//next hop H
-                0,//next hop L
+                0//next hop L
+        ));
 
-                0,//distance
-                255,//battery
-                3,//neighbor
-
-                0,// 1st addL
-                39,// 1st addH
-                196,// 1st rssi
-
-                0,// 2nd addH
-                50,// 2nd addL
-                199,// 2nd rssi
-
-                0,// 3rd addH
-                40,// 3rd addL
-                196,  // 3rd rssi
-//                //a copy of 3rd to test hashset
-//                0,// 3rd addH
-//                30,// 3rd addL
-//                100  // 3rd rssi (differ)
-        };
-        List<Integer> packetBytes = Arrays.asList(bytes);
-
-        b.setContent(packetBytes);
-
-        return b;
+        return h;
     }
 }
 

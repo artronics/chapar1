@@ -78,7 +78,7 @@ public class SdwnNodeMapUpdaterTest {
     }
 
     private ReportPacket getReportPacket() {
-        List<Integer> content = FakeSdwnBufferFactory.createReportBuffer().getContent();
+        List<Integer> content = FakeSdwnBufferFactory.createReportBuffer(30,10,39,50,40).getContent();
         ReportPacket packet = ReportPacket.create(content);
         Address a30 = Address.create(device,30L);
         Address a10 = Address.create(device,10L);
