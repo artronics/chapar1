@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
 
 public class NodeMapImplTest extends BaseMapTest {
 
+    //TODO what happens if we receive a link from source to source
+
     @Test
     public void
     If_we_add_link_to_a_node_which_already_exists_it_should_ignore_it()
