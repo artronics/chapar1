@@ -20,14 +20,15 @@ public class NodeMapPrinter {
         String s = "\n";
 
         s+=getDeviceString(device);
-        int p = s.indexOf(":");
+        int nl = s.indexOf("\n");
+        int p = s.indexOf("\\");
         for (Node node : nodes) {
             Device dev = node.getAddress().getDevice();
             if (!dev.equals(device))
                 continue;
 
             Set<Link> links = nodeMap.getLinks(node);
-            s+=PrintUtils.addSpace(p);
+            s+=PrintUtils.addSpace(p-13);
             s+=PrintUtils.printNodeLinks(node,links);
             s+="\n";
         }
