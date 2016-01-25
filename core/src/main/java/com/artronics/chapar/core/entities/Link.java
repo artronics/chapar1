@@ -9,6 +9,10 @@ public class Link {
 
     private Double weight;
 
+    public Link(Node dstNode) {
+        this.dstNode = dstNode;
+    }
+
     public Link(Node dstNode, Double weight) {
         this.dstNode = dstNode;
         this.weight = weight;
