@@ -4,6 +4,7 @@ import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.exceptions.AddressConflictException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -27,6 +28,29 @@ public class UnicastAddressRegistrationServiceTest {
 
         unicastAddressSpace = new HashSet<>();
         addressResolver.setUnicastAddressSpace(unicastAddressSpace);
+    }
+
+    @Test
+    public void it_should_register_sink_address() throws Exception {
+        Device device = new Device(10L);
+
+        Address a =Address.create(device,12L);
+        assertThat(unicastAddressSpace.contains(a),is(false));
+
+        addressResolver.registerSinkAddress(12L,device);
+        assertThat(unicastAddressSpace.contains(a),is(true));
+    }
+
+    @Test(expected = AddressConflictException.class)
+    public void it_should_throw_exp_if_device_already_has_a_sink_address() throws Exception {
+        Device device = new Device(10L);
+
+        Address a =Address.create(device,12L);
+
+        addressResolver.registerSinkAddress(12L,device);
+        assertThat(unicastAddressSpace.contains(a),is(true));
+
+        addressResolver.registerSinkAddress(12L,device);
     }
 
     @Test

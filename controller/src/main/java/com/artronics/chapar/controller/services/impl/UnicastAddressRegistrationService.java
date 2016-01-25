@@ -2,7 +2,9 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.core.entities.Address;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
+import com.artronics.chapar.core.exceptions.AddressConflictException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,15 @@ public class UnicastAddressRegistrationService implements AddressRegistrationSer
     private Set<Address> unicastAddressSpace;
 
     @Override
-    public Address registerSinkAddress(Long localAddress, Long deviceId) {
-        return null;
+    public Address registerSinkAddress(Long localAddress, Device device) throws AddressConflictException {
+        Address a = Address.create(device,localAddress);
+
+        if (unicastAddressSpace.contains(a))
+            throw new AddressConflictException();
+
+        unicastAddressSpace.add(a);
+
+        return a;
     }
 
     @Override

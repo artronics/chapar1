@@ -14,8 +14,8 @@ public class DeviceRegistrationController {
     @Autowired
     private DeviceRegistrationService deviceRegistrationService;
 
-    @RequestMapping(method = RequestMethod.POST,produces = "application/json")
-    public Device registerDevice(@PathVariable Long sinkAddress,@RequestBody Device device){
+    @RequestMapping(method = RequestMethod.POST,produces = "application/json",params = {"sinkAddress"})
+    public Device registerDevice(@RequestParam Long sinkAddress, @RequestBody Device device){
         return deviceRegistrationService.registerDevice(device,sinkAddress);
     }
 

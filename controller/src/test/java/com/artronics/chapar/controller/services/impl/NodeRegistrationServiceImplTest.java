@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.services.impl;
 
+import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
@@ -9,6 +10,7 @@ import com.artronics.chapar.core.map.NodeMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
@@ -21,11 +23,17 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 public class NodeRegistrationServiceImplTest {
 
     @InjectMocks
     private NodeRegistrationServiceImpl nodeRegistrationService;
+
+    @Mock
+    private AddressRegistrationService addRegService;
 
     private Map<Node, Node> registeredNodes;
     private NodeMap nodeMap;
@@ -55,6 +63,38 @@ public class NodeRegistrationServiceImplTest {
         eqSrcNode = Node.create(Address.create(device, 1L));
         eqDstNode = Node.create(Address.create(device, 2L));
         eqANode = Node.create(Address.create(device,3L));
+    }
+
+    /*
+        Sink Registration
+     */
+
+    @Test
+    public void it_should_should_add_sink_to_nodeMap() throws Exception {
+        Address sa = Address.create(device,1234L);
+        when(addRegService.registerSinkAddress(anyLong(),eq(device))).thenReturn(sa);
+
+        Node sink = nodeRegistrationService.registerSink(1234L,device);
+        assertThat(nodeMap.contains(sink),is(true));
+    }
+
+    @Test
+    public void it_should_add_sink_to_registeredDevices() throws Exception {
+        Address sa = Address.create(device,1234L);
+        when(addRegService.registerSinkAddress(anyLong(),eq(device))).thenReturn(sa);
+
+        Node sink = nodeRegistrationService.registerSink(1234L,device);
+        assertThat(registeredNodes.containsKey(sink),is(true));
+    }
+
+    @Test
+    public void it_should_add_sink_with_ACTIVE_status() throws Exception {
+        Address sa = Address.create(device,1234L);
+        when(addRegService.registerSinkAddress(anyLong(),eq(device))).thenReturn(sa);
+
+        Node sink = nodeRegistrationService.registerSink(1234L,device);
+        Node actNode = registeredNodes.get(sink);
+        assertThat(actNode.getStatus(),is(equalTo(ACTIVE)));
     }
 
     @Test

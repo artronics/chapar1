@@ -43,4 +43,20 @@ public class DeviceRegistrationControllerTest extends BaseControllerTest{
                 .andExpect(status().isOk());
 
     }
+
+    @Test
+    public void perform_post_method_to_register_device_and_sink() throws Exception {
+        Device device = new Device();
+        when(registrationService.registerDevice(device)).thenReturn(device);
+        String jDevice = toJson(device);
+
+        mockMvc.perform(post("/device/register?sinkAddress=12")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jDevice))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+
 }

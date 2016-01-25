@@ -1,10 +1,15 @@
 package com.artronics.chapar.controller.services.impl;
 
+import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.controller.services.NodeRegistrationService;
+import com.artronics.chapar.core.entities.Address;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.exceptions.AddressConflictException;
 import com.artronics.chapar.core.map.NodeMap;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,16 +22,21 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
 
     private Map<Node,Node> registeredNodes;
 
+    private AddressRegistrationService addressRegistrationService;
+
     private NodeMap nodeMap;
 
     @Override
-    public Node registerNode(Long localAddress, Long deviceId) {
-        return null;
-    }
+    public Node registerSink(Long sinkAddress, Device device) throws AddressConflictException {
+        Address a = addressRegistrationService.registerSinkAddress(sinkAddress,device);
 
-    @Override
-    public Node registerSink(Long sinkAddress, Long deviceId) {
-        return null;
+        Node n = Node.create(a);
+        n.setStatus(Node.Status.ACTIVE);
+
+        nodeMap.addNode(n);
+        registeredNodes.put(n,n);
+
+        return n;
     }
 
     @Override
@@ -67,6 +77,11 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
         });
 
         return links;
+    }
+
+    @Autowired
+    public void setAddressRegistrationService(AddressRegistrationService addressRegistrationService) {
+        this.addressRegistrationService = addressRegistrationService;
     }
 
     @Resource(name = "nodeMap")

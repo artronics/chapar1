@@ -3,6 +3,7 @@ package com.artronics.chapar.controller.services.impl;
 import com.artronics.chapar.controller.services.DeviceRegistrationService;
 import com.artronics.chapar.controller.services.NodeRegistrationService;
 import com.artronics.chapar.core.entities.Device;
+import com.artronics.chapar.core.exceptions.AddressConflictException;
 import com.artronics.chapar.core.repositories.DeviceRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,12 @@ public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
     public Device registerDevice(Device device, Long sinkAddress) {
         Device dev = regDevice(device);
 
-        nodeRegistrationService.registerSink(sinkAddress,dev.getId());
+        try {
+            nodeRegistrationService.registerSink(sinkAddress,dev);
+
+        } catch (AddressConflictException e) {
+            e.printStackTrace();
+        }
 
         return dev;
     }
