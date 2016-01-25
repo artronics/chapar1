@@ -66,4 +66,11 @@ public class Address extends AbstractBaseEntity{
 
         return eb.isEquals();
     }
+
+    @Override
+    public String toString() {
+        String s = String.format("ADD:%-3d",this.getLocalAdd());
+
+        return s;
+    }
 }
