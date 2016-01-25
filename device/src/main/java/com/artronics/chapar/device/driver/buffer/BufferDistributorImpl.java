@@ -1,7 +1,10 @@
 package com.artronics.chapar.device.driver.buffer;
 
+import com.artronics.chapar.core.entities.Buffer;
+import com.artronics.chapar.device.events.BufferReadyEvent;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -14,6 +17,9 @@ public class BufferDistributorImpl implements BufferDistributor
 {
     private final static Logger log = Logger.getLogger(BufferDistributorImpl.class);
     private static final int MAX_PACKET_LENGTH = 255;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     private InputStream input;
 
@@ -52,7 +58,10 @@ public class BufferDistributorImpl implements BufferDistributor
 
         for (List<Integer> buff : buffers) {
             log.debug("Sending buffer");
-            //send buff
+
+            Buffer b = new Buffer(buff);
+            BufferReadyEvent e = new BufferReadyEvent(this,b);
+            publisher.publishEvent(e);
         }
     }
 

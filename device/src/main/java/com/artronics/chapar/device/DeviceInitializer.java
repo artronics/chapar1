@@ -59,7 +59,8 @@ public class DeviceInitializer implements ApplicationListener<ContextRefreshedEv
     }
 
     @Autowired
-    @Qualifier("fakeDeviceDriver")
+//    @Qualifier("fakeDeviceDriver")
+    @Qualifier("deviceDriverSerialPort")
     public void setDeviceDriver(DeviceDriver deviceDriver) {
         this.deviceDriver = deviceDriver;
     }
