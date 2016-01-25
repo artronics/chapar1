@@ -14,17 +14,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DeviceMapImpl implements DeviceMap{
+public class NodeMapImpl implements NodeMap {
     protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph =
             new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
     protected GraphDelegator graphDelegator;
 
-    public DeviceMapImpl() {
+    public NodeMapImpl() {
         graphDelegator = new JGraphTDelegator(graph);
     }
 
-    public DeviceMapImpl(ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph) {
+    public NodeMapImpl(ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph) {
         this.graph = graph;
         graphDelegator = new JGraphTDelegator(graph);
     }

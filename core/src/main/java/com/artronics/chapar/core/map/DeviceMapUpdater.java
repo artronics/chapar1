@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface DeviceMapUpdater {
 
-    void update(DeviceMap deviceMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered;
+    void update(NodeMap nodeMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered;
 
-    void update(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered;
+    void update(NodeMap nodeMap, Node srcNode, Set<Link> links) throws NodeNotRegistered;
 }

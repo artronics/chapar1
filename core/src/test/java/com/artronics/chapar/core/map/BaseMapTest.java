@@ -3,7 +3,7 @@ package com.artronics.chapar.core.map;
 import org.junit.Before;
 
 public class BaseMapTest extends BaseGraphTest{
-    protected DeviceMap deviceMap;
+    protected NodeMap nodeMap;
 
     /*
      * node number 30 is sameAddNode
@@ -29,6 +29,6 @@ public class BaseMapTest extends BaseGraphTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        deviceMap = new DeviceMapImpl(sampleGraph1);
+        nodeMap = new NodeMapImpl(sampleGraph1);
     }
 }

@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class DeviceMapUpdaterImplTest extends BaseMapTest {
+public class NodeMapUpdaterImplTest extends BaseMapTest {
 
     private DeviceMapUpdater mapUpdater;
     private Node node0;
@@ -53,9 +53,9 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         node2 = Node.create(Address.create(device,2L));
 
         //These nodes are registered but there is no any link between them
-        deviceMap.addNode(node0);
-        deviceMap.addNode(node1);
-        deviceMap.addNode(node2);
+        nodeMap.addNode(node0);
+        nodeMap.addNode(node1);
+        nodeMap.addNode(node2);
     }
 
     /*
@@ -66,13 +66,13 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         Link l0_1 = new Link(node1,23D);
         Link l0_2 = new Link(node2,22D);
         Set<Link> links = new HashSet<>(Arrays.asList(l0_1,l0_2));
-        mapUpdater.update(deviceMap,node0,links);
+        mapUpdater.update(nodeMap,node0,links);
 
-        assertThat(deviceMap.hasLink(node0,node1),is(true));
-        assertThat(deviceMap.hasLink(node0,node2),is(true));
+        assertThat(nodeMap.hasLink(node0,node1),is(true));
+        assertThat(nodeMap.hasLink(node0,node2),is(true));
 
-        assertThat(deviceMap.hasLink(node1,node0),is(true));
-        assertThat(deviceMap.hasLink(node2,node0),is(true));
+        assertThat(nodeMap.hasLink(node1,node0),is(true));
+        assertThat(nodeMap.hasLink(node2,node0),is(true));
     }
 
     @Test
@@ -81,12 +81,12 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
 
         //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
-        mapUpdater.update(deviceMap,node136,links);
+        mapUpdater.update(nodeMap,node136,links);
 
-        assertFalse(deviceMap.hasLink(node136,node30));
-        assertFalse(deviceMap.hasLink(node136,node137));
+        assertFalse(nodeMap.hasLink(node136,node30));
+        assertFalse(nodeMap.hasLink(node136,node137));
 
-        assertTrue(deviceMap.hasLink(node136,node135));
+        assertTrue(nodeMap.hasLink(node136,node135));
     }
 
     @Test
@@ -95,12 +95,12 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
 
         //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
-        mapUpdater.update(deviceMap,node136,links);
+        mapUpdater.update(nodeMap,node136,links);
 
-        Double weight = deviceMap.getWeigh(node136,node135);
+        Double weight = nodeMap.getWeigh(node136,node135);
         assertThat(weight,is(equalTo(230D)));
 
-        weight = deviceMap.getWeigh(node135,node136);
+        weight = nodeMap.getWeigh(node135,node136);
         assertThat(weight,is(equalTo(230D)));
     }
     
@@ -112,7 +112,7 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
         //then node 137 must be island
         Set<Node> islands = new HashSet<>();
-        mapUpdater.update(deviceMap,node136,links,islands);
+        mapUpdater.update(nodeMap,node136,links,islands);
 
         assertThat(islands.size(),is(equalTo(1)));
         assertTrue(islands.contains(node137));
@@ -126,17 +126,17 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
         Link l136_135 = new Link(node135,23D);
         Set<Link> links = new HashSet<>(Arrays.asList(l136_135));
 
-        mapUpdater.update(deviceMap,node136,links);
+        mapUpdater.update(nodeMap,node136,links);
         //we want to update node136 links. other nodes must be as it was
-        assertTrue(deviceMap.contains(node135));
-        assertTrue(deviceMap.contains(node136));
-        assertTrue(deviceMap.contains(node137));
-        assertTrue(deviceMap.contains(node30));
+        assertTrue(nodeMap.contains(node135));
+        assertTrue(nodeMap.contains(node136));
+        assertTrue(nodeMap.contains(node137));
+        assertTrue(nodeMap.contains(node30));
 
-        assertTrue(deviceMap.hasLink(node135,node30));
-        assertTrue(deviceMap.hasLink(sink1,node30));
+        assertTrue(nodeMap.hasLink(node135,node30));
+        assertTrue(nodeMap.hasLink(sink1,node30));
 
-        assertThat(deviceMap.getWeigh(node135,node30),is(equalTo(20D)));
+        assertThat(nodeMap.getWeigh(node135,node30),is(equalTo(20D)));
     }
 
     /*
@@ -145,14 +145,14 @@ public class DeviceMapUpdaterImplTest extends BaseMapTest {
     @Test(expected = NodeNotRegistered.class)
     public void it_should_throw_exp_if_srcNode_is_not_already_in_map() throws NodeNotRegistered {
         Set<Link> links = new HashSet<>();
-        mapUpdater.update(deviceMap,Node.create(Address.create(device,2324L)),links);
+        mapUpdater.update(nodeMap,Node.create(Address.create(device,2324L)),links);
     }
 
     @Test(expected = NodeNotRegistered.class)
     public void it_should_throw_exp_if_any_of_neighbors_are_not_already_in_map() throws NodeNotRegistered {
         Set<Link> links = new HashSet<>();
         links.add(new Link(Node.create(Address.create(device,4224L)),23D));
-        mapUpdater.update(deviceMap,node135,links);
+        mapUpdater.update(nodeMap,node135,links);
     }
 
 }

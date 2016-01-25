@@ -13,11 +13,11 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
     private final static Logger log = Logger.getLogger(DeviceMapUpdaterImpl.class);
 
     @Override
-    public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {
+    public void update(NodeMap nodeMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {
 
-        checkIfNodesAreRegistered(deviceMap,srcNode,links);
+        checkIfNodesAreRegistered(nodeMap,srcNode,links);
 
-        Set<Link> oldLinks = deviceMap.getLinks(srcNode);
+        Set<Link> oldLinks = nodeMap.getLinks(srcNode);
         Set<Link> mergedLinks = LinkUtils.merge(oldLinks,links);
 
         Set<Link> removedLinks = new HashSet<>(oldLinks);
@@ -26,29 +26,29 @@ public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
         mergedLinks.forEach(link -> {
             Node dstNode = link.getDstNode();
             if (removedLinks.contains(link)){
-                deviceMap.removeLink(srcNode, dstNode);
-                if (islandNodes!=null && deviceMap.isIsland(dstNode)) {
+                nodeMap.removeLink(srcNode, dstNode);
+                if (islandNodes!=null && nodeMap.isIsland(dstNode)) {
                     islandNodes.add(dstNode);
                 }
             }
             else {
-                deviceMap.addLink(srcNode, dstNode,link.getWeight());
+                nodeMap.addLink(srcNode, dstNode,link.getWeight());
             }
         });
     }
 
     @Override
-    public void update(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
-        update(deviceMap,srcNode,links,null);
+    public void update(NodeMap nodeMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
+        update(nodeMap,srcNode,links,null);
     }
 
-    private static void checkIfNodesAreRegistered(DeviceMap deviceMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
+    private static void checkIfNodesAreRegistered(NodeMap nodeMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
         log.debug("Check if source node is registered.");
-        if (!deviceMap.contains(srcNode))
+        if (!nodeMap.contains(srcNode))
             throw new NodeNotRegistered();
 
         log.debug("Check if link's destination node is registered.");
-        if (links.stream().anyMatch(link -> !deviceMap.contains(link.getDstNode())))
+        if (links.stream().anyMatch(link -> !nodeMap.contains(link.getDstNode())))
             throw new NodeNotRegistered();
     }
 

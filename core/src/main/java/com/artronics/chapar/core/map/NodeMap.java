@@ -9,7 +9,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import java.util.List;
 import java.util.Set;
 
-public interface DeviceMap extends GraphOperations
+public interface NodeMap extends GraphOperations
 {
     Double DEF_WEIGHT = 1.0D;
 
