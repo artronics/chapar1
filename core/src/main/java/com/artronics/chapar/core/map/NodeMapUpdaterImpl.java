@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DeviceMapUpdaterImpl implements DeviceMapUpdater {
-    private final static Logger log = Logger.getLogger(DeviceMapUpdaterImpl.class);
+public class NodeMapUpdaterImpl implements NodeMapUpdater {
+    private final static Logger log = Logger.getLogger(NodeMapUpdaterImpl.class);
 
     @Override
     public void update(NodeMap nodeMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {

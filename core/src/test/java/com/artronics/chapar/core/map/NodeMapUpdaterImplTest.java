@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 public class NodeMapUpdaterImplTest extends BaseMapTest {
 
-    private DeviceMapUpdater mapUpdater;
+    private NodeMapUpdater mapUpdater;
     private Node node0;
     private Node node1;
     private Node node2;
@@ -45,7 +45,7 @@ public class NodeMapUpdaterImplTest extends BaseMapTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        mapUpdater = new DeviceMapUpdaterImpl();
+        mapUpdater = new NodeMapUpdaterImpl();
 
 
         node0 = Node.create(Address.create(device,0L));

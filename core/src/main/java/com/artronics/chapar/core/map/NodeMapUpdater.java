@@ -6,7 +6,7 @@ import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 
 import java.util.Set;
 
-public interface DeviceMapUpdater {
+public interface NodeMapUpdater {
 
     void update(NodeMap nodeMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered;
 
