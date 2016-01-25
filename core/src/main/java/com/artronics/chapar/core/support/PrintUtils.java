@@ -38,18 +38,20 @@ public class PrintUtils {
 
     public static String printNodeLinks(Node srcNode,Set<Link> links)
     {
-        String n = String.format("NEIGHBORS:  SRC: %s\n", printLongNode(srcNode));
-        int p = n.indexOf("NEIGHBORS:");
-        n += addSpace(p + 11);
-        n += "\\ [WEIGHT]\n";
+//        String n = String.format("NEIGHBORS:  SRC: %s\n", printLongNode(srcNode));
+        String n = String.format("%s \n", printLongNode(srcNode));
+        int p = n.indexOf(" ");
+        n += addSpace(p);
+        n += "|   [WEIGHT]  [NEIGHBORS]\n";
         if (links.isEmpty()) {
             n += "NO NEIGHBORS";
             return n;
         }
 
+        int q = n.indexOf("|");
         for (Link link : links) {
-            n += addSpace(p + 11);
-                n += String.format(" -[%-6.0f] ", link.getWeight());
+            n += addSpace(p);
+                n += String.format("|__[%-6.0f] ", link.getWeight());
 
             n += link.getDstNode().toString();
             n += "\n";
@@ -58,7 +60,7 @@ public class PrintUtils {
         return n;
     }
 
-    private static String addSpace(int n)
+    public static String addSpace(int n)
     {
         String s = "";
         for (int i = 0; i < n; i++) {

@@ -47,4 +47,13 @@ public class Device extends AbstractBaseEntity{
 
         return eb.isEquals();
     }
+
+    @Override
+    public String toString()
+    {
+        String s = "Device:->ID:";
+        s+=getId()==null? "[UNK]": getId().toString();
+
+        return s;
+    }
 }

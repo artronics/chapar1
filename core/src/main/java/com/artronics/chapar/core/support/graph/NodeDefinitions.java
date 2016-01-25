@@ -38,6 +38,8 @@ public class NodeDefinitions {
 
         sink1 = Node.create(add1);
         sink2 = Node.create(add2);
+        sink1.setType(Node.Type.SINK);
+        sink2.setType(Node.Type.SINK);
 
         sameAddNode1 = Node.create(add30_1);
         sameAddNode2 = Node.create(add30_2);

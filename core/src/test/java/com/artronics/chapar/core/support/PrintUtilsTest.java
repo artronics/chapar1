@@ -28,6 +28,7 @@ public class PrintUtilsTest {
     public void setUp() throws Exception {
         Device device = new Device(2L);
         src = Node.create(Address.create(device,12l));
+        src.setType(Node.Type.SINK);
         dst = Node.create(Address.create(device,132l));
         n0 = Node.create(Address.create(device,113l));
         n1 = Node.create(Address.create(device,128l));
