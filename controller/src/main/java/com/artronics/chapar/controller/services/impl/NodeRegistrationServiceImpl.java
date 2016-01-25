@@ -47,6 +47,7 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
         links.forEach(link -> {
             Node neighbor = link.getDstNode();
             if (!nodeMap.contains(neighbor)){
+                log.debug("Registering new Neighbor "+ neighbor);
                 neighbor.setStatus(Node.Status.UNREGISTERED);
                 nodeMap.addNode(neighbor);
             }

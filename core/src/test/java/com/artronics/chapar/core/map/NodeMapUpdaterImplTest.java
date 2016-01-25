@@ -77,12 +77,6 @@ public class NodeMapUpdaterImplTest extends BaseMapTest {
     }
 
     @Test
-    public void it_should_should_keep_state_of_previous_map() throws Exception {
-        System.out.println(printer.printDeviceMap(nodeMap, device));
-
-    }
-
-    @Test
     public void it_should_find_island_nodes() throws NodeNotRegistered {
         Link l136_135 = new Link(node135,230D);
         Set<Link> links = new HashSet<>(Arrays.asList(l136_135));

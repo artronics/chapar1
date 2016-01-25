@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.sdwn.controller;
 
+import com.artronics.chapar.controller.sdwn.log.SdwnPacketLogger;
 import com.artronics.chapar.controller.sdwn.map.SdwnNodeMapUpdater;
 import com.artronics.chapar.controller.sdwn.packet.BaseSdwnPacket;
 import com.artronics.chapar.controller.sdwn.packet.ReportPacket;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Component("sdwnNetworkController")
 public class SdwnNetworkController implements NetworkController<SdwnPacketType,BaseSdwnPacket>{
     private final static Logger log = Logger.getLogger(SdwnNetworkController.class);
+    private final static SdwnPacketLogger LOGGER = new SdwnPacketLogger(SdwnNetworkController.class);
 
     private SdwnNodeMapUpdater sdwnNodeMapUpdater;
 
@@ -52,9 +54,12 @@ public class SdwnNetworkController implements NetworkController<SdwnPacketType,B
     }
 
     private void processReportPacket(ReportPacket packet) throws NodeNotRegistered {
+        LOGGER.logReport(packet);
         Set<Link> links = sdwnNodeMapUpdater.createLinks(packet);
 
+        log.debug("Registering Neighbors Addresses.");
         addressRegistrationService.registerNeighborsAddress(links);
+        log.debug("Registering Neighbors Nodes.");
         nodeRegistrationService.registerNeighbors(links);
 
         //We are sure that the src node of packet is registered before

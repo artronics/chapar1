@@ -7,11 +7,13 @@ import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.map.NodeMap;
+import com.artronics.chapar.core.support.NodeMapPrinter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,6 +28,7 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(classes = {ControllerUpdaterIT.CtrlUpConfig.class})
 @TestPropertySource("classpath:controller-test-config.properties")
 public class ControllerUpdaterIT {
+    private static final NodeMapPrinter printer = new NodeMapPrinter();
     private Device device;
 
     private Node sink;
@@ -56,14 +59,12 @@ public class ControllerUpdaterIT {
     }
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_create_links_based_on_ReportPacket() throws Exception {
+        assertThat(nodeMap.hasLink(n30, n40), is(false));
         Packet packet = createReportPacket(n39, sink, n30, n40);
         packetService.addPacket(packet, device.getId());
 
-        firstReportAssertion();
-    }
-
-    private void firstReportAssertion(){
         assertThat(nodeMap.hasLink(n39, n30), is(true));
         assertThat(nodeMap.hasLink(n39, n40), is(true));
 
@@ -73,6 +74,7 @@ public class ControllerUpdaterIT {
     }
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_update_map_when_receive_new_reports() throws Exception {
         Packet packet = createReportPacket(n39, sink, n30, n40);
         packetService.addPacket(packet, device.getId());
@@ -80,10 +82,6 @@ public class ControllerUpdaterIT {
         Packet packet2 = createReportPacket(n30, sink, n40, sink);
         packetService.addPacket(packet2, device.getId());
 
-        secondReportAssertion();
-    }
-
-    private void secondReportAssertion(){
         assertThat(nodeMap.hasLink(n30,n40),is(true));
         assertThat(nodeMap.hasLink(n30,sink),is(true));
 
@@ -92,16 +90,23 @@ public class ControllerUpdaterIT {
     }
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_keep_the_state_of_previous_packet() throws Exception {
+        System.out.println(printer.printDeviceMap(nodeMap, device));
         Packet packet = createReportPacket(n39, sink, n30, n40);
         packetService.addPacket(packet, device.getId());
+        System.out.println(printer.printDeviceMap(nodeMap, device));
 
         Packet packet2 = createReportPacket(n30, sink, n40, sink);
         packetService.addPacket(packet2, device.getId());
+        System.out.println(printer.printDeviceMap(nodeMap, device));
 
-        secondReportAssertion();
-        firstReportAssertion();
+        assertThat(nodeMap.hasLink(n30,sink),is(true));
+        assertThat(nodeMap.hasLink(n30,n40),is(true));
+        assertThat(nodeMap.hasLink(n39, n40), is(true));
 
+        assertThat(nodeMap.hasLink(n39, n30), is(false));
+        assertThat(nodeMap.hasLink(n40,sink),is(false));
     }
 
 

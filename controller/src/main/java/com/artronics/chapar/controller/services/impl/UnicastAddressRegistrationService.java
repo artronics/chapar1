@@ -18,11 +18,11 @@ public class UnicastAddressRegistrationService implements AddressRegistrationSer
     @Override
     public void resolveAddress(Address srcAdd, Address dstAdd) {
         if (!unicastAddressSpace.contains(srcAdd)){
-            log.debug("Registering new Address: "+srcAdd);
+            log.debug("Registering new Source Address: "+srcAdd);
             unicastAddressSpace.add(srcAdd);
         }
         if (!unicastAddressSpace.contains(dstAdd)){
-            log.debug("Registering new Address: "+dstAdd);
+            log.debug("Registering new Destination Address: "+dstAdd);
             unicastAddressSpace.add(dstAdd);
         }
     }
@@ -32,6 +32,7 @@ public class UnicastAddressRegistrationService implements AddressRegistrationSer
         links.forEach(link -> {
             Address address = link.getDstNode().getAddress();
             if (!unicastAddressSpace.contains(address)){
+                log.debug("Registering Neighbor Address "+address);
                 unicastAddressSpace.add(address);
             }
         });

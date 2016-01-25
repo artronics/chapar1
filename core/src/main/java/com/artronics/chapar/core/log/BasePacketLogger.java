@@ -5,10 +5,10 @@ import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.support.PrintUtils;
 import org.apache.log4j.Logger;
 
-public class BasePacketLogger implements PacketLogger{
-    private static final String BASE = "com.artronics.chapar.logger.packet";
-    private static Logger BUFF = Logger.getLogger(BASE+".buffer");
-    private Class<?> clazz;
+public class BasePacketLogger{
+    protected static final String BASE = "com.artronics.chapar.logger.packet";
+    protected static Logger BUFF = Logger.getLogger(BASE+".buffer");
+    protected Class<?> clazz;
 
     public BasePacketLogger()
     {
@@ -23,7 +23,6 @@ public class BasePacketLogger implements PacketLogger{
         BUFF.debug(PrintUtils.printBuffer(buffer.getContent()));
     }
 
-    @Override
     public void log(Packet packet)
     {
 

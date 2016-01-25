@@ -33,10 +33,10 @@ public class NodeComparator implements Comparator<Node>
             Long add1 = o1.getAddress().getLocalAdd();
             Long add2 = o2.getAddress().getLocalAdd();
 
-            if (o1.getType() == Node.Type.SINK || add1>add2)
+            if ((o2.getType() == Node.Type.SINK) || add1>add2)
                 return 1;
 
-            if (o2.getType() == Node.Type.SINK || add1<add2)
+            if ((o1.getType() == Node.Type.SINK) || add1<add2)
                 return -1;
         }
 

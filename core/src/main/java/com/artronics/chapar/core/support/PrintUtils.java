@@ -46,7 +46,7 @@ public class PrintUtils {
         n += addSpace(p);
         n += "       \\   [WEIGHT]  [NEIGHBORS]\n";
         if (links.isEmpty()) {
-            n += "NO NEIGHBORS";
+            n += "             NO NEIGHBORS";
             return n;
         }
 
