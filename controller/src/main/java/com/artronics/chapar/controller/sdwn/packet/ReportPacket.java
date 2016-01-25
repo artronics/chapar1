@@ -2,7 +2,9 @@ package com.artronics.chapar.controller.sdwn.packet;
 
 import java.util.List;
 
-public class ReportPacket extends BaseSdwnPacket{
+public class ReportPacket extends BaseSdwnPacket {
+
+    public final static int NEIGHBOR_INDEX = 13;
 
     private ReportPacket(List<Integer> content) {
         super(content);
@@ -13,9 +15,8 @@ public class ReportPacket extends BaseSdwnPacket{
     }
 
     @Override
-    public String toString()
-    {
-        return "ReportPacket->"+super.toString();
+    public String toString() {
+        return "ReportPacket->" + super.toString();
     }
 
 }
