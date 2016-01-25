@@ -5,12 +5,17 @@ import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 import com.artronics.chapar.core.utils.LinkUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class NodeMapUpdaterImpl implements NodeMapUpdater {
     private final static Logger log = Logger.getLogger(NodeMapUpdaterImpl.class);
+
+    private NodeMap nodeMap;
 
     @Override
     public void update(NodeMap nodeMap, Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {
@@ -38,6 +43,12 @@ public class NodeMapUpdaterImpl implements NodeMapUpdater {
     }
 
     @Override
+    public void update(Node srcNode, Set<Link> links, Set<Node> islandNodes) throws NodeNotRegistered {
+        if (nodeMap!=null)
+            update(nodeMap,srcNode,links,islandNodes);
+    }
+
+    @Override
     public void update(NodeMap nodeMap, Node srcNode, Set<Link> links) throws NodeNotRegistered {
         update(nodeMap,srcNode,links,null);
     }
@@ -52,4 +63,8 @@ public class NodeMapUpdaterImpl implements NodeMapUpdater {
             throw new NodeNotRegistered();
     }
 
+    @Autowired
+    public void setNodeMap(NodeMap nodeMap) {
+        this.nodeMap = nodeMap;
+    }
 }
