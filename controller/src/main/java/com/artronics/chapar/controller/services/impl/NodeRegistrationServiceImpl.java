@@ -25,6 +25,9 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
             log.debug("Registering new source node: "+srcNode);
             srcNode.setStatus(Node.Status.ACTIVE);
             registeredNodes.put(srcNode,srcNode);
+            //Look at ControllerUpdaterIT test there is a bug here which the map vertex
+            //doesn't update the status of node. There is no way to get the vertex object from
+            //graph and update it's value.
             nodeMap.addNode(srcNode);
         }
         else if (registeredNodes.get(srcNode).getStatus()!= Node.Status.ACTIVE){
@@ -48,7 +51,7 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
             Node neighbor = link.getDstNode();
             if (!nodeMap.contains(neighbor)){
                 log.debug("Registering new Neighbor "+ neighbor);
-                neighbor.setStatus(Node.Status.UNREGISTERED);
+//                neighbor.setStatus(Node.Status.UNREGISTERED);
                 nodeMap.addNode(neighbor);
             }
         });
