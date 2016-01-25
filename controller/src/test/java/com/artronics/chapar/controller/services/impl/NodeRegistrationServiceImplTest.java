@@ -3,6 +3,8 @@ package com.artronics.chapar.controller.services.impl;
 import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.map.NodeMap;
+import com.artronics.chapar.core.map.NodeMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -23,6 +25,7 @@ public class NodeRegistrationServiceImplTest {
     private NodeRegistrationServiceImpl nodeRegistrationService;
 
     private Map<Node, Node> registeredNodes;
+    private NodeMap nodeMap;
 
     private Device device;
     private Node srcNode;
@@ -36,6 +39,8 @@ public class NodeRegistrationServiceImplTest {
 
         registeredNodes = new HashMap<>();
         nodeRegistrationService.setRegisteredNodes(registeredNodes);
+        nodeMap = new NodeMapImpl();
+        nodeRegistrationService.setNodeMap(nodeMap);
 
         device = new Device(1L);
         srcNode = Node.create(Address.create(device, 1L));
@@ -82,6 +87,20 @@ public class NodeRegistrationServiceImplTest {
         nodeRegistrationService.registerNode(dstNode, srcNode);
 
         assertThat(actNode.getStatus(), is(equalTo(ACTIVE)));
+    }
+
+    /*
+        NodeMap
+     */
+
+    //The process of adding to map happens for both src and dst
+    @Test
+    public void it_should_add_registered_nodes_to_nodeMap() throws Exception {
+        nodeRegistrationService.registerNode(srcNode, dstNode);
+
+        assertThat(nodeMap.contains(srcNode),is(true));
+
+        assertThat(nodeMap.contains(dstNode),is(true));
     }
 
 }
