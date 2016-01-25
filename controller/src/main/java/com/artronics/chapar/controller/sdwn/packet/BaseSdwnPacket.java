@@ -12,6 +12,8 @@ public class BaseSdwnPacket extends Packet<SdwnPacketType> {
     public BaseSdwnPacket(List<Integer> content) {
         super(content);
 
+        this.type = PacketUtils.getType(content);
+
         Long srcShortAdd =Integer.toUnsignedLong(PacketUtils.getSourceAddress(content));
         Long dstShortAdd =Integer.toUnsignedLong(PacketUtils.getDestinationAddress(content));
 
