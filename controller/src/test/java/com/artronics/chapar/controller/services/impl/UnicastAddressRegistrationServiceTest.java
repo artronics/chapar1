@@ -33,7 +33,7 @@ public class UnicastAddressRegistrationServiceTest {
     public void it_should_add_src_and_dst_address_if_they_are_not_already_there(){
         Address a = Address.create(30L);
         Address b = Address.create(33L);
-        addressResolver.resolveAddress(a,b);
+        addressResolver.registerSrcDstAddressInPacket(a,b);
 
         assertThat(unicastAddressSpace.contains(a),is(true));
         assertThat(unicastAddressSpace.contains(b),is(true));

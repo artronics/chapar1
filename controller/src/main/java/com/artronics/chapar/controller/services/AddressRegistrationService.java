@@ -6,7 +6,9 @@ import com.artronics.chapar.core.entities.Link;
 import java.util.Set;
 
 public interface AddressRegistrationService {
-    void resolveAddress(Address srcAdd, Address dstAdd);
+    Address registerSinkAddress(Long localAddress, Long deviceId);
+
+    void registerSrcDstAddressInPacket(Address srcAdd, Address dstAdd);
 
     Set<Link> registerNeighborsAddress(Set<Link> links);
 }

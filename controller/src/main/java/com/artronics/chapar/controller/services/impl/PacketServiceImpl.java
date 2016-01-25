@@ -50,7 +50,7 @@ public class PacketServiceImpl implements PacketService{
         Address dstAddress = packet.getDstAddress();
         dstAddress.setDevice(device);
 
-        addressRegistrationService.resolveAddress(srcAddress,dstAddress);
+        addressRegistrationService.registerSrcDstAddressInPacket(srcAddress,dstAddress);
 
         Node srcNode = Node.create(srcAddress);
         Node dstNode = Node.create(dstAddress);

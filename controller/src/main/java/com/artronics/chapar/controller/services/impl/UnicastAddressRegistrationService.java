@@ -16,7 +16,12 @@ public class UnicastAddressRegistrationService implements AddressRegistrationSer
     private Set<Address> unicastAddressSpace;
 
     @Override
-    public void resolveAddress(Address srcAdd, Address dstAdd) {
+    public Address registerSinkAddress(Long localAddress, Long deviceId) {
+        return null;
+    }
+
+    @Override
+    public void registerSrcDstAddressInPacket(Address srcAdd, Address dstAdd) {
         if (!unicastAddressSpace.contains(srcAdd)){
             log.debug("Registering new Source Address: "+srcAdd);
             unicastAddressSpace.add(srcAdd);
