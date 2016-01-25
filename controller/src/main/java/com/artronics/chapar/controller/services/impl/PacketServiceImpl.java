@@ -13,6 +13,7 @@ import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
+import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +37,7 @@ public class PacketServiceImpl implements PacketService{
     private NetworkController<SdwnPacketType,BaseSdwnPacket> networkController;
 
     @Override
-    public void addPacket(Packet packet,Long deviceId) throws MalformedPacketException {
+    public void addPacket(Packet packet,Long deviceId) throws MalformedPacketException, NodeNotRegistered {
         checkDevice(deviceId);
 
         packet = packetFactory.create(packet);

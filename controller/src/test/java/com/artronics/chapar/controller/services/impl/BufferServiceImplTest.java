@@ -3,7 +3,6 @@ package com.artronics.chapar.controller.services.impl;
 import com.artronics.chapar.core.entities.Buffer;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
-import com.artronics.chapar.core.exceptions.MalformedPacketException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -32,7 +31,7 @@ public class BufferServiceImplTest {
     }
 
     @Test(expected = DeviceNotRegistered.class)
-    public void it_should_throw_exp_if_device_is_not_registered() throws MalformedPacketException {
+    public void it_should_throw_exp_if_device_is_not_registered() throws Exception {
         bufferService.addBuffer(442L,new Buffer());
     }
 

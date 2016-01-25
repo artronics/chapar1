@@ -8,13 +8,16 @@ import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.controller.services.NetworkController;
 import com.artronics.chapar.controller.services.NodeRegistrationService;
 import com.artronics.chapar.core.entities.Link;
+import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
+import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
 import java.util.Set;
 
 @Component("sdwnNetworkController")
@@ -27,13 +30,15 @@ public class SdwnNetworkController implements NetworkController<SdwnPacketType,B
 
     private NodeRegistrationService nodeRegistrationService;
 
+    private Set<Node> islandedNodes = new HashSet<>();
+
     @PostConstruct
     public void initBean(){
         log.debug("Initializing SdwnController as NetworkController");
     }
 
     @Override
-    public Packet processPacket(BaseSdwnPacket packet) throws MalformedPacketException {
+    public Packet processPacket(BaseSdwnPacket packet) throws MalformedPacketException, NodeNotRegistered {
         switch (packet.getType()){
             case REPORT:
                 processReportPacket((ReportPacket) packet);
@@ -46,14 +51,25 @@ public class SdwnNetworkController implements NetworkController<SdwnPacketType,B
         throw new MalformedPacketException();
     }
 
-    private void processReportPacket(ReportPacket packet){
+    private void processReportPacket(ReportPacket packet) throws NodeNotRegistered {
         Set<Link> links = sdwnNodeMapUpdater.createLinks(packet);
 
         addressRegistrationService.registerNeighborsAddress(links);
         nodeRegistrationService.registerNeighbors(links);
-//        Set<Node> neighbors = sdwnNodeMapUpdater.getNeighborsSet(links);
 
+        //We are sure that the src node of packet is registered before
+        Node srcNode = Node.create(packet.getSrcAddress());
+        islandedNodes.clear();
+        sdwnNodeMapUpdater.updateMap(srcNode,links,islandedNodes);
+        if (!islandedNodes.isEmpty()){
+            islandedNodes.forEach(node -> {
+                log.debug("Find island "+ node);
+            });
+        }
+    }
 
+    private static Node createSrcNode(Packet packet){
+        return Node.create(packet.getSrcAddress());
     }
 
     @Autowired

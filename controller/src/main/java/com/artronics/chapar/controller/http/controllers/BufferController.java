@@ -3,6 +3,7 @@ package com.artronics.chapar.controller.http.controllers;
 import com.artronics.chapar.controller.services.BufferService;
 import com.artronics.chapar.core.entities.Buffer;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
+import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 import com.artronics.chapar.core.log.BasePacketLogger;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class BufferController {
 
         } catch (MalformedPacketException e) {
             e.printStackTrace();
+        } catch (NodeNotRegistered nodeNotRegistered) {
+            nodeNotRegistered.printStackTrace();
         }
     }
 

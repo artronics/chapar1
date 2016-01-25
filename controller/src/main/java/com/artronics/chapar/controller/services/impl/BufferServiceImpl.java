@@ -7,6 +7,7 @@ import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
+import com.artronics.chapar.core.exceptions.NodeNotRegistered;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,9 @@ public class BufferServiceImpl implements BufferService{
     private PacketService packetService;
 
     @Override
-    public void addBuffer(Long deviceId, Buffer buffer) throws MalformedPacketException {
+    public void addBuffer(Long deviceId, Buffer buffer)
+            throws MalformedPacketException, NodeNotRegistered {
+
         checkDevice(deviceId);
 
         Packet packet = new Packet(buffer.getContent());

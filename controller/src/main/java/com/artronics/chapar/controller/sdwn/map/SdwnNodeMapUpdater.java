@@ -6,6 +6,8 @@ import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
+import com.artronics.chapar.core.exceptions.NodeNotRegistered;
+import com.artronics.chapar.core.map.NodeMapUpdater;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,8 @@ public class SdwnNodeMapUpdater {
     private final static Logger log = Logger.getLogger(SdwnNodeMapUpdater.class);
 
     private WeightCalculator weightCalculator;
+
+    private NodeMapUpdater nodeMapUpdater;
 
     public Set<Link> createLinks(ReportPacket packet){
         List<Integer> content = packet.getContent();
@@ -39,6 +43,15 @@ public class SdwnNodeMapUpdater {
         }
 
         return links;
+    }
+
+    public void updateMap(Node srcNode,Set<Link> links,Set<Node> islandedNode) throws NodeNotRegistered {
+        nodeMapUpdater.update(srcNode,links,islandedNode);
+    }
+
+    @Autowired
+    public void setNodeMapUpdater(NodeMapUpdater nodeMapUpdater) {
+        this.nodeMapUpdater = nodeMapUpdater;
     }
 
     @Autowired
