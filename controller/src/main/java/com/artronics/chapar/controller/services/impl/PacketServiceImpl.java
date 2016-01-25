@@ -1,7 +1,10 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.factories.PacketFactory;
+import com.artronics.chapar.controller.sdwn.packet.BaseSdwnPacket;
+import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import com.artronics.chapar.controller.services.AddressRegistrationService;
+import com.artronics.chapar.controller.services.NetworkController;
 import com.artronics.chapar.controller.services.NodeRegistrationService;
 import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.core.entities.Address;
@@ -12,6 +15,7 @@ import com.artronics.chapar.core.exceptions.DeviceNotRegistered;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +32,8 @@ public class PacketServiceImpl implements PacketService{
     private AddressRegistrationService addressRegistrationService;
 
     private NodeRegistrationService nodeRegistrationService;
+
+    private NetworkController<SdwnPacketType,BaseSdwnPacket> networkController;
 
     @Override
     public void addPacket(Packet packet,Long deviceId) throws MalformedPacketException {
@@ -48,6 +54,8 @@ public class PacketServiceImpl implements PacketService{
         Node srcNode = Node.create(srcAddress);
         Node dstNode = Node.create(dstAddress);
         nodeRegistrationService.registerNode(srcNode,dstNode);
+
+        networkController.processPacket((BaseSdwnPacket) packet);
     }
 
     protected void checkDevice(Long deviceId){
@@ -58,6 +66,12 @@ public class PacketServiceImpl implements PacketService{
     @Autowired
     public void setNodeRegistrationService(NodeRegistrationService nodeRegistrationService) {
         this.nodeRegistrationService = nodeRegistrationService;
+    }
+
+    @Autowired
+    @Qualifier("sdwnNetworkController")
+    public void setNetworkController(NetworkController<SdwnPacketType,BaseSdwnPacket> networkController) {
+        this.networkController = networkController;
     }
 
     @Autowired
