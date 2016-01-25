@@ -2,19 +2,21 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
+import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.map.NodeMap;
 import com.artronics.chapar.core.map.NodeMapImpl;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import static com.artronics.chapar.core.entities.Node.Status.ACTIVE;
-import static com.artronics.chapar.core.entities.Node.Status.IDLE;
+import static com.artronics.chapar.core.entities.Node.Status.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
@@ -112,23 +114,68 @@ public class NodeRegistrationServiceImplTest {
         Registering Neighbors
      */
 
-    @Ignore
     @Test
     public void it_should_add_neighbors_to_NodeMap() throws Exception {
         assertFalse(nodeMap.contains(srcNode));
-        Set<Node> neighbors = new HashSet<>(Arrays.asList(srcNode,dstNode,aNode));
-//        nodeRegistrationService.registerNeighbors(neighbors);
+        Set<Link> links = createLinks(5,device);
+        nodeRegistrationService.registerNeighbors(links);
 
-        neighbors.forEach(n->{
-            assertThat(nodeMap.contains(n),is(true));
+        links.forEach(n->{
+            Node neighbor = n.getDstNode();
+            assertThat(nodeMap.contains(neighbor),is(true));
         });
     }
 
-    @Ignore
+    //Default value for Node during instantiation is UNREGISTERED
+    //This test will pass if you remove set status logic from registerNeighbors method
     @Test
-    public void it_should_register_new_neighbors_in_map_with_UNREGISTERED_status() throws Exception {
+    public void it_should_add_new_neighbor_nodes_as_UNREGISTERED() throws Exception {
         assertFalse(nodeMap.contains(srcNode));
-        Set<Node> neighbors = new HashSet<>(Arrays.asList(srcNode,dstNode,aNode));
-//        nodeRegistrationService.registerNeighbors(neighbors);
+        Set<Link> links = createLinks(5,device);
+        nodeRegistrationService.registerNeighbors(links);
+
+        links.forEach(n->{
+            Node neighbor = n.getDstNode();
+            assertThat(neighbor.getStatus(),is(equalTo(UNREGISTERED)));
+        });
+    }
+
+    @Test
+    public void it_should_add_neighbors_to_nodeMap_ONLY_() throws Exception {
+        assertFalse(nodeMap.contains(srcNode));
+        Set<Link> links = createLinks(5,device);
+        nodeRegistrationService.registerNeighbors(links);
+
+        links.forEach(n->{
+            Node neighbor = n.getDstNode();
+            assertThat(registeredNodes.containsKey(n),is(false));
+        });
+    }
+
+    @Test
+    public void it_should_leave_a_node_in_registeredNodes_if_it_is_already_registered() throws Exception {
+        assertFalse(nodeMap.contains(srcNode));
+        Set<Link> links = createLinks(5,device);
+
+        nodeRegistrationService.registerNode(srcNode,dstNode);
+
+        nodeRegistrationService.registerNeighbors(links);
+
+        assertThat(registeredNodes.containsKey(eqSrcNode),is(true));
+        assertThat(registeredNodes.containsKey(eqANode),is(false));
+    }
+
+    private Set<Link> createLinks(int num, Device device){
+        Set<Link> links = new HashSet<>();
+        for (int i = 0; i < num; i++) {
+            Link link = new Link(
+                    Node.create(
+                            Address.create(device,Integer.toUnsignedLong(i))
+                    )
+            );
+            links.add(link);
+        }
+
+        return links;
     }
 }

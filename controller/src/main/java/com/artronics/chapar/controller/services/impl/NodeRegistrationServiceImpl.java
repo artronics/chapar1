@@ -44,6 +44,13 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
 
     @Override
     public Set<Link> registerNeighbors(Set<Link> links) {
+        links.forEach(link -> {
+            Node neighbor = link.getDstNode();
+            if (!nodeMap.contains(neighbor)){
+                neighbor.setStatus(Node.Status.UNREGISTERED);
+                nodeMap.addNode(neighbor);
+            }
+        });
 
         return links;
     }
