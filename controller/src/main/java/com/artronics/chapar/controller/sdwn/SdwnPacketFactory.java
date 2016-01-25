@@ -19,6 +19,7 @@ public class SdwnPacketFactory implements PacketFactory {
     public Packet create(Packet packet) throws MalformedPacketException {
         List<Integer> content = packet.getContent();
         SdwnPacketType type = PacketUtils.getType(content);
+
         switch (type){
             case REPORT:
                 return ReportPacket.create(content);

@@ -1,7 +1,5 @@
 package com.artronics.chapar.controller.sdwn.packet;
 
-import com.artronics.chapar.core.entities.Packet;
-
 import java.util.List;
 
 public class ReportPacket extends BaseSdwnPacket{
@@ -11,7 +9,7 @@ public class ReportPacket extends BaseSdwnPacket{
         this.type = SdwnPacketType.REPORT;
     }
 
-    public static Packet create(List<Integer> content) {
+    public static ReportPacket create(List<Integer> content) {
         return new ReportPacket(content);
     }
 
