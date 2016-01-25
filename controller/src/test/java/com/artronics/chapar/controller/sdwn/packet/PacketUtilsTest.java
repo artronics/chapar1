@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.sdwn.packet;
 
-import com.artronics.chapar.controller.helpers.FakeBufferFactory;
+import com.artronics.chapar.controller.sdwn.helpers.FakeSdwnBufferFactory;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,12 +15,12 @@ public class PacketUtilsTest {
 
     private List<Integer> aBuff;
     private List<Integer> malformedPacket = new ArrayList<>();
-    private FakeBufferFactory factory = new FakeBufferFactory();
+    private FakeSdwnBufferFactory factory = new FakeSdwnBufferFactory();
 
     @Before
     public void setUp()
     {
-        aBuff = FakeBufferFactory.createABuffer();
+        aBuff = FakeSdwnBufferFactory.createABuffer();
     }
 
     @Ignore("Validation for packet is deprecated")
@@ -53,7 +53,7 @@ public class PacketUtilsTest {
         List<Integer> payload =PacketUtils.getPayload(aBuff);
         assertNotNull(payload);
         assertThat(payload.size(),equalTo(10));
-        assertEquals(FakeBufferFactory.createPayload(10), payload);
+        assertEquals(FakeSdwnBufferFactory.createPayload(10), payload);
     }
 
     @Test

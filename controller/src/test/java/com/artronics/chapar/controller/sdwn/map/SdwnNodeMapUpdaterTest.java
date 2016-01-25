@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.sdwn.map;
 
-import com.artronics.chapar.controller.helpers.FakeBufferFactory;
+import com.artronics.chapar.controller.sdwn.helpers.FakeSdwnBufferFactory;
 import com.artronics.chapar.controller.sdwn.packet.ReportPacket;
 import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
@@ -78,7 +78,7 @@ public class SdwnNodeMapUpdaterTest {
     }
 
     private ReportPacket getReportPacket() {
-        List<Integer> content = FakeBufferFactory.createReportBuffer().getContent();
+        List<Integer> content = FakeSdwnBufferFactory.createReportBuffer().getContent();
         ReportPacket packet = ReportPacket.create(content);
         Address a30 = Address.create(device,30L);
         Address a10 = Address.create(device,10L);

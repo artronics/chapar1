@@ -1,9 +1,10 @@
 package com.artronics.chapar.controller.integration;
 
 import com.artronics.chapar.controller.factories.PacketFactory;
-import com.artronics.chapar.controller.helpers.FakeBufferFactory;
 import com.artronics.chapar.controller.sdwn.SdwnPacketFactory;
 import com.artronics.chapar.controller.sdwn.controller.SdwnNetworkController;
+import com.artronics.chapar.controller.sdwn.helpers.FakeSdwnBufferFactory;
+import com.artronics.chapar.controller.sdwn.map.SdwnNodeMapUpdater;
 import com.artronics.chapar.controller.sdwn.packet.BaseSdwnPacket;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import com.artronics.chapar.controller.services.NetworkController;
@@ -14,9 +15,9 @@ import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.entities.Packet;
-import com.artronics.chapar.core.exceptions.MalformedPacketException;
 import com.artronics.chapar.core.map.NodeMap;
 import com.artronics.chapar.core.map.NodeMapImpl;
+import com.artronics.chapar.core.map.NodeMapUpdater;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,8 @@ public class PacketServiceNetCtrlIt {
     private UnicastAddressRegistrationService addressRegistrationService;
     private PacketFactory packetFactory;
     private NetworkController<SdwnPacketType,BaseSdwnPacket> networkController;
+    private SdwnNodeMapUpdater sdwnNodeMapUpdater;
+    private NodeMapUpdater nodeMapUpdater;
 
     private Map<Long,Device> registeredDevices;
     private Map<Node,Node> registeredNodes;
@@ -63,11 +66,13 @@ public class PacketServiceNetCtrlIt {
         nodeRegistrationService = new NodeRegistrationServiceImpl();
         addressRegistrationService = new UnicastAddressRegistrationService();
         networkController = new SdwnNetworkController();
+        sdwnNodeMapUpdater = new SdwnNodeMapUpdater();
 
         addressRegistrationService.setUnicastAddressSpace(unicastAddressSpace);
 
         nodeRegistrationService.setNodeMap(nodeMap);
         nodeRegistrationService.setRegisteredNodes(registeredNodes);
+
 
         packetService.setRegisteredDevices(registeredDevices);
         packetService.setPacketFactory(packetFactory);
@@ -80,8 +85,8 @@ public class PacketServiceNetCtrlIt {
     }
     
     @Test
-    public void it_should_updateMap() throws MalformedPacketException {
-        Packet packet = new Packet(FakeBufferFactory.createReportBuffer().getContent());
+    public void it_should_updateMap() throws Exception {
+        Packet packet = new Packet(FakeSdwnBufferFactory.createReportBuffer().getContent());
         packetService.addPacket(packet,device.getId());
         assertThat(nodeMap.hasLink(n30,n39),is(true));
     }
