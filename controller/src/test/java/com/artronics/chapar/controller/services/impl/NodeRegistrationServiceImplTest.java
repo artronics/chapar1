@@ -10,13 +10,13 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.artronics.chapar.core.entities.Node.Status.ACTIVE;
 import static com.artronics.chapar.core.entities.Node.Status.IDLE;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class NodeRegistrationServiceImplTest {
@@ -30,8 +30,10 @@ public class NodeRegistrationServiceImplTest {
     private Device device;
     private Node srcNode;
     private Node dstNode;
+    private Node aNode;
     private Node eqSrcNode;
     private Node eqDstNode;
+    private Node eqANode;
 
     @Before
     public void setUp() throws Exception {
@@ -45,9 +47,11 @@ public class NodeRegistrationServiceImplTest {
         device = new Device(1L);
         srcNode = Node.create(Address.create(device, 1L));
         dstNode = Node.create(Address.create(device, 2L));
+        aNode = Node.create(Address.create(device,3L));
 
         eqSrcNode = Node.create(Address.create(device, 1L));
         eqDstNode = Node.create(Address.create(device, 2L));
+        eqANode = Node.create(Address.create(device,3L));
     }
 
     @Test
@@ -103,4 +107,28 @@ public class NodeRegistrationServiceImplTest {
         assertThat(nodeMap.contains(dstNode),is(true));
     }
 
+    /*
+        Registering Neighbors
+     */
+
+    @Test
+    public void it_should_add_neighbors_to_NodeMap() throws Exception {
+        assertFalse(nodeMap.contains(srcNode));
+        Set<Node> neighbors = new HashSet<>(Arrays.asList(srcNode,dstNode,aNode));
+        nodeRegistrationService.registerNeighbors(neighbors);
+
+        neighbors.forEach(n->{
+            assertThat(nodeMap.contains(n),is(true));
+        });
+    }
+
+    @Test
+    public void it_should_register_new_neighbors_in_map_with_UNREGISTERED_status() throws Exception {
+        assertFalse(nodeMap.contains(srcNode));
+        Set<Node> neighbors = new HashSet<>(Arrays.asList(srcNode,dstNode,aNode));
+        nodeRegistrationService.registerNeighbors(neighbors);
+
+
+
+    }
 }

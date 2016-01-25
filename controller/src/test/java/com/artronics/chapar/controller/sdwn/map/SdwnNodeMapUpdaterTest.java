@@ -5,11 +5,9 @@ import com.artronics.chapar.controller.sdwn.packet.ReportPacket;
 import com.artronics.chapar.core.entities.Address;
 import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.entities.Link;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,18 +20,13 @@ public class SdwnNodeMapUpdaterTest {
 
     private WeightCalculator weightCalculator;
 
-    private Set<Link> links = new HashSet<>();
+    private Set<Link> links;
     private Device device = new Device(1L);
 
     @Before
     public void setUp() throws Exception {
         mapUpdater = new SdwnNodeMapUpdater();
         mapUpdater.setWeightCalculator(new FixedWeightCalculator());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        links.clear();
     }
 
     @Test

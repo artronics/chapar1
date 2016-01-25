@@ -1,19 +1,31 @@
 package com.artronics.chapar.controller.sdwn.controller;
 
+import com.artronics.chapar.controller.sdwn.map.SdwnNodeMapUpdater;
 import com.artronics.chapar.controller.sdwn.packet.BaseSdwnPacket;
 import com.artronics.chapar.controller.sdwn.packet.ReportPacket;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
+import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.controller.services.NetworkController;
+import com.artronics.chapar.controller.services.NodeRegistrationService;
+import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Packet;
 import com.artronics.chapar.core.exceptions.MalformedPacketException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Set;
 
 @Component("sdwnNetworkController")
 public class SdwnNetworkController implements NetworkController<SdwnPacketType,BaseSdwnPacket>{
     private final static Logger log = Logger.getLogger(SdwnNetworkController.class);
+
+    private SdwnNodeMapUpdater sdwnNodeMapUpdater;
+
+    private AddressRegistrationService addressRegistrationService;
+
+    private NodeRegistrationService nodeRegistrationService;
 
     @PostConstruct
     public void initBean(){
@@ -35,7 +47,27 @@ public class SdwnNetworkController implements NetworkController<SdwnPacketType,B
     }
 
     private void processReportPacket(ReportPacket packet){
+        Set<Link> links = sdwnNodeMapUpdater.createLinks(packet);
+
+        addressRegistrationService.registerNeighborsAddress(links);
+        nodeRegistrationService.registerNeighbors(links);
+//        Set<Node> neighbors = sdwnNodeMapUpdater.getNeighborsSet(links);
+
 
     }
 
+    @Autowired
+    public void setAddressRegistrationService(AddressRegistrationService addressRegistrationService) {
+        this.addressRegistrationService = addressRegistrationService;
+    }
+
+    @Autowired
+    public void setNodeRegistrationService(NodeRegistrationService nodeRegistrationService) {
+        this.nodeRegistrationService = nodeRegistrationService;
+    }
+
+    @Autowired
+    public void setSdwnNodeMapUpdater(SdwnNodeMapUpdater sdwnNodeMapUpdater) {
+        this.sdwnNodeMapUpdater = sdwnNodeMapUpdater;
+    }
 }

@@ -1,6 +1,7 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.services.NodeRegistrationService;
+import com.artronics.chapar.core.entities.Link;
 import com.artronics.chapar.core.entities.Node;
 import com.artronics.chapar.core.map.NodeMap;
 import org.apache.log4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class NodeRegistrationServiceImpl implements NodeRegistrationService{
@@ -38,7 +40,12 @@ public class NodeRegistrationServiceImpl implements NodeRegistrationService{
             registeredNodes.put(dstNode,dstNode);
             nodeMap.addNode(dstNode);
         }
+    }
 
+    @Override
+    public Set<Link> registerNeighbors(Set<Link> links) {
+
+        return links;
     }
 
     @Resource(name = "nodeMap")

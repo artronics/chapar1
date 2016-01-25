@@ -2,6 +2,7 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.core.entities.Address;
+import com.artronics.chapar.core.entities.Link;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,12 @@ public class UnicastAddressRegistrationService implements AddressRegistrationSer
             log.debug("Registering new Address: "+dstAdd);
             unicastAddressSpace.add(dstAdd);
         }
+    }
+
+    @Override
+    public Set<Link> registerNeighborsAddress(Set<Link> links) {
+
+        return links;
     }
 
     @Resource(name = "unicastAddressSpace")
