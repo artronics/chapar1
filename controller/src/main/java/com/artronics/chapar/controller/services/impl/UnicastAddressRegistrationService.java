@@ -29,6 +29,12 @@ public class UnicastAddressRegistrationService implements AddressRegistrationSer
 
     @Override
     public Set<Link> registerNeighborsAddress(Set<Link> links) {
+        links.forEach(link -> {
+            Address address = link.getDstNode().getAddress();
+            if (!unicastAddressSpace.contains(address)){
+                unicastAddressSpace.add(address);
+            }
+        });
 
         return links;
     }
