@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -99,6 +100,16 @@ public class ControllerUpdaterIT {
 
         assertThat(nodeMap.hasLink(n39, n30), is(false));
         assertThat(nodeMap.hasLink(n40,sink),is(false));
+    }
+
+    @Test
+    public void it_should_keep_the_previous_status_of_neighbor() throws Exception {
+        firstPacket();
+        secondPacket();
+
+        //during second packet node39 should have status of ACTIVE
+        //because it sent a packet as source
+        assertThat(n39.getStatus(),is(equalTo(Node.Status.ACTIVE)));
     }
 
     private void secondPacket() throws MalformedPacketException, NodeNotRegistered {
