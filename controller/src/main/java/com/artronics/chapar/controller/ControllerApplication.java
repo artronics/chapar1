@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @SpringBootApplication
-@ComponentScan("com.artronics.chapar.controller")
+@ComponentScan({"com.artronics.chapar.controller",
+"com.artronics.chapar.core"})
 @EnableAutoConfiguration
 @Import(PersistenceConfig.class)
 public class ControllerApplication {
