@@ -1,18 +1,22 @@
 package com.artronics.chapar.controller.services;
 
-import com.artronics.chapar.controller.services.impl.BaseServiceTest;
 import com.artronics.chapar.controller.services.impl.DeviceRegistrationServiceImpl;
+import com.artronics.chapar.core.entities.Device;
 import com.artronics.chapar.core.repositories.DeviceRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 
-public class DeviceRegistrationServiceTest extends BaseServiceTest{
+public class DeviceRegistrationServiceTest {
 
     @InjectMocks
     private DeviceRegistrationServiceImpl registrationService;
@@ -20,18 +24,22 @@ public class DeviceRegistrationServiceTest extends BaseServiceTest{
     @Mock
     private DeviceRepo deviceRepo;
 
+    protected Map<Long,Device> registeredDevices;
+    protected Device device = new Device();
+
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        MockitoAnnotations.initMocks(this);
 
+        registeredDevices = new HashMap<>();
         registrationService.setRegisteredDevices(registeredDevices);
 
-        when(deviceRepo.save(device)).thenReturn(device);
+        when(deviceRepo.save(any(Device.class))).thenReturn(device);
     }
 
     @Test
     public void it_should_add_registered_device_in_registeredDevices(){
-        registrationService.registerDevice(device);
+        registrationService.registerDevice(new Device());
         assertTrue(registeredDevices.containsKey(device.getId()));
     }
 
