@@ -3,6 +3,7 @@ package com.artronics.chapar.client.driver.serialPort;
 import com.artronics.chapar.client.driver.DeviceDriver;
 import com.artronics.chapar.client.driver.buffer.BufferDistributor;
 import com.artronics.chapar.client.exceptions.DeviceDriverException;
+import gnu.io.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

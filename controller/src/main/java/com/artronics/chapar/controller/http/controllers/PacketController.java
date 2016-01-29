@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/device/{id}")
+@RequestMapping("/client/{id}")
 public class PacketController {
     private final static Logger log = Logger.getLogger(PacketController.class);
 

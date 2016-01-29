@@ -1,7 +1,7 @@
 package com.artronics.chapar.controller.http.controllers;
 
 import com.artronics.chapar.controller.entities.Client;
-import com.artronics.chapar.controller.services.DeviceRegistrationService;
+import com.artronics.chapar.controller.services.ClientRegistrationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -17,10 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientRegistrationControllerTest extends BaseControllerTest{
 
     @InjectMocks
-    private DeviceRegistrationController registrationController;
+    private ClientRegistrationController registrationController;
 
     @Mock
-    private DeviceRegistrationService registrationService;
+    private ClientRegistrationService registrationService;
 
     @Override
     @Before

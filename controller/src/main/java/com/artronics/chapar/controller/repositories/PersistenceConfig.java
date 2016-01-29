@@ -22,17 +22,17 @@ public class PersistenceConfig
 {
     private final static Logger log = Logger.getLogger(PersistenceConfig.class);
 
-    @Value("${com.artronics.sdwn.domain.persistence.url}")
+    @Value("${com.artronics.chapar.persistence.url}")
     private String url;
-    @Value("${com.artronics.sdwn.domain.persistence.driver}")
+    @Value("${com.artronics.chapar.persistence.driver}")
     private String driver;
-    @Value("${com.artronics.sdwn.domain.persistence.username}")
+    @Value("${com.artronics.chapar.persistence.username}")
     private String username;
-    @Value("${com.artronics.sdwn.domain.persistence.password}")
+    @Value("${com.artronics.chapar.persistence.password}")
     private String password;
-    @Value("${com.artronics.sdwn.domain.persistence.dialect}")
+    @Value("${com.artronics.chapar.persistence.dialect}")
     private String dialect;
-    @Value("${com.artronics.sdwn.domain.persistence.hbm2ddl}")
+    @Value("${com.artronics.chapar.persistence.hbm2ddl}")
     private String hbm2ddl;
 
     @Bean
@@ -85,7 +85,7 @@ public class PersistenceConfig
 
         emf.setDataSource(dataSource());
 
-        emf.setPackagesToScan("com.artronics.sdwn.domain.entities");
+        emf.setPackagesToScan("com.artronics.chapar.controller.entities");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         emf.setJpaVendorAdapter(vendorAdapter);

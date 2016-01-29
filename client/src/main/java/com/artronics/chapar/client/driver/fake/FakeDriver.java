@@ -3,7 +3,7 @@ package com.artronics.chapar.client.driver.fake;
 import com.artronics.chapar.client.driver.DeviceDriver;
 import com.artronics.chapar.client.events.BufferReadyEvent;
 import com.artronics.chapar.client.exceptions.DeviceDriverException;
-import com.artronics.chapar.domain.entities.Buffer;
+import com.artronics.chapar.domain.model.Buffer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

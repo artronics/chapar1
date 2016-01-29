@@ -2,19 +2,18 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.entities.Client;
 import com.artronics.chapar.controller.repositories.DeviceRepo;
-import com.artronics.chapar.controller.services.DeviceRegistrationService;
+import com.artronics.chapar.controller.services.ClientRegistrationService;
 import com.artronics.chapar.domain.map.NetworkMap;
 import com.artronics.chapar.domain.map.NetworkMapImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
 @Service
-public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
-    private final static Logger log = Logger.getLogger(DeviceRegistrationServiceImpl.class);
+public class ClientRegistrationServiceImpl implements ClientRegistrationService {
+    private final static Logger log = Logger.getLogger(ClientRegistrationServiceImpl.class);
 
     private DeviceRepo deviceRepo;
 
@@ -30,11 +29,6 @@ public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
         registeredDevices.put(client, networkMap);
 
         return client;
-    }
-
-    @Resource(name = "registeredDevices")
-    public void setRegisteredDevices(Map<Client, NetworkMap> registeredDevices) {
-        this.registeredDevices = registeredDevices;
     }
 
     @Autowired

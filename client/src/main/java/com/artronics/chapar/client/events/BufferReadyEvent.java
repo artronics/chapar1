@@ -1,6 +1,6 @@
 package com.artronics.chapar.client.events;
 
-import com.artronics.chapar.domain.entities.Buffer;
+import com.artronics.chapar.domain.model.Buffer;
 import org.apache.log4j.Logger;
 
 public class BufferReadyEvent extends BaseEvent<Buffer>{

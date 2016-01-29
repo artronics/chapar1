@@ -26,10 +26,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
 
-        <chapar.version>0.1.1</chapar.version>
-        <chapar-domain.version>0.1.1</chapar-domain.version>
-        <chapar-client.version>0.1.1</chapar-client.version>
-        <chapar-controller.version>0.1.1</chapar-controller.version>
+        <chapar.version>0.1.1-SNAPSHOT</chapar.version>
+        <chapar-domain.version>0.1.1-SNAPSHOT</chapar-domain.version>
+        <chapar-client.version>0.1.1-SNAPSHOT</chapar-client.version>
+        <chapar-controller.version>0.1.1-SNAPSHOT</chapar-controller.version>
     </properties>
 
     <dependencyManagement>
