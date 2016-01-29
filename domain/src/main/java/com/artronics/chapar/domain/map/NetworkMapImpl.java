@@ -1,8 +1,8 @@
 package com.artronics.chapar.domain.map;
 
-import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.map.graph.GraphDelegator;
 import com.artronics.chapar.domain.map.graph.JGraphTDelegator;
+import com.artronics.chapar.domain.model.Node;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
@@ -11,41 +11,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class DeviceMapImpl implements DeviceMap{
-    protected ListenableUndirectedWeightedGraph<Sensor, DefaultWeightedEdge> graph =
+public class NetworkMapImpl implements NetworkMap {
+    protected ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph =
             new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
     protected GraphDelegator graphDelegator;
 
-    public DeviceMapImpl() {
+    public NetworkMapImpl() {
         graphDelegator = new JGraphTDelegator(graph);
     }
 
-    public DeviceMapImpl(ListenableUndirectedWeightedGraph<Sensor, DefaultWeightedEdge> graph) {
+    public NetworkMapImpl(ListenableUndirectedWeightedGraph<Node, DefaultWeightedEdge> graph) {
         this.graph = graph;
         graphDelegator = new JGraphTDelegator(graph);
     }
 
     @Override
-    public void addNode(Sensor sensor)
+    public void addNode(Node node)
     {
-        graph.addVertex(sensor);
+        graph.addVertex(node);
     }
 
     @Override
-    public void removeNode(Sensor sensor)
+    public void removeNode(Node node)
     {
-        graph.removeVertex(sensor);
+        graph.removeVertex(node);
     }
 
     @Override
-    public void removeLink(Sensor srcSensor, Sensor target)
+    public void removeLink(Node srcNode, Node target)
     {
-        graph.removeEdge(srcSensor, target);
+        graph.removeEdge(srcNode, target);
     }
 
     @Override
-    public void addLink(Sensor source, Sensor target, double weight)
+    public void addLink(Node source, Node target, double weight)
     {
         DefaultWeightedEdge edge = graph.addEdge(source, target);
 
@@ -55,43 +55,43 @@ public class DeviceMapImpl implements DeviceMap{
     }
 
     @Override
-    public boolean hasLink(Sensor source, Sensor target)
+    public boolean hasLink(Node source, Node target)
     {
         return graph.containsEdge(source, target);
     }
 
     @Override
-    public boolean contains(Sensor sensor)
+    public boolean contains(Node node)
     {
-        return graph.containsVertex(sensor);
+        return graph.containsVertex(node);
     }
 
     @Override
-    public boolean isIsland(Sensor neighbor)
+    public boolean isIsland(Node neighbor)
     {
         return graphDelegator.isIsland(neighbor);
     }
 
     @Override
-    public Set<Sensor> getNeighbors(Sensor sensor)
+    public Set<Node> getNeighbors(Node node)
     {
-        return graphDelegator.getNeighbors(sensor);
+        return graphDelegator.getNeighbors(node);
     }
 
     @Override
-    public List<Sensor> getAllNodes()
+    public List<Node> getAllNodes()
     {
         return new ArrayList<>(graph.vertexSet());
     }
 
     @Override
-    public Graph<Sensor, DefaultWeightedEdge> getNetworkGraph()
+    public Graph<Node, DefaultWeightedEdge> getNetworkGraph()
     {
         return this.graph;
     }
 
     @Override
-    public List<Sensor> getShortestPath(Sensor source, Sensor target)
+    public List<Node> getShortestPath(Node source, Node target)
     {
         return graphDelegator.getShortestPath(source,target);
     }

@@ -1,6 +1,6 @@
 package com.artronics.chapar.domain.map.graph;
 
-import com.artronics.chapar.domain.entities.Sensor;
+import com.artronics.chapar.domain.model.Node;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -9,17 +9,17 @@ import java.util.*;
 
 public class JGraphTDelegator implements GraphDelegator
 {
-    private final Graph<Sensor, DefaultWeightedEdge> graph;
+    private final Graph<Node, DefaultWeightedEdge> graph;
 
-    public JGraphTDelegator(Graph<Sensor,DefaultWeightedEdge> graph)
+    public JGraphTDelegator(Graph<Node,DefaultWeightedEdge> graph)
     {
         this.graph = graph;
     }
 
     @Override
-    public List<Sensor> getShortestPath(Sensor source, Sensor target)
+    public List<Node> getShortestPath(Node source, Node target)
     {
-        DijkstraShortestPath<Sensor,DefaultWeightedEdge> dijkstra =
+        DijkstraShortestPath<Node,DefaultWeightedEdge> dijkstra =
                 new DijkstraShortestPath(graph, source, target);
 
         List<DefaultWeightedEdge> links = dijkstra.getPathEdgeList();
@@ -34,7 +34,7 @@ public class JGraphTDelegator implements GraphDelegator
             we'll get a wrong order. We'll add source to
             final list.
         */
-        Set<Sensor> sensors = new LinkedHashSet<>();
+        Set<Node> sensors = new LinkedHashSet<>();
 
         for (DefaultWeightedEdge link : links) {
             sensors.add(graph.getEdgeSource(link));
@@ -42,30 +42,30 @@ public class JGraphTDelegator implements GraphDelegator
         }
         sensors.remove(source);
 
-        List<Sensor> nodesList = new ArrayList<>(sensors);
+        List<Node> nodesList = new ArrayList<>(sensors);
         nodesList.add(0, source);
 
         return nodesList;
     }
 
     @Override
-    public Set<Sensor> getNeighbors(Sensor sensor)
+    public Set<Node> getNeighbors(Node sensor)
     {
         if (!graph.containsVertex(sensor))
             throw new IllegalStateException("This sensor is not in map.");
 
-        Set<Sensor> neighbors = new HashSet<>();
+        Set<Node> neighbors = new HashSet<>();
         if (isIsland(sensor))
             return neighbors;
 
         Set<DefaultWeightedEdge> edges = graph.edgesOf(sensor);
 
         for (DefaultWeightedEdge edge : edges) {
-            Sensor srcSensor = graph.getEdgeSource(edge);
-            Sensor dstSensor = graph.getEdgeTarget(edge);
+            Node srcNode = graph.getEdgeSource(edge);
+            Node dstNode = graph.getEdgeTarget(edge);
 
-            neighbors.add(srcSensor);
-            neighbors.add(dstSensor);
+            neighbors.add(srcNode);
+            neighbors.add(dstNode);
         }
 
         //remove sensor from set. we just need its neighbors
@@ -75,7 +75,7 @@ public class JGraphTDelegator implements GraphDelegator
     }
 
     @Override
-    public boolean isIsland(Sensor sensor)
+    public boolean isIsland(Node sensor)
     {
         return graph.edgesOf(sensor).isEmpty();
     }

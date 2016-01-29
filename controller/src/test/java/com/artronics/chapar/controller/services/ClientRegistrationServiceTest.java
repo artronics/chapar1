@@ -4,7 +4,7 @@ import com.artronics.chapar.controller.entities.Client;
 import com.artronics.chapar.controller.http.controllers.BaseControllerTest;
 import com.artronics.chapar.controller.repositories.DeviceRepo;
 import com.artronics.chapar.controller.services.impl.DeviceRegistrationServiceImpl;
-import com.artronics.chapar.domain.map.DeviceMap;
+import com.artronics.chapar.domain.map.NetworkMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -30,7 +30,7 @@ public class ClientRegistrationServiceTest extends BaseControllerTest{
     @Mock
     private DeviceRepo deviceRepo;
 
-    private Map<Client,DeviceMap> registeredDevices;
+    private Map<Client,NetworkMap> registeredDevices;
 
     private Client client;
 
@@ -63,8 +63,8 @@ public class ClientRegistrationServiceTest extends BaseControllerTest{
 
         assertThat(registeredDevices.size(),equalTo(2));
 
-        DeviceMap map1 = registeredDevices.get(client);
-        DeviceMap map2 = registeredDevices.get(client2);
+        NetworkMap map1 = registeredDevices.get(client);
+        NetworkMap map2 = registeredDevices.get(client2);
         assertThat(map1,is(not(map2)));
     }
 

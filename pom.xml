@@ -25,7 +25,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <chapar.version>1.0.SNAPSHOT</chapar.version>
+
+        <chapar.version>0.1.1</chapar.version>
+        <chapar-domain.version>0.1.1</chapar-domain.version>
+        <chapar-client.version>0.1.1</chapar-client.version>
+        <chapar-controller.version>0.1.1</chapar-controller.version>
     </properties>
 
     <dependencyManagement>
@@ -33,7 +37,7 @@
             <dependency>
                 <groupId>com.artronics.chapar</groupId>
                 <artifactId>chapar-domain</artifactId>
-                <version>1.0.SNAPSHOT</version>
+                <version>${chapar-domain.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.http-client</groupId>

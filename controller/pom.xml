@@ -10,11 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>chapar-controller</artifactId>
+    <version>${chapar-controller.version}</version>
 
     <dependencies>
         <dependency>
             <groupId>com.artronics.chapar</groupId>
-            <artifactId>chapar-core</artifactId>
+            <artifactId>chapar-domain</artifactId>
         </dependency>
 
         <dependency>

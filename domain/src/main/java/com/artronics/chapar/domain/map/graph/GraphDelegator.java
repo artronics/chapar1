@@ -1,15 +1,15 @@
 package com.artronics.chapar.domain.map.graph;
 
-import com.artronics.chapar.domain.entities.Sensor;
+import com.artronics.chapar.domain.model.Node;
 
 import java.util.List;
 import java.util.Set;
 
 public interface GraphDelegator
 {
-    List<Sensor> getShortestPath(Sensor source, Sensor target);
+    List<Node> getShortestPath(Node source, Node target);
 
-    Set<Sensor> getNeighbors(Sensor sensor);
+    Set<Node> getNeighbors(Node sensor);
 
-    boolean isIsland(Sensor neighbor);
+    boolean isIsland(Node neighbor);
 }
