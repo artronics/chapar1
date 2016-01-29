@@ -1,10 +1,10 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.services.DeviceRegistrationService;
-import com.artronics.chapar.core.entities.Device;
-import com.artronics.chapar.core.map.DeviceMap;
-import com.artronics.chapar.core.map.DeviceMapImpl;
-import com.artronics.chapar.core.repositories.DeviceRepo;
+import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.map.DeviceMap;
+import com.artronics.chapar.domain.map.DeviceMapImpl;
+import com.artronics.chapar.domain.repositories.DeviceRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,22 +18,22 @@ public class DeviceRegistrationServiceImpl implements DeviceRegistrationService{
 
     private DeviceRepo deviceRepo;
 
-    private Map<Device,DeviceMap> registeredDevices;
+    private Map<Client,DeviceMap> registeredDevices;
 
     @Override
-    public Device registerDevice(Device device) {
-        log.debug("Registering new device: "+device);
+    public Client registerDevice(Client client) {
+        log.debug("Registering new client: "+ client);
         DeviceMap deviceMap = new DeviceMapImpl();
 
-        deviceRepo.save(device);
+        deviceRepo.save(client);
 
-        registeredDevices.put(device,deviceMap);
+        registeredDevices.put(client,deviceMap);
 
-        return device;
+        return client;
     }
 
     @Resource(name = "registeredDevices")
-    public void setRegisteredDevices(Map<Device, DeviceMap> registeredDevices) {
+    public void setRegisteredDevices(Map<Client, DeviceMap> registeredDevices) {
         this.registeredDevices = registeredDevices;
     }
 

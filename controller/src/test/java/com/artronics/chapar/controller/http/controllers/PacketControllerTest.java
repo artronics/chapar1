@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.http.controllers;
 
-import com.artronics.chapar.core.entities.Buffer;
+import com.artronics.chapar.domain.entities.Buffer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -30,7 +30,7 @@ public class PacketControllerTest extends BaseControllerTest{
         Buffer buffer = new Buffer(Arrays.asList(1, 2, 3));
         String buff = toJson(buffer);
 
-        mockMvc.perform(post("/device/1/buffer")
+        mockMvc.perform(post("/client/1/buffer")
                 .contentType(MediaType.APPLICATION_JSON)
         .content(buff))
                 .andDo(print())

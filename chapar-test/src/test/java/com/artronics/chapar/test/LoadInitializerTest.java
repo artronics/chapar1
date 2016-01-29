@@ -1,7 +1,6 @@
 package com.artronics.chapar.test;
 
-import com.artronics.chapar.controller.entities.packet.DataPacket;
-import com.artronics.chapar.core.entities.Buffer;
+import com.artronics.chapar.domain.entities.Buffer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -15,9 +14,9 @@ public class LoadInitializerTest {
 
     @Test
     public void it_should_Name() throws Exception {
-        DataPacket value = DataPacket.create(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
-        String j =OBJECT_MAPPER.writeValueAsString(value);
-        System.out.println(j);
+//        DataPacket value = DataPacket.create(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
+//        String j =OBJECT_MAPPER.writeValueAsString(value);
+//        System.out.println(j);
 
     }
 

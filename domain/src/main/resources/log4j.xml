@@ -35,7 +35,7 @@
         <level value="warn"/>
     </logger>
 
-    <logger name="com.artronics.chapar.core" additivity="false">
+    <logger name="com.artronics.chapar.domain" additivity="false">
         <level value="debug"/>
         <appender-ref ref="console"></appender-ref>
     </logger>

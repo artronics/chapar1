@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.http.controllers;
 
-import com.artronics.chapar.core.entities.Buffer;
+import com.artronics.chapar.domain.entities.Buffer;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 

@@ -40,7 +40,7 @@
         <appender-ref ref="console"></appender-ref>
     </logger>
 
-    <logger name="com.artronics.chapar.device" additivity="false">
+    <logger name="com.artronics.chapar.client" additivity="false">
         <level value="debug"/>
         <appender-ref ref="console"></appender-ref>
     </logger>
