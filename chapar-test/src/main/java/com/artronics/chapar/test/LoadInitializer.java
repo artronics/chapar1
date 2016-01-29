@@ -3,7 +3,7 @@
 //import com.artronics.chapar.controller.entities.packet.DataPacket;
 //import com.artronics.chapar.controller.entities.packet.SdwnPacketType;
 //import com.artronics.chapar.domain.entities.Address;
-//import com.artronics.chapar.domain.entities.Client;
+//import Client;
 //import com.artronics.chapar.client.connection.ControllerResolverHttp;
 //import com.artronics.chapar.test.factory.BufferFactory;
 //import com.fasterxml.jackson.databind.ObjectMapper;

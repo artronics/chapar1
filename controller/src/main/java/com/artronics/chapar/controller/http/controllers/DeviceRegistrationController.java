@@ -1,7 +1,7 @@
 package com.artronics.chapar.controller.http.controllers;
 
+import com.artronics.chapar.controller.entities.Client;
 import com.artronics.chapar.controller.services.DeviceRegistrationService;
-import com.artronics.chapar.domain.entities.Client;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

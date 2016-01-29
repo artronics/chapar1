@@ -1,6 +1,6 @@
-package com.artronics.chapar.domain.repositories;
+package com.artronics.chapar.controller.repositories;
 
-import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.controller.entities.Client;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface DeviceRepo extends PagingAndSortingRepository<Client,Long>{

@@ -1,12 +1,8 @@
-package com.artronics.chapar.domain.entities;
-
-import org.apache.log4j.Logger;
+package com.artronics.chapar.domain.model;
 
 import java.util.List;
 
 public class Buffer {
-    private final static Logger log = Logger.getLogger(Buffer.class);
-
     private List<Integer> content;
 
     public Buffer() {

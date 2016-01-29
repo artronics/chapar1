@@ -1,10 +1,10 @@
 package com.artronics.chapar.controller.services;
 
+import com.artronics.chapar.controller.entities.Client;
 import com.artronics.chapar.controller.http.controllers.BaseControllerTest;
+import com.artronics.chapar.controller.repositories.DeviceRepo;
 import com.artronics.chapar.controller.services.impl.DeviceRegistrationServiceImpl;
-import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.map.DeviceMap;
-import com.artronics.chapar.domain.repositories.DeviceRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

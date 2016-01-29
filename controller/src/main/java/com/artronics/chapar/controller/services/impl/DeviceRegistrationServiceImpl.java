@@ -1,10 +1,10 @@
 package com.artronics.chapar.controller.services.impl;
 
+import com.artronics.chapar.controller.entities.Client;
+import com.artronics.chapar.controller.repositories.DeviceRepo;
 import com.artronics.chapar.controller.services.DeviceRegistrationService;
-import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.map.DeviceMap;
 import com.artronics.chapar.domain.map.DeviceMapImpl;
-import com.artronics.chapar.domain.repositories.DeviceRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

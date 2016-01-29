@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.config;
 
-import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.controller.entities.Client;
 import com.artronics.chapar.domain.map.DeviceMap;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;

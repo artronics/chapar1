@@ -1,4 +1,4 @@
-package com.artronics.chapar.domain.entities;
+package com.artronics.chapar.controller.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -8,26 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "nodes")
-public class Sensor extends AbstractBaseEntity {
-    private final static Logger log = Logger.getLogger(Sensor.class);
-
-    private Long address;
-
-    public Sensor() {
-    }
-
-    public Sensor(Long address) {
-        this.address = address;
-    }
-
-    public Long getAddress() {
-        return address;
-    }
-
-    public void setAddress(Long address) {
-        this.address = address;
-    }
+@Table(name = "devices")
+public class Client extends AbstractBaseEntity{
+    private final static Logger log = Logger.getLogger(Client.class);
 
     @Override
     public int hashCode()
@@ -37,7 +20,7 @@ public class Sensor extends AbstractBaseEntity {
         // -overriding-equals-and-hashcode-in-java
 
         HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(this.address);
+        hcb.append(this.id);
 
         return hcb.toHashCode();
     }
@@ -45,17 +28,16 @@ public class Sensor extends AbstractBaseEntity {
     @Override
     public boolean equals(Object obj)
     {
-        if (!(obj instanceof Sensor))
+        if (!(obj instanceof Client))
             return false;
         if (obj == this)
             return true;
 
-        Sensor that = (Sensor) obj;
+        Client that = (Client) obj;
         EqualsBuilder eb = new EqualsBuilder();
 
-        eb.append(this.address,that.address);
+        eb.append(this.id,that.id);
 
         return eb.isEquals();
     }
-
 }

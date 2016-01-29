@@ -1,7 +1,7 @@
 package com.artronics.chapar.controller.http.controllers;
 
+import com.artronics.chapar.controller.entities.Client;
 import com.artronics.chapar.controller.services.DeviceRegistrationService;
-import com.artronics.chapar.domain.entities.Client;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

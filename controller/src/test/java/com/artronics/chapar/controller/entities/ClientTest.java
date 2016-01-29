@@ -1,4 +1,4 @@
-package com.artronics.chapar.domain.entities;
+package com.artronics.chapar.controller.entities;
 
 import org.junit.Before;
 import org.junit.Test;

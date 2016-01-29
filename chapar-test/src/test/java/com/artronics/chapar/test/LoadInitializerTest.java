@@ -1,6 +1,6 @@
 package com.artronics.chapar.test;
 
-import com.artronics.chapar.domain.entities.Buffer;
+import com.artronics.chapar.domain.model.Buffer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
