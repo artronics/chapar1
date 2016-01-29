@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>chapar-domain</artifactId>
-    <version>0.1.1</version>
+    <version>${chapar-domain.version}</version>
 
     <dependencies>
         <dependency>
