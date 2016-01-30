@@ -20,15 +20,22 @@ public class ClientBufferServiceImpl implements ClientBufferService{
     private Client registeredClient;
 
     @Override
-    public void sendBuffer(Buffer buffer) {
+    public Buffer sendBuffer(Buffer buffer) {
+        if (registeredClient.getId() == null) {
+            log.warn("Try to persist a buffer with an unregistered Client.");
+        }
+        buffer.setClient(registeredClient);
 
+        buffer.setDirection(Buffer.Direction.RX);
 
+        bufferRepo.save(buffer);
+
+        return buffer;
     }
 
     @EventListener
     public void rxBufferReadyHandler(RxBufferReadyEvent e){
         Buffer b= e.getBuffer();
-        b.setDirection(Buffer.Direction.RX);
 
         sendBuffer(b);
     }

@@ -1,6 +1,7 @@
 package com.artronics.chapar.client;
 
 import com.artronics.chapar.client.driver.DeviceDriver;
+import com.artronics.chapar.client.exceptions.ClientRegistrationFailed;
 import com.artronics.chapar.client.http.BaseHttpClient;
 import com.artronics.chapar.client.services.ClientBufferService;
 import com.artronics.chapar.domain.entities.Client;
@@ -41,10 +42,17 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
         try {
             registeredClient =httpClient.registerClient(client,sinkAddress);
 
+            if (registeredClient.getId() == null) {
+                throw new ClientRegistrationFailed();
+            }
+
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClientRegistrationFailed clientRegistrationFailed) {
+            //TODO use an strategy to retry registration process
+            clientRegistrationFailed.printStackTrace();
         }
     }
 
