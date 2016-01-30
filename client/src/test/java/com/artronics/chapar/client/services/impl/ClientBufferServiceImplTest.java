@@ -11,9 +11,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
+import static com.artronics.chapar.domain.entities.Buffer.Direction.RX;
+import static com.artronics.chapar.domain.entities.Buffer.Direction.TX;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -28,6 +33,8 @@ public class ClientBufferServiceImplTest {
     @Mock
     private TimeRepo timeRepo;
 
+    private BlockingQueue<Buffer> txBufferQueue;
+
     private Client registeredClient;
 
     @Before
@@ -37,7 +44,10 @@ public class ClientBufferServiceImplTest {
         registeredClient = new Client();
         registeredClient.setId(1L);
 
+        txBufferQueue = new LinkedBlockingQueue<>();
+
         bufferService.setRegisteredClient(registeredClient);
+        bufferService.setTxBufferQueue(txBufferQueue);
 
         when(timeRepo.getDbNowTime()).thenReturn(new Timestamp(new Date().getTime()));
     }
@@ -47,7 +57,7 @@ public class ClientBufferServiceImplTest {
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5,6,7));
         bufferService.sendBuffer(b);
 
-        assertThat(b.getDirection(),is(equalTo(Buffer.Direction.RX)));
+        assertThat(b.getDirection(),is(equalTo(RX)));
     }
 
     @Test
@@ -75,4 +85,23 @@ public class ClientBufferServiceImplTest {
         verifyNoMoreInteractions(bufferRepo);
     }
 
+    /*
+
+     */
+
+    @Test
+    public void it_should_check_for_new_buffers_with_pooling() throws Exception {
+        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX);
+        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX);
+        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX);
+
+        when(bufferRepo.getReadyTxBuffers(registeredClient))
+                .thenReturn(new ArrayList<Buffer>(Arrays.asList(b3,b4,b5)));
+
+        assertThat(txBufferQueue.isEmpty(),is(true));
+
+        bufferService.checkForNewBuffersFromController();
+
+        assertThat(txBufferQueue.size(),is(equalTo(3)));
+    }
 }

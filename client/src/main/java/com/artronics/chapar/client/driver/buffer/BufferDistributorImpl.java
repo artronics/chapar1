@@ -1,10 +1,13 @@
 package com.artronics.chapar.client.driver.buffer;
 
 import com.artronics.chapar.client.events.RxBufferReadyEvent;
+import com.artronics.chapar.client.events.TxBuffersReadyEvent;
 import com.artronics.chapar.domain.entities.Buffer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,6 +21,9 @@ public class BufferDistributorImpl implements BufferDistributor
 {
     private final static Logger log = Logger.getLogger(BufferDistributorImpl.class);
     private static final int MAX_PACKET_LENGTH = 255;
+
+    private Integer startByte;
+    private Integer stopByte;
 
     private InputStream input;
 
@@ -46,7 +52,6 @@ public class BufferDistributorImpl implements BufferDistributor
             e.printStackTrace();
             log.error("IO exp while reading buffer from Device Driver.");
         }
-
     }
 
     private void collectBuff(List<Integer> message)
@@ -64,6 +69,32 @@ public class BufferDistributorImpl implements BufferDistributor
             RxBufferReadyEvent e = new RxBufferReadyEvent(this,buffer);
 
             publisher.publishEvent(e);
+        }
+    }
+
+    @EventListener
+    public void txBufferReadyHandler(TxBuffersReadyEvent e){
+        List<Integer> b = new ArrayList<>(e.getBuffer().getContent());
+        if (b.isEmpty())
+            return;
+
+        b.add(0, startByte);
+        b.add(stopByte);
+
+        for (Integer i : b) {
+            try {
+                output.write(i);
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        try {
+            output.flush();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
     }
 
@@ -87,6 +118,16 @@ public class BufferDistributorImpl implements BufferDistributor
     @Autowired
     public void setPublisher(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
+    }
+
+    @Value("${com.artronics.chapar.client.buffer.startByte}")
+    public void setStartByte(int startByte) {
+        this.startByte = startByte;
+    }
+
+    @Value("${com.artronics.chapar.client.buffer.stopByte}")
+    public void setStopByte(int stopByte) {
+        this.stopByte = stopByte;
     }
 
 }
