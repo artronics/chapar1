@@ -35,7 +35,7 @@ public class BaseHttpClient {
         Header header = new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         List<Header> headers = Lists.newArrayList();
         headers.add(header);
-        httpClient= HttpClients.custom().setDefaultHeaders(headers).build();
+        httpClient = HttpClients.custom().setDefaultHeaders(headers).build();
     }
 
     public BaseHttpClient(String controllerUrl) throws URISyntaxException {
@@ -43,12 +43,34 @@ public class BaseHttpClient {
         this.controllerUrl = controllerUrl;
     }
 
+    public CloseableHttpResponse registerDevice(String jDevice, Long sinkAddress) throws URISyntaxException, IOException {
+        URI uri = new URIBuilder()
+                .setScheme("http")
+                .setHost(controllerUrl)
+                .setPath("/client/register")
+                .setParameter("sinkAddress",sinkAddress.toString())
+                .build();
+
+        return sendRequest(jDevice,uri);
+    }
+
+    public CloseableHttpResponse sendRequest(String msg, URI uri) throws IOException {
+        CloseableHttpResponse response = null;
+
+        HttpPost httpPost = new HttpPost(uri);
+        httpPost.setEntity(new StringEntity(msg));
+        logReq(httpPost);
+        response = httpClient.execute(httpPost);
+
+        return response;
+    }
+
     public CloseableHttpResponse sendRequest(String msg, Long deviceId, String... segments)
             throws IOException {
         CloseableHttpResponse response = null;
 
         try {
-            URI uri= createUri(deviceId,segments);
+            URI uri = createUri(deviceId, segments);
             HttpPost httpPost = new HttpPost(uri);
             httpPost.setEntity(new StringEntity(msg));
             logReq(httpPost);
@@ -65,15 +87,15 @@ public class BaseHttpClient {
 
     }
 
-    public URI createUri(Long deviceId,String... segments) throws URISyntaxException {
+    public URI createUri(Long deviceId, String... segments) throws URISyntaxException {
         String path = "/client";
 
         if (deviceId != null) {
-            path+="/"+deviceId.toString();
+            path += "/" + deviceId.toString();
         }
 
         for (String segment : segments) {
-            path+="/"+segment;
+            path += "/" + segment;
         }
 
         return new URIBuilder()
@@ -84,11 +106,11 @@ public class BaseHttpClient {
     }
 
     public URI createUri(String... segments) throws URISyntaxException {
-        return createUri(null,segments);
+        return createUri(null, segments);
     }
 
 
-    @Value("${com.artronics.chapar.client.controller.url}")
+    @Value("${com.artronics.chapar.device.controller.url}")
     public void setControllerUrl(String controllerUrl) {
         this.controllerUrl = controllerUrl;
     }
