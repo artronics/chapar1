@@ -1,4 +1,4 @@
-package com.artronics.chapar.controller.repositories;
+package com.artronics.chapar.domain.repositories;
 
 import com.artronics.chapar.domain.entities.Client;
 import org.springframework.data.repository.PagingAndSortingRepository;

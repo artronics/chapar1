@@ -1,8 +1,8 @@
 package com.artronics.chapar.controller.services.impl;
 
-import com.artronics.chapar.controller.repositories.ClientRepo;
 import com.artronics.chapar.controller.services.ClientRegistrationService;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.repositories.ClientRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

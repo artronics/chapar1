@@ -1,7 +1,7 @@
 package com.artronics.chapar.controller.services.impl;
 
-import com.artronics.chapar.controller.repositories.ClientRepo;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.repositories.ClientRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

@@ -1,16 +1,20 @@
 package com.artronics.chapar.domain.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "buffers")
 public class Buffer {
     protected Long id;
 
-    private List<Integer> content;
+    private List<Integer> content = new ArrayList<>();
 
     private Direction direction;
+
+    private Client client;
 
     protected Date created;
     protected Date updated;
@@ -33,7 +37,7 @@ public class Buffer {
         this.id = id;
     }
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "buff_content",joinColumns = @JoinColumn(name = "buff_id"))
     @Column(name = "content")
     public List<Integer> getContent() {
@@ -52,6 +56,16 @@ public class Buffer {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id")
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Date getCreated()
