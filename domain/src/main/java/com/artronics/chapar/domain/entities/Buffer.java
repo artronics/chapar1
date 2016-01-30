@@ -10,6 +10,8 @@ public class Buffer {
 
     private List<Integer> content;
 
+    private Direction direction;
+
     protected Date created;
     protected Date updated;
 
@@ -42,6 +44,15 @@ public class Buffer {
         this.content = content;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 
     public Date getCreated()
     {
@@ -73,6 +84,11 @@ public class Buffer {
     protected void onUpdate()
     {
         updated = new Date();
+    }
+
+    public enum Direction{
+        RX,
+        TX
     }
 
 }
