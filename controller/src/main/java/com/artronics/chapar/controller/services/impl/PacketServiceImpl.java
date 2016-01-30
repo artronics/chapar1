@@ -27,6 +27,11 @@ public class PacketServiceImpl implements PacketService{
     private BufferRepo bufferRepo;
     private TimeRepo timeRepo;
 
+    @Override
+    public void checkRxBuffers() {
+        checkForNewBuffersFromClients();
+    }
+
     @Scheduled(fixedRateString = "${com.artronics.chapar.controller.scheduler.rate}")
     public void checkForNewBuffersFromClients(){
         Set<Client> clients = registeredClients.keySet();
