@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ public class BufferDistributorImpl implements BufferDistributor
     private static final int MAX_PACKET_LENGTH = 255;
 
     private InputStream input;
+
+    private OutputStream output;
 
     private BufferCollector bufferCollector;
 
@@ -60,6 +63,11 @@ public class BufferDistributorImpl implements BufferDistributor
     public void setInput(InputStream input)
     {
         this.input = input;
+    }
+
+    @Override
+    public void setOutput(OutputStream output) {
+        this.output = output;
     }
 
     @Autowired

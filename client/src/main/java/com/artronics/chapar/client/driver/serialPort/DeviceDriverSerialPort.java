@@ -85,12 +85,13 @@ public class DeviceDriverSerialPort implements DeviceDriver, SerialPortEventList
 
         this.serialPort = serialPort;
         initEventListenersAndIO();
-        addInputToBuffDistributor();
+        addIOToBuffDistributor();
 
     }
 
-    private void addInputToBuffDistributor() {
+    private void addIOToBuffDistributor() {
         bufferDistributor.setInput(input);
+        bufferDistributor.setOutput(output);
     }
 
     private void initEventListenersAndIO() throws DeviceDriverException {
