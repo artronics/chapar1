@@ -1,7 +1,10 @@
 package com.artronics.chapar.client.driver.buffer;
 
+import com.artronics.chapar.client.events.RxBufferReadyEvent;
+import com.artronics.chapar.domain.entities.Buffer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,6 +24,8 @@ public class BufferDistributorImpl implements BufferDistributor
     private OutputStream output;
 
     private BufferCollector bufferCollector;
+
+    private ApplicationEventPublisher publisher;
 
     @Override
     public void bufferReceived()
@@ -55,7 +60,10 @@ public class BufferDistributorImpl implements BufferDistributor
 
         for (List<Integer> buff : buffers) {
             log.debug("Sending buffer");
-            //send buff
+            Buffer buffer = new Buffer(buff);
+            RxBufferReadyEvent e = new RxBufferReadyEvent(this,buffer);
+
+            publisher.publishEvent(e);
         }
     }
 
@@ -76,5 +84,9 @@ public class BufferDistributorImpl implements BufferDistributor
         this.bufferCollector = bufferCollector;
     }
 
+    @Autowired
+    public void setPublisher(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
 
 }

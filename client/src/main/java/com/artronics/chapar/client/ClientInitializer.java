@@ -1,8 +1,8 @@
 package com.artronics.chapar.client;
 
 import com.artronics.chapar.client.driver.DeviceDriver;
-import com.artronics.chapar.client.events.BufferReadyEvent;
 import com.artronics.chapar.client.http.BaseHttpClient;
+import com.artronics.chapar.client.services.ClientBufferService;
 import com.artronics.chapar.domain.entities.Client;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -24,9 +24,13 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
     private Long sinkAddress;
 
+    private Client registeredClient;
+
     private DeviceDriver deviceDriver;
 
     private BaseHttpClient httpClient;
+
+    private ClientBufferService bufferService;
 
 
     @Override
@@ -35,8 +39,7 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
         Client client = new Client();
         try {
-            httpClient.registerClient(client,sinkAddress);
-
+            registeredClient =httpClient.registerClient(client,sinkAddress);
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -50,9 +53,6 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
         deviceDriver.open();
     }
 
-    @EventListener
-    public void bufferReadyHandler(BufferReadyEvent e){
-    }
 
     @Autowired
     @Qualifier("fakeDeviceDriver")
@@ -63,6 +63,16 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
     @Autowired
     public void setHttpClient(BaseHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    @Autowired
+    public void setBufferService(ClientBufferService bufferService) {
+        this.bufferService = bufferService;
+    }
+
+    @Resource(name = "registeredClient")
+    public void setRegisteredClient(Client registeredClient) {
+        this.registeredClient = registeredClient;
     }
 
     @Value("${com.artronics.chapar.client.sink_address}")

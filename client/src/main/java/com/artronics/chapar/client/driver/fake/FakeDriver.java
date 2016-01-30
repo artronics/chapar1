@@ -1,7 +1,7 @@
 package com.artronics.chapar.client.driver.fake;
 
 import com.artronics.chapar.client.driver.DeviceDriver;
-import com.artronics.chapar.client.events.BufferReadyEvent;
+import com.artronics.chapar.client.events.RxBufferReadyEvent;
 import com.artronics.chapar.client.exceptions.DeviceDriverException;
 import com.artronics.chapar.domain.entities.Buffer;
 import org.apache.log4j.Logger;
@@ -45,7 +45,7 @@ public class FakeDriver implements DeviceDriver{
                 while (isStarted)
                 {
                     Buffer buffer = new Buffer(Arrays.asList(1,2,3,4,5,6));
-                    BufferReadyEvent e = new BufferReadyEvent(this,buffer);
+                    RxBufferReadyEvent e = new RxBufferReadyEvent(this,buffer);
                     log.debug("Sending Fake Buffer");
                     publisher.publishEvent(e);
 

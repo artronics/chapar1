@@ -1,11 +1,9 @@
 package com.artronics.chapar.client;
 
+import com.artronics.chapar.domain.entities.Client;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 
 @EnableAutoConfiguration
 @Configuration
@@ -20,4 +18,10 @@ public class ClientApplication {
         );
         context.start();
     }
+
+    @Bean(name = "registeredClient")
+    public Client getRegisteredClient(){
+        return new Client();
+    }
+
 }
