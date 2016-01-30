@@ -5,6 +5,7 @@ import com.artronics.chapar.client.services.ClientBufferService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.BufferRepo;
+import com.artronics.chapar.domain.repositories.TimeRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -18,6 +19,8 @@ public class ClientBufferServiceImpl implements ClientBufferService{
 
     private BufferRepo bufferRepo;
 
+    private TimeRepo timeRepo;
+
     private Client registeredClient;
 
     @Override
@@ -27,6 +30,7 @@ public class ClientBufferServiceImpl implements ClientBufferService{
         }
         buffer.setClient(registeredClient);
 
+        buffer.setReceivedAt(timeRepo.getDbNowTime());
         buffer.setDirection(Buffer.Direction.RX);
 
         bufferRepo.save(buffer);
@@ -46,6 +50,11 @@ public class ClientBufferServiceImpl implements ClientBufferService{
     @Autowired
     public void setBufferRepo(BufferRepo bufferRepo) {
         this.bufferRepo = bufferRepo;
+    }
+
+    @Autowired
+    public void setTimeRepo(TimeRepo timeRepo) {
+        this.timeRepo = timeRepo;
     }
 
     @Override

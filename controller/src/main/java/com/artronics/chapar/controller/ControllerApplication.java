@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @SpringBootApplication
-@ComponentScan("com.artronics.chapar.controller")
+@ComponentScan(basePackages = {"com.artronics.chapar.controller","com.artronics.chapar.domain"})
 @EnableAutoConfiguration
 @Import(PersistenceConfig.class)
 public class ControllerApplication {

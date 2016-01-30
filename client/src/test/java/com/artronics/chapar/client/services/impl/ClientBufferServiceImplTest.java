@@ -3,6 +3,7 @@ package com.artronics.chapar.client.services.impl;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.BufferRepo;
+import com.artronics.chapar.domain.repositories.TimeRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -10,9 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
+import java.util.Date;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -22,6 +23,9 @@ public class ClientBufferServiceImplTest {
 
     @Mock
     private BufferRepo bufferRepo;
+
+    @Mock
+    private TimeRepo timeRepo;
 
     private Client registeredClient;
 
@@ -33,6 +37,9 @@ public class ClientBufferServiceImplTest {
         registeredClient.setId(1L);
 
         bufferService.setRegisteredClient(registeredClient);
+
+        Date t = new Date();
+        when(timeRepo.getDbNowTime()).thenReturn(new Date());
     }
 
     @Test
@@ -49,6 +56,14 @@ public class ClientBufferServiceImplTest {
         bufferService.sendBuffer(b);
 
         assertThat(b.getClient(),is(equalTo(registeredClient)));
+    }
+
+    @Test
+    public void it_should_add_receivedAt_field() throws Exception {
+        Buffer b = new Buffer(Arrays.asList(1,2,3,4,5,6,7));
+        bufferService.sendBuffer(b);
+
+        assertThat(b.getReceivedAt(),is(notNullValue()));
     }
 
     @Test

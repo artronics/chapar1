@@ -10,7 +10,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @EnableAutoConfiguration
 @Configuration
 @PropertySource({"classpath:client.properties","classpath:application-dev.properties"})
-@ComponentScan(basePackages = {"com.artronics.chapar.client"})
+@ComponentScan(basePackages = {"com.artronics.chapar.client","com.artronics.chapar.domain"})
 @Import(PersistenceConfig.class)
 public class ClientApplication {
     private final static Logger log = Logger.getLogger(ClientApplication.class);

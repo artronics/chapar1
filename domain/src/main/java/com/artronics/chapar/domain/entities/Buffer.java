@@ -16,6 +16,8 @@ public class Buffer {
 
     private Client client;
 
+    private Date receivedAt;
+
     protected Date created;
     protected Date updated;
 
@@ -56,6 +58,14 @@ public class Buffer {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public Date getReceivedAt() {
+        return receivedAt;
+    }
+
+    public void setReceivedAt(Date receivedAt) {
+        this.receivedAt = receivedAt;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)

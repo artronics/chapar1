@@ -1,9 +1,7 @@
-package com.artronics.chapar.controller.repositories;
+package com.artronics.chapar.domain.repositories;
 
-import com.artronics.chapar.controller.BaseControllerTestConfig;
+import com.artronics.chapar.domain.BaseCoreTestConfig;
 import com.artronics.chapar.domain.entities.Client;
-import com.artronics.chapar.domain.repositories.ClientRepo;
-import com.artronics.chapar.domain.repositories.PersistenceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BaseControllerTestConfig.class,PersistenceConfig.class})
-@TestPropertySource("classpath:controller-test-config.properties")
+@ContextConfiguration(classes = {BaseCoreTestConfig.class,PersistenceConfig.class})
+@TestPropertySource("classpath:h2-config.properties")
 @ComponentScan("com.artronics.chapar.domain.repositories")
 public class ClientRepoTest {
 
