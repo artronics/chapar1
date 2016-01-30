@@ -9,11 +9,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.artronics.chapar.controller","com.artronics.chapar.domain"})
 @EnableAutoConfiguration
+@EnableScheduling
+@ComponentScan(basePackages = {"com.artronics.chapar.controller","com.artronics.chapar.domain"})
 @Import(PersistenceConfig.class)
 public class ControllerApplication {
     private final static Logger log = Logger.getLogger(ControllerApplication.class);

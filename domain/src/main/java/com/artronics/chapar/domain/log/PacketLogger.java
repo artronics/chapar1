@@ -1,9 +1,9 @@
 package com.artronics.chapar.domain.log;
 
-import com.artronics.chapar.domain.model.packet.Packet;
+import com.artronics.chapar.domain.model.packet.PacketI;
 import org.apache.log4j.Logger;
 
-public interface PacketLogger<T extends Packet>
+public interface PacketLogger<T extends PacketI>
 {
     Logger logBuffer = Logger.getLogger("com.artronics.chapar.logger.packet.buffer");
     Logger logDevice = Logger.getLogger("com.artronics.chapar.logger.packet.client");

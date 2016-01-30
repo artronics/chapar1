@@ -18,6 +18,7 @@ public class Buffer {
 
     private Date receivedAt;
     private Date sentAt;
+    private Date processedAt;
 
     protected Date created;
     protected Date updated;
@@ -90,6 +91,16 @@ public class Buffer {
 
     public void setSentAt(Date sentAt) {
         this.sentAt = sentAt;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "proc_at", columnDefinition = "DATETIME(6)")
+    public Date getProcessedAt() {
+        return processedAt;
+    }
+
+    public void setProcessedAt(Date processedAt) {
+        this.processedAt = processedAt;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)

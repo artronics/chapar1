@@ -16,5 +16,10 @@ public interface BufferRepo extends
             "b.sentAt= null and " +
             "b.client= :client")
     List<Buffer> getReadyTxBuffers(@Param("client") Client client);
-//    List<Buffer> getReadyTxBuffers( Client client);
+
+    @Query(value = "select b from Buffer b where " +
+            "b.direction='RX' and " +
+            "b.processedAt = null and " +
+            "b.client = :client")
+    List<Buffer> getNewClientsBuffer(@Param("client") Client client);
 }
