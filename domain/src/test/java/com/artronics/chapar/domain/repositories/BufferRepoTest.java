@@ -24,10 +24,8 @@ import static org.junit.Assert.assertThat;
 //@TestPropertySource("classpath:h2-config.properties")
 @TestPropertySource("classpath:mysql-config.properties")
 @ComponentScan({
-        "com.artronics.chapar.client",
         "com.artronics.chapar.domain.repositories"
         })
-
 public class BufferRepoTest {
 
     @Autowired
