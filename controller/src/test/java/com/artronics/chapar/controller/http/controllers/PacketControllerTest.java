@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.http.controllers;
 
-import com.artronics.chapar.domain.model.Buffer;
+import com.artronics.chapar.domain.entities.Buffer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
