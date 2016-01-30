@@ -74,7 +74,7 @@ public class Buffer {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "received_at", columnDefinition = "TIMESTAMP(6)")
+    @Column(name = "received_at", columnDefinition = "DATETIME(6)")
     public Date getReceivedAt() {
         return receivedAt;
     }
@@ -84,7 +84,7 @@ public class Buffer {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "sent_at", columnDefinition = "TIMESTAMP(6)")
+    @Column(name = "sent_at", columnDefinition = "DATETIME(6)")
     public Date getSentAt() {
         return sentAt;
     }
