@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.services;
 
-import com.artronics.chapar.controller.entities.Client;
+import com.artronics.chapar.domain.entities.Client;
 
 public interface ClientRegistrationService {
     Client registerDevice(Client client);

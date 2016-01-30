@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.entities;
 
+import com.artronics.chapar.domain.entities.Client;
 import org.junit.Before;
 import org.junit.Test;
 

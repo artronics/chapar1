@@ -1,7 +1,7 @@
 package com.artronics.chapar.controller.repositories;
 
 import com.artronics.chapar.controller.BaseControllerTestConfig;
-import com.artronics.chapar.controller.entities.Client;
+import com.artronics.chapar.domain.entities.Client;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,12 @@
 package com.artronics.chapar.client.http;
 
+import com.artronics.chapar.domain.entities.Client;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Lists;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -10,6 +15,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,6 +28,8 @@ import java.util.List;
 @Component
 public class BaseHttpClient {
     private final static Logger log = Logger.getLogger(BaseHttpClient.class);
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private CloseableHttpClient httpClient;
 
@@ -43,7 +51,7 @@ public class BaseHttpClient {
         this.controllerUrl = controllerUrl;
     }
 
-    public CloseableHttpResponse registerDevice(String jDevice, Long sinkAddress) throws URISyntaxException, IOException {
+    public Client registerClient(Client client, Long sinkAddress) throws URISyntaxException, IOException {
         URI uri = new URIBuilder()
                 .setScheme("http")
                 .setHost(controllerUrl)
@@ -51,7 +59,19 @@ public class BaseHttpClient {
                 .setParameter("sinkAddress",sinkAddress.toString())
                 .build();
 
-        return sendRequest(jDevice,uri);
+        String jsonClient = toJson(client);
+
+        log.debug("Sending registration request to: "+uri);
+        CloseableHttpResponse response=sendRequest(jsonClient,uri);
+        System.out.println(response.getStatusLine());
+        HttpEntity entity = response.getEntity();
+
+        String msg = EntityUtils.toString(entity);
+        Client registeredClient = (Client) toObject(msg, Client.class);
+
+        log.debug("Registration successful. Associated id: "+ registeredClient.getId());
+
+        return registeredClient;
     }
 
     public CloseableHttpResponse sendRequest(String msg, URI uri) throws IOException {
@@ -109,8 +129,37 @@ public class BaseHttpClient {
         return createUri(null, segments);
     }
 
+    protected static String toJson(Object msg) throws JsonProcessingException {
 
-    @Value("${com.artronics.chapar.device.controller.url}")
+        return OBJECT_MAPPER.writeValueAsString(msg);
+    }
+
+    protected static Object toObject(String msg , Class clazz) throws IOException {
+
+        return OBJECT_MAPPER.readValue(msg,clazz);
+    }
+
+    public static <T> T fromJSON(final TypeReference<T> type,
+                                 final String jsonPacket) {
+        T data = null;
+
+        try {
+            data = new ObjectMapper().readValue(jsonPacket, type);
+        } catch (Exception e) {
+            // Handle the problem
+        }
+        return data;
+    }
+
+    protected Object toObject(CloseableHttpResponse response,Class clazz) throws IOException {
+        HttpEntity entity = response.getEntity();
+        String j = EntityUtils.toString(entity);
+
+        return OBJECT_MAPPER.readValue(j,clazz);
+    }
+
+
+    @Value("${com.artronics.chapar.controller.url}")
     public void setControllerUrl(String controllerUrl) {
         this.controllerUrl = controllerUrl;
     }

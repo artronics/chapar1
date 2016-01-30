@@ -8,7 +8,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories(basePackages = {"com.artronics.chapar.controller.repositories"})
 @EnableTransactionManagement
-@EntityScan(basePackages = "com.artronics.chapar.controller.entities")
+@EntityScan(basePackages = {"com.artronics.chapar.controller.entities",
+"com.artronics.chapar.domain.entities"})
 public class RepositoryConfig
 {
 }
