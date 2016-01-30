@@ -51,10 +51,9 @@ public class Buffer {
         this.id = id;
     }
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "buff_content",joinColumns = @JoinColumn(name = "id"))
-//    @Column(name = "content")
-    @Transient
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "buff_content",joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "content")
     public List<Integer> getContent() {
         return content;
     }
