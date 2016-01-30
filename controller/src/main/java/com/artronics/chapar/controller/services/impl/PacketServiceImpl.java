@@ -5,6 +5,7 @@ import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.BufferRepo;
+import com.artronics.chapar.domain.repositories.TimeRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,6 +25,7 @@ public class PacketServiceImpl implements PacketService{
     private BlockingQueue<Packet> packetQueue;
 
     private BufferRepo bufferRepo;
+    private TimeRepo timeRepo;
 
     @Scheduled(fixedRateString = "${com.artronics.chapar.controller.scheduler.rate}")
     public void checkForNewBuffersFromClients(){
@@ -31,11 +33,17 @@ public class PacketServiceImpl implements PacketService{
         clients.forEach(client -> {
 
             List<Buffer> buffers = bufferRepo.getNewClientsBuffer(client);
+            if (!buffers.isEmpty()) {
+                log.debug("Received "+buffers.size()+ " new buffer from Client id:"+client.getId());
+                buffers.forEach(b -> {
+                    b.setProcessedAt(timeRepo.getDbNowTime());
+                    bufferRepo.save(b);
 
-            buffers.forEach(b-> {
-                Packet packet = Packet.create(b);
-                packetQueue.add(packet);
-            });
+                    Packet packet = Packet.create(b);
+                    packetQueue.add(packet);
+
+                });
+            }
         });
     }
 
@@ -54,4 +62,8 @@ public class PacketServiceImpl implements PacketService{
         this.bufferRepo = bufferRepo;
     }
 
+    @Autowired
+    public void setTimeRepo(TimeRepo timeRepo) {
+        this.timeRepo = timeRepo;
+    }
 }
