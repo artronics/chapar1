@@ -17,6 +17,7 @@ public class Buffer {
     private Client client;
 
     private Date receivedAt;
+    private Date sentAt;
 
     protected Date created;
     protected Date updated;
@@ -26,6 +27,17 @@ public class Buffer {
 
     public Buffer(List<Integer> content) {
         this.content = content;
+    }
+
+    public Buffer(List<Integer> content, Direction direction) {
+        this.content = content;
+        this.direction = direction;
+    }
+
+    public Buffer(List<Integer> content, Direction direction, Client client) {
+        this.content = content;
+        this.direction = direction;
+        this.client = client;
     }
 
     @Id
@@ -68,6 +80,16 @@ public class Buffer {
 
     public void setReceivedAt(Date receivedAt) {
         this.receivedAt = receivedAt;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "sent_at", columnDefinition = "TIMESTAMP(6)")
+    public Date getSentAt() {
+        return sentAt;
+    }
+
+    public void setSentAt(Date sentAt) {
+        this.sentAt = sentAt;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
