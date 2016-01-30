@@ -3,6 +3,7 @@ package com.artronics.chapar.domain.repositories;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,13 +19,19 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class BufferRepoTest extends BaseRepoTest{
+public class BufferRepoTest extends BaseRepoTestConfig {
 
     @Autowired
     private BufferRepo bufferRepo;
 
     @Autowired
     private ClientRepo clientRepo;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+    }
 
     @Test
     public void it_should_Name() throws Exception {

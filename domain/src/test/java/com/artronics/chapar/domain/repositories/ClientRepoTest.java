@@ -2,6 +2,7 @@ package com.artronics.chapar.domain.repositories;
 
 import com.artronics.chapar.domain.BaseCoreTestConfig;
 import com.artronics.chapar.domain.entities.Client;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class ClientRepoTest {
     ClientRepo clientRepo;
 
     private Client client;
+
+    @Before
+    public void setUp() throws Exception {
+
+
+    }
 
     @Test
     public void it_should_save_a_Client() throws Exception {
