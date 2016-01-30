@@ -43,4 +43,19 @@ public class ClientRegistrationControllerTest extends BaseControllerTest{
                 .andExpect(status().isOk());
 
     }
+
+    @Test
+    public void perform_post_method_to_register_device_and_sink() throws Exception {
+        Client client = new Client();
+        when(registrationService.registerDevice(client)).thenReturn(client);
+        String jDevice = toJson(client);
+
+        mockMvc.perform(post("/client/register?sinkAddress=12")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jDevice))
+                .andDo(print())
+//                .andExpect(jsonPath("$.id",is(1L)))
+                .andExpect(status().isOk());
+
+    }
 }
