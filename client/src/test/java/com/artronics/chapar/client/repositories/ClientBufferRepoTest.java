@@ -4,10 +4,12 @@ import com.artronics.chapar.client.BaseClientTestConfig;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.ClientRepo;
+import com.artronics.chapar.domain.repositories.PersistenceConfig;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,6 +24,11 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BaseClientTestConfig.class,PersistenceConfig.class})
 @TestPropertySource("classpath:client-test-config.properties")
+@ComponentScan({
+        "com.artronics.chapar.client",
+        "com.artronics.chapar.domain.repositories"
+        })
+
 public class ClientBufferRepoTest {
 
     @Autowired

@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller;
 
-import com.artronics.chapar.controller.repositories.PersistenceConfig;
+import com.artronics.chapar.domain.repositories.PersistenceConfig;
 import org.apache.log4j.Logger;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

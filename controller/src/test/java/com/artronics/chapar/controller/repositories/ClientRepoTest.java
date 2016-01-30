@@ -3,9 +3,11 @@ package com.artronics.chapar.controller.repositories;
 import com.artronics.chapar.controller.BaseControllerTestConfig;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.ClientRepo;
+import com.artronics.chapar.domain.repositories.PersistenceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,6 +19,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BaseControllerTestConfig.class,PersistenceConfig.class})
 @TestPropertySource("classpath:controller-test-config.properties")
+@ComponentScan("com.artronics.chapar.domain.repositories")
 public class ClientRepoTest {
 
     @Autowired
