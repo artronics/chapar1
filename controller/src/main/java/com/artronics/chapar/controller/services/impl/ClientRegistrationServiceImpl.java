@@ -7,15 +7,21 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Map;
+
 @Service
 public class ClientRegistrationServiceImpl implements ClientRegistrationService {
     private final static Logger log = Logger.getLogger(ClientRegistrationServiceImpl.class);
 
     private ClientRepo clientRepo;
 
+    private Map<Client,Client> registeredClients;
+
     @Override
     public Client registerDevice(Client client) {
         Client persistedClient = clientRepo.save(client);
+        registeredClients.put(persistedClient,persistedClient);
 
         log.debug("New Client has been registered. ID: "+persistedClient.getId());
 
@@ -30,6 +36,11 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
     @Autowired
     public void setClientRepo(ClientRepo clientRepo) {
         this.clientRepo = clientRepo;
+    }
+
+    @Resource(name = "registeredClients")
+    public void setRegisteredClients(Map<Client, Client> registeredClients) {
+        this.registeredClients = registeredClients;
     }
 
 }
