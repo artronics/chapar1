@@ -1,13 +1,14 @@
 package com.artronics.chapar.client.driver.buffer;
 
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class BufferFactory
-{
+public class DeviceBufferFactory {
+    private final static Logger log = Logger.getLogger(DeviceBufferFactory.class);
     static final int START_BYTE = 122;
     static final int STOP_BYTE = 126;
 
@@ -25,7 +26,7 @@ public class BufferFactory
 
     private List<List<Integer>> allBuffers = new ArrayList<>();
 
-    public BufferFactory()
+    public DeviceBufferFactory()
     {
         Integer[] streamOfBytes =
                 {

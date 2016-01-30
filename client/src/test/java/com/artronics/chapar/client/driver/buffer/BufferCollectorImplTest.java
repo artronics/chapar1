@@ -19,7 +19,7 @@ public class BufferCollectorImplTest
     List<Integer> expOnePck = new ArrayList<>();
     List<List<Integer>> expPcks = new ArrayList<>();
 
-    BufferFactory fakeBuffers = new BufferFactory();
+    DeviceBufferFactory fakeBuffers =new DeviceBufferFactory() ;
     List<Integer> goodPacket;
 
     List<Integer> firstOne = fakeBuffers.getFirstOne();
@@ -37,8 +37,8 @@ public class BufferCollectorImplTest
     @Before
     public void setUp() throws Exception
     {
-        convertor.setStartByte(BufferFactory.START_BYTE);
-        convertor.setStopByte(BufferFactory.STOP_BYTE);
+        convertor.setStartByte(DeviceBufferFactory.START_BYTE);
+        convertor.setStopByte(DeviceBufferFactory.STOP_BYTE);
     }
 
     @Test
