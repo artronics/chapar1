@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BaseRepoTest.class,BaseCoreTestConfig.class,PersistenceConfig.class})
-@TestPropertySource("classpath:h2-config.properties")
-//@TestPropertySource("classpath:mysql-config.properties")
+//@TestPropertySource("classpath:h2-config.properties")
+@TestPropertySource("classpath:mysql-config.properties")
 public class BaseRepoTest {
     private final static Logger log = Logger.getLogger(BaseRepoTest.class);
 

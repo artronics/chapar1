@@ -36,9 +36,18 @@ public class ClientBufferServiceImpl implements ClientBufferService{
     private BlockingQueue<Buffer> txBufferQueue;
 
     public ClientBufferServiceImpl() {
+    }
+
+    @Override
+    public void start() {
         isStarted = true;
         Thread t= new Thread(new BufferTxListener(),"TX_LSN");
         t.start();
+    }
+
+    @Override
+    public void stop() {
+        isStarted = false;
     }
 
     @Override
@@ -53,7 +62,7 @@ public class ClientBufferServiceImpl implements ClientBufferService{
 
         bufferRepo.save(buffer);
 
-        log.debug("New Buffer persisted.");
+        log.debug(Buffer.soutBuffer(buffer));
 
         return buffer;
     }
@@ -118,6 +127,7 @@ public class ClientBufferServiceImpl implements ClientBufferService{
                         buffer.setSentAt(timeRepo.getDbNowTime());
                         bufferRepo.save(buffer);
 
+                        log.debug(Buffer.soutBuffer(buffer));
                         TxBuffersReadyEvent e = new TxBuffersReadyEvent(this, buffer);
                         publisher.publishEvent(e);
 

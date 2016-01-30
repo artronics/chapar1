@@ -32,7 +32,7 @@
     <!--</logger>-->
 
     <logger name="org.hibernate">
-        <level value="warn"/>
+        <level value="debug"/>
     </logger>
 
     <logger name="com.artronics.chapar.domain" additivity="false">

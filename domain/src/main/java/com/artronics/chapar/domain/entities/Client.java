@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "devices")
+@Table(name = "clients")
 public class Client{
 
     protected Long id;

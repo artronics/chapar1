@@ -51,9 +51,10 @@ public class Buffer {
         this.id = id;
     }
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "buff_content",joinColumns = @JoinColumn(name = "buff_id"))
-    @Column(name = "content")
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "buff_content",joinColumns = @JoinColumn(name = "id"))
+//    @Column(name = "content")
+    @Transient
     public List<Integer> getContent() {
         return content;
     }
@@ -137,6 +138,24 @@ public class Buffer {
     public enum Direction{
         RX,
         TX
+    }
+
+    public static String soutBuffer(Buffer buffer){
+        Direction dir = buffer.getDirection();
+        String s = "BUFF:"+ dir +" ";
+
+        if (dir==Direction.RX && buffer.getReceivedAt()!=null){
+            s+="received at: "+ buffer.getReceivedAt();
+        }
+        if (dir==Direction.TX && buffer.getSentAt()!=null){
+            s+= "sent at   : " +buffer.getSentAt();
+        }
+
+        for (Integer c : buffer.getContent()) {
+            s += String.format("%-4d", c);
+        }
+
+        return s;
     }
 
 }

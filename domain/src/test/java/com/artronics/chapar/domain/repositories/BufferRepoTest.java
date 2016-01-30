@@ -28,6 +28,11 @@ public class BufferRepoTest extends BaseRepoTest{
 
     @Test
     public void it_should_Name() throws Exception {
+
+    }
+
+    @Test
+    public void it_should_save() throws Exception {
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5));
         b.setDirection(RX);
 
@@ -154,4 +159,13 @@ public class BufferRepoTest extends BaseRepoTest{
         assertThat(readyBuffs.size(),is(equalTo(2)));
     }
 
+    @Test
+    public void it_should_return__when_there_is_no_buffer() throws Exception {
+        Client c = new Client();
+        clientRepo.save(c);
+
+        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(c);
+
+        assertThat(readyBuffs.size(),is(equalTo(0)));
+    }
 }

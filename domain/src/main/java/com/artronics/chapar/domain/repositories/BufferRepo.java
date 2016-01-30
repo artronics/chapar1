@@ -16,4 +16,5 @@ public interface BufferRepo extends
             "b.sentAt= null and " +
             "b.client= :client")
     List<Buffer> getReadyTxBuffers(@Param("client") Client client);
+//    List<Buffer> getReadyTxBuffers( Client client);
 }

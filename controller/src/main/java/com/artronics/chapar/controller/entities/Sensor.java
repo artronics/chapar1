@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "nodes")
+@Table(name = "sensors")
 public class Sensor extends AbstractBaseEntity {
     private final static Logger log = Logger.getLogger(Sensor.class);
 

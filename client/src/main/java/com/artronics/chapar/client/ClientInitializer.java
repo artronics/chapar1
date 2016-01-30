@@ -51,6 +51,7 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
             registeredClient = clientRepo.findOne(registeredClient.getId());
 
             bufferService.setRegisteredClient(registeredClient);
+            bufferService.start();
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
