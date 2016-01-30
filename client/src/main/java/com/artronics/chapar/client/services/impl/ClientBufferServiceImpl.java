@@ -1,10 +1,10 @@
 package com.artronics.chapar.client.services.impl;
 
 import com.artronics.chapar.client.events.RxBufferReadyEvent;
-import com.artronics.chapar.client.repositories.ClientBufferRepo;
 import com.artronics.chapar.client.services.ClientBufferService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.repositories.BufferRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class ClientBufferServiceImpl implements ClientBufferService{
     private final static Logger log = Logger.getLogger(ClientBufferServiceImpl.class);
 
-    private ClientBufferRepo bufferRepo;
+    private BufferRepo bufferRepo;
 
     private Client registeredClient;
 
@@ -44,7 +44,7 @@ public class ClientBufferServiceImpl implements ClientBufferService{
     }
 
     @Autowired
-    public void setBufferRepo(ClientBufferRepo bufferRepo) {
+    public void setBufferRepo(BufferRepo bufferRepo) {
         this.bufferRepo = bufferRepo;
     }
 

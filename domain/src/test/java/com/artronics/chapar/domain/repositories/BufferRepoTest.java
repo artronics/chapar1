@@ -1,10 +1,8 @@
-package com.artronics.chapar.client.repositories;
+package com.artronics.chapar.domain.repositories;
 
-import com.artronics.chapar.client.BaseClientTestConfig;
+import com.artronics.chapar.domain.BaseCoreTestConfig;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
-import com.artronics.chapar.domain.repositories.ClientRepo;
-import com.artronics.chapar.domain.repositories.PersistenceConfig;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,17 +20,18 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BaseClientTestConfig.class,PersistenceConfig.class})
-@TestPropertySource("classpath:client-test-config.properties")
+@ContextConfiguration(classes = {BaseCoreTestConfig.class,PersistenceConfig.class})
+//@TestPropertySource("classpath:h2-config.properties")
+@TestPropertySource("classpath:mysql-config.properties")
 @ComponentScan({
         "com.artronics.chapar.client",
         "com.artronics.chapar.domain.repositories"
         })
 
-public class ClientBufferRepoTest {
+public class BufferRepoTest {
 
     @Autowired
-    private ClientBufferRepo bufferRepo;
+    private BufferRepo bufferRepo;
 
     @Autowired
     private ClientRepo clientRepo;

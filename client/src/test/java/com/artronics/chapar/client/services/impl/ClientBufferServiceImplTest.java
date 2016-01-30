@@ -1,8 +1,8 @@
 package com.artronics.chapar.client.services.impl;
 
-import com.artronics.chapar.client.repositories.ClientBufferRepo;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.repositories.BufferRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +21,7 @@ public class ClientBufferServiceImplTest {
     private ClientBufferServiceImpl bufferService;
 
     @Mock
-    private ClientBufferRepo bufferRepo;
+    private BufferRepo bufferRepo;
 
     private Client registeredClient;
 
