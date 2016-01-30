@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -38,8 +39,7 @@ public class ClientBufferServiceImplTest {
 
         bufferService.setRegisteredClient(registeredClient);
 
-        Date t = new Date();
-        when(timeRepo.getDbNowTime()).thenReturn(new Date());
+        when(timeRepo.getDbNowTime()).thenReturn(new Timestamp(new Date().getTime()));
     }
 
     @Test

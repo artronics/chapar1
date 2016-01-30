@@ -60,6 +60,8 @@ public class Buffer {
         this.direction = direction;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "received_at", columnDefinition = "TIMESTAMP(6)")
     public Date getReceivedAt() {
         return receivedAt;
     }
