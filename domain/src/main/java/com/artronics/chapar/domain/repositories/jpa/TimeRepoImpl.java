@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Repository
@@ -17,6 +19,9 @@ public class TimeRepoImpl implements TimeRepo{
 
     @Override
     public Date getDbNowTime() {
-        return null;
+        Query query = em.createNativeQuery("SELECT sysdate(6) as date");
+        Timestamp dateEntity = (Timestamp) query.getSingleResult();
+
+        return dateEntity;
     }
 }
