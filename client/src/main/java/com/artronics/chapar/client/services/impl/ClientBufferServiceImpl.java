@@ -6,6 +6,7 @@ import com.artronics.chapar.client.services.ClientBufferService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class ClientBufferServiceImpl implements ClientBufferService{
 
         bufferRepo.save(buffer);
 
+        log.debug("New Buffer persisted.");
+
         return buffer;
     }
 
@@ -40,6 +43,12 @@ public class ClientBufferServiceImpl implements ClientBufferService{
         sendBuffer(b);
     }
 
+    @Autowired
+    public void setBufferRepo(ClientBufferRepo bufferRepo) {
+        this.bufferRepo = bufferRepo;
+    }
+
+    @Override
     @Resource(name = "registeredClient")
     public void setRegisteredClient(Client registeredClient) {
         this.registeredClient = registeredClient;
