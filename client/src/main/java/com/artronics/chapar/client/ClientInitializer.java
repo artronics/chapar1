@@ -22,6 +22,10 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        deviceDriver.init();
+        deviceDriver.open();
+
+
     }
 
     @EventListener

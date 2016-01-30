@@ -7,7 +7,7 @@
     <groupId>com.artronics.chapar</groupId>
     <artifactId>chapar</artifactId>
     <packaging>pom</packaging>
-    <version>${chapar.version}</version>
+    <version>0.1.1-SNAPSHOT</version>
     
     <parent>
         <groupId>org.springframework.boot</groupId>
