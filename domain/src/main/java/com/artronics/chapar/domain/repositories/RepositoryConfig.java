@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {
         "com.artronics.chapar.controller.repositories",
         "com.artronics.chapar.domain.repositories",
+        "com.artronics.chapar.domain.repositories.jpa",
         "com.artronics.chapar.client.repositories"
 })
 @EntityScan(basePackages = {

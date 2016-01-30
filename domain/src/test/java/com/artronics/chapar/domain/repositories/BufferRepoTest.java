@@ -78,4 +78,28 @@ public class BufferRepoTest {
 
         assertThat(perB.getContent().size(),is(equalTo(5)));
     }
+
+    @Test
+    public void mysql_should_create_a_timestamp_for_created_field() throws Exception {
+        Buffer b = new Buffer(Arrays.asList(1,2,3,4,5));
+        b.setDirection(Buffer.Direction.RX);
+
+        bufferRepo.save(b);
+
+        Buffer perB = bufferRepo.findOne(b.getId());
+
+        assertThat(perB.getCreated(),is(Matchers.notNullValue()));
+    }
+
+    @Test
+    public void it_should_persist() throws Exception {
+        Client c = new Client();
+        clientRepo.save(c);
+
+        Buffer b = new Buffer(Arrays.asList(1,2,3,4,5));
+        b.setDirection(Buffer.Direction.RX);
+
+        bufferRepo.persist(b,c.getId());
+    }
+
 }

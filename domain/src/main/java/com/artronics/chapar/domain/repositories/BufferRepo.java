@@ -4,6 +4,6 @@ import com.artronics.chapar.domain.entities.Buffer;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface BufferRepo extends
-        PagingAndSortingRepository<Buffer,Long>//,ClientBufferCustomRepo
+        PagingAndSortingRepository<Buffer,Long> ,BufferCustomRepo
 {
 }
