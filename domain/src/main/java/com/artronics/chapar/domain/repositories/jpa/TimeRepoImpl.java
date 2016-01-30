@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Repository
 public class TimeRepoImpl implements TimeRepo{
@@ -17,7 +18,7 @@ public class TimeRepoImpl implements TimeRepo{
     private EntityManager em;
 
     @Override
-    public Timestamp getDbNowTime() {
+    public Date getDbNowTime() {
         Query query = em.createNativeQuery("SELECT sysdate(6) as date");
         Timestamp dateEntity = (Timestamp) query.getSingleResult();
 

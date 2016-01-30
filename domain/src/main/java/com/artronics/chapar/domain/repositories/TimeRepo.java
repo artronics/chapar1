@@ -1,7 +1,7 @@
 package com.artronics.chapar.domain.repositories;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public interface TimeRepo{
-    Timestamp getDbNowTime();
+    Date getDbNowTime();
 }

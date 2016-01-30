@@ -11,8 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -31,7 +31,7 @@ public class TimeRepoTest {
 //    @Ignore("just to see the time format.")
     @Test
     public void it_should_getServer_time() throws Exception {
-        Timestamp d = timeRepo.getDbNowTime();
+        Date d = timeRepo.getDbNowTime();
 
         System.out.println(d);
     }
