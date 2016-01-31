@@ -5,7 +5,9 @@ import com.artronics.chapar.controller.config.ControllerResourceConfig;
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.entities.packet.PacketFactory;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketFactory;
+import com.artronics.chapar.controller.services.PacketRegistrationService;
 import com.artronics.chapar.controller.services.PacketService;
+import com.artronics.chapar.controller.services.impl.PacketRegistrationServiceImpl;
 import com.artronics.chapar.controller.services.impl.PacketServiceImpl;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
@@ -100,6 +102,11 @@ public class PacketServiceIT {
         @Bean
         public PacketFactory getFactory(){
             return new SdwnPacketFactory();
+        }
+
+        @Bean
+        public PacketRegistrationService getPacketRegService(){
+            return new PacketRegistrationServiceImpl();
         }
 
     }

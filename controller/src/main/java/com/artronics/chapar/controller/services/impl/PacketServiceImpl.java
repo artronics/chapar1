@@ -3,6 +3,7 @@ package com.artronics.chapar.controller.services.impl;
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.entities.packet.PacketFactory;
 import com.artronics.chapar.controller.exceptions.MalformedPacketException;
+import com.artronics.chapar.controller.services.PacketRegistrationService;
 import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
@@ -27,6 +28,7 @@ public class PacketServiceImpl implements PacketService{
     private BlockingQueue<Packet> packetQueue;
 
     private PacketFactory packetFactory;
+    private PacketRegistrationService packetRegistrationService;
 
     private BufferRepo bufferRepo;
     private TimeRepo timeRepo;
@@ -45,12 +47,12 @@ public class PacketServiceImpl implements PacketService{
             if (!buffers.isEmpty()) {
                 log.debug("Received "+buffers.size()+ " new buffer from Client id:"+client.getId());
 
-                buffers.forEach(this::createPacketAndAddToQueue);
+                buffers.forEach(b->createPacketRegisterAndAddToQueue(b,client));
             }
         });
     }
 
-    private void createPacketAndAddToQueue(Buffer b) {
+    private void createPacketRegisterAndAddToQueue(Buffer b,Client client) {
         b.setProcessedAt(timeRepo.getDbNowTime());
         bufferRepo.save(b);
 
@@ -64,6 +66,8 @@ public class PacketServiceImpl implements PacketService{
         }
 
         packet.setGeneratedAt(timeRepo.getDbNowTime());
+
+        packetRegistrationService.registerPacket(packet,client);
 
         packetQueue.add(packet);
     }
@@ -81,6 +85,11 @@ public class PacketServiceImpl implements PacketService{
     @Autowired
     public void setPacketFactory(PacketFactory packetFactory) {
         this.packetFactory = packetFactory;
+    }
+
+    @Autowired
+    public void setPacketRegistrationService(PacketRegistrationService packetRegistrationService) {
+        this.packetRegistrationService = packetRegistrationService;
     }
 
     @Autowired

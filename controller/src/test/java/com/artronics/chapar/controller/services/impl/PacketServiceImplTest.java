@@ -3,6 +3,7 @@ package com.artronics.chapar.controller.services.impl;
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.entities.packet.PacketFactory;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketFactory;
+import com.artronics.chapar.controller.services.PacketRegistrationService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.BufferRepo;
@@ -30,6 +31,8 @@ public class PacketServiceImplTest {
     private BufferRepo bufferRepo;
     @Mock
     private TimeRepo timeRepo;
+    @Mock
+    private PacketRegistrationService packetRegistrationService;
 
     private PacketFactory packetFactory;
 
