@@ -1,6 +1,8 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.entities.packet.Packet;
+import com.artronics.chapar.controller.entities.packet.PacketFactory;
+import com.artronics.chapar.controller.sdwn.packet.SdwnPacketFactory;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.BufferRepo;
@@ -29,6 +31,8 @@ public class PacketServiceImplTest {
     @Mock
     private TimeRepo timeRepo;
 
+    private PacketFactory packetFactory;
+
     private Map<Client,Client> registeredClients;
     private BlockingQueue<Packet> packetQueue;
 
@@ -42,8 +46,11 @@ public class PacketServiceImplTest {
         registeredClients = new HashMap<>();
         packetQueue = new LinkedBlockingQueue<>();
 
+        packetFactory = new SdwnPacketFactory();
+
         packetService.setRegisteredClients(registeredClients);
         packetService.setPacketQueue(packetQueue);
+        packetService.setPacketFactory(packetFactory);
 
         registeredClients.put(client,client);
     }

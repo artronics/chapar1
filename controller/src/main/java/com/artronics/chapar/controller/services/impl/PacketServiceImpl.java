@@ -1,6 +1,8 @@
 package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.entities.packet.Packet;
+import com.artronics.chapar.controller.entities.packet.PacketFactory;
+import com.artronics.chapar.controller.exceptions.MalformedPacketException;
 import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
@@ -24,6 +26,8 @@ public class PacketServiceImpl implements PacketService{
     private Map<Client,Client> registeredClients;
     private BlockingQueue<Packet> packetQueue;
 
+    private PacketFactory packetFactory;
+
     private BufferRepo bufferRepo;
     private TimeRepo timeRepo;
 
@@ -40,17 +44,28 @@ public class PacketServiceImpl implements PacketService{
             List<Buffer> buffers = bufferRepo.getNewClientsBuffer(client);
             if (!buffers.isEmpty()) {
                 log.debug("Received "+buffers.size()+ " new buffer from Client id:"+client.getId());
-                buffers.forEach(b -> {
-                    b.setProcessedAt(timeRepo.getDbNowTime());
-                    bufferRepo.save(b);
 
-                    Packet packet = Packet.create(b);
-                    packet.setGeneratedAt(timeRepo.getDbNowTime());
-
-                    packetQueue.add(packet);
-                });
+                buffers.forEach(this::createPacketAndAddToQueue);
             }
         });
+    }
+
+    private void createPacketAndAddToQueue(Buffer b) {
+        b.setProcessedAt(timeRepo.getDbNowTime());
+        bufferRepo.save(b);
+
+        Packet packet = null;
+        try {
+            packet = packetFactory.create(b);
+
+        } catch (MalformedPacketException e) {
+            //TODO Persist a malformed packet in db
+            e.printStackTrace();
+        }
+
+        packet.setGeneratedAt(timeRepo.getDbNowTime());
+
+        packetQueue.add(packet);
     }
 
     @Resource(name = "registeredClients")
@@ -61,6 +76,11 @@ public class PacketServiceImpl implements PacketService{
     @Resource(name = "packetQueue")
     public void setPacketQueue(BlockingQueue<Packet> packetQueue) {
         this.packetQueue = packetQueue;
+    }
+
+    @Autowired
+    public void setPacketFactory(PacketFactory packetFactory) {
+        this.packetFactory = packetFactory;
     }
 
     @Autowired

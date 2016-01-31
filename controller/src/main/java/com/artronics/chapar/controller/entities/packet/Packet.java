@@ -18,12 +18,8 @@ public class Packet <T extends Enum<T> & PacketType> {
     public Packet() {
     }
 
-    private Packet(Buffer buffer) {
+    public Packet(Buffer buffer) {
         this.buffer = buffer;
-    }
-
-    public static Packet create(Buffer buffer){
-        return new Packet(buffer);
     }
 
     @Id

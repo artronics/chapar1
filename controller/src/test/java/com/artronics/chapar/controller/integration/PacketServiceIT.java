@@ -3,6 +3,8 @@ package com.artronics.chapar.controller.integration;
 import com.artronics.chapar.controller.BaseControllerTestConfig;
 import com.artronics.chapar.controller.config.ControllerResourceConfig;
 import com.artronics.chapar.controller.entities.packet.Packet;
+import com.artronics.chapar.controller.entities.packet.PacketFactory;
+import com.artronics.chapar.controller.sdwn.packet.SdwnPacketFactory;
 import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.controller.services.impl.PacketServiceImpl;
 import com.artronics.chapar.domain.entities.Buffer;
@@ -93,6 +95,11 @@ public class PacketServiceIT {
             PacketServiceImpl packetService = new PacketServiceImpl();
             packetService.setRegisteredClients(getRegisteredClients());
             return packetService;
+        }
+
+        @Bean
+        public PacketFactory getFactory(){
+            return new SdwnPacketFactory();
         }
 
     }
