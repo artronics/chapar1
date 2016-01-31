@@ -67,14 +67,6 @@ public class PacketServiceIT {
         buffs.forEach(b->assertThat(b.getProcessedAt(),is(notNullValue())));
     }
 
-    @Test
-    public void it_should_fill_packetQueue_with_generated_packets_out_of_buffers() throws Exception {
-        saveRxBuffers();
-        packetService.checkForRxBuffers();
-
-        assertThat(packetQueue.size(),is(equalTo(2)));
-    }
-
     private void saveRxBuffers(){
         Buffer b1 = new Buffer(null, Buffer.Direction.RX,client);
         Buffer b2 = new Buffer(null, Buffer.Direction.RX,client);

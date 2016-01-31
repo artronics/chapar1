@@ -65,13 +65,26 @@ public class PacketServiceImplTest {
         Buffer b1 = new Buffer(null, Buffer.Direction.RX,client);
         Buffer b2 = new Buffer(null, Buffer.Direction.RX,client);
         List<Buffer> buffs1 = new ArrayList<>(Arrays.asList(b1,b2));
-
-        Buffer b3 = new Buffer(null, Buffer.Direction.RX,c2);
-        Buffer b4 = new Buffer(null, Buffer.Direction.RX,c2);
-        List<Buffer> buffs2 = new ArrayList<>(Arrays.asList(b3,b4));
-
         when(bufferRepo.getNewClientsBuffer(client)).thenReturn(buffs1);
-        when(bufferRepo.getNewClientsBuffer(c2)).thenReturn(buffs2);
+
+        if (c2 != null) {
+            Buffer b3 = new Buffer(null, Buffer.Direction.RX,c2);
+            Buffer b4 = new Buffer(null, Buffer.Direction.RX,c2);
+            List<Buffer> buffs2 = new ArrayList<>(Arrays.asList(b3,b4));
+            when(bufferRepo.getNewClientsBuffer(c2)).thenReturn(buffs2);
+        }
+    }
+
+    @Test
+    public void it_should_fill_packetQueue_with_generated_packets_out_of_buffers() throws Exception {
+        addBuffers();
+        packetService.checkForNewBuffersFromClients();
+
+        assertThat(packetQueue.size(),is(equalTo(2)));
+    }
+
+    private void addBuffers() {
+        addBuffers(null);
     }
 
     @Ignore("it doesn't work with mockito. Should test it with db")
