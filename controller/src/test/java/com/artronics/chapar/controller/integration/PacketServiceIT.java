@@ -72,13 +72,16 @@ public class PacketServiceIT {
     }
 
     private void saveRxBuffers(){
-        Buffer b1 = new Buffer(null, Buffer.Direction.RX,client);
-        Buffer b2 = new Buffer(null, Buffer.Direction.RX,client);
+        Buffer b1 = new Buffer(createBuffContent(), Buffer.Direction.RX,client);
+        Buffer b2 = new Buffer(createBuffContent(), Buffer.Direction.RX,client);
         List<Buffer> buffs1 = new ArrayList<>(Arrays.asList(b1,b2));
         b1.setSentAt(timeRepo.getDbNowTime());
         b2.setSentAt(timeRepo.getDbNowTime());
 
         bufferRepo.save(buffs1);
+    }
+    private List<Integer> createBuffContent(){
+        return new ArrayList<>(Arrays.asList(1,2,34,5,6,7,2,4,3,2,1));
     }
 
     @Configuration

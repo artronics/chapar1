@@ -2,7 +2,7 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.entities.packet.PacketFactory;
-import com.artronics.chapar.controller.sdwn.packet.SdwnPacketFactory;
+import com.artronics.chapar.controller.exceptions.MalformedPacketException;
 import com.artronics.chapar.controller.services.PacketRegistrationService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
@@ -20,6 +20,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,7 @@ public class PacketServiceImplTest {
     @Mock
     private PacketRegistrationService packetRegistrationService;
 
+    @Mock
     private PacketFactory packetFactory;
 
     private Map<Client,Client> registeredClients;
@@ -49,13 +51,14 @@ public class PacketServiceImplTest {
         registeredClients = new HashMap<>();
         packetQueue = new LinkedBlockingQueue<>();
 
-        packetFactory = new SdwnPacketFactory();
+//        packetFactory = new SdwnPacketFactory();
 
         packetService.setRegisteredClients(registeredClients);
         packetService.setPacketQueue(packetQueue);
         packetService.setPacketFactory(packetFactory);
 
         registeredClients.put(client,client);
+
     }
 
     @Test
@@ -71,11 +74,13 @@ public class PacketServiceImplTest {
         assertThat(packetQueue.size(),is(equalTo(4)));
     }
 
-    private void addBuffers(Client c2) {
+    private void addBuffers(Client c2) throws MalformedPacketException {
         Buffer b1 = new Buffer(null, Buffer.Direction.RX,client);
         Buffer b2 = new Buffer(null, Buffer.Direction.RX,client);
         List<Buffer> buffs1 = new ArrayList<>(Arrays.asList(b1,b2));
         when(bufferRepo.getNewClientsBuffer(client)).thenReturn(buffs1);
+
+        when(packetFactory.create(any(Buffer.class))).thenReturn(new Packet());
 
         if (c2 != null) {
             Buffer b3 = new Buffer(null, Buffer.Direction.RX,c2);
@@ -107,7 +112,7 @@ public class PacketServiceImplTest {
         packets.forEach(p->assertThat(p.getGeneratedAt(),is(equalTo(d))));
     }
 
-    private void addBuffers() {
+    private void addBuffers() throws MalformedPacketException {
         addBuffers(null);
     }
 
