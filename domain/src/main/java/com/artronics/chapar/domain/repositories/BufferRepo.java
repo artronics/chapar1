@@ -22,4 +22,9 @@ public interface BufferRepo extends
             "b.processedAt = null and " +
             "b.client = :client")
     List<Buffer> getNewClientsBuffer(@Param("client") Client client);
+
+    @Query(value = "select b from Buffer b where " +
+            "b.direction='RX' and " +
+            "b.processedAt <> null")
+    List<Buffer> getProcessedRxBuffs();
 }

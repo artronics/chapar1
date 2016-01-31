@@ -167,12 +167,33 @@ public class BufferRepoTest extends BaseRepoTestConfig {
     }
 
     @Test
-    public void it_should_return__when_there_is_no_buffer() throws Exception {
+    public void it_should_return_empty_list_when_there_is_no_buffer() throws Exception {
         Client c = new Client();
         clientRepo.save(c);
 
         List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(c);
 
         assertThat(readyBuffs.size(),is(equalTo(0)));
+    }
+
+    @Test
+    public void it_should_getProcessedRxBuffs() throws Exception {
+        Client c = new Client();
+        clientRepo.save(c);
+
+        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,c);
+        b.setProcessedAt(new Date());
+
+        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,c);
+
+        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        b4.setProcessedAt(new Date());
+
+        bufferRepo.save(new ArrayList<>(Arrays.asList(b,b2,b3)));
+
+        List<Buffer> buffs = bufferRepo.getProcessedRxBuffs();
+
+        assertThat(buffs.size(),is(equalTo(1)));
     }
 }
