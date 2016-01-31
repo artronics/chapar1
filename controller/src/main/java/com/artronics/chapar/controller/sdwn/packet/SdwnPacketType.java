@@ -1,7 +1,7 @@
-package com.artronics.chapar.controller.entities.packet;
+package com.artronics.chapar.controller.sdwn.packet;
 
 
-import com.artronics.chapar.domain.model.packet.PacketType;
+import com.artronics.chapar.controller.entities.packet.PacketType;
 
 public enum SdwnPacketType implements PacketType {
     DATA(0),

@@ -1,6 +1,5 @@
 package com.artronics.chapar.domain.log;
 
-import com.artronics.chapar.domain.model.packet.PacketI;
 import org.apache.log4j.Logger;
 
 public interface PacketLogger<T extends PacketI>

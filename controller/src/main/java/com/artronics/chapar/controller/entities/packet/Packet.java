@@ -1,14 +1,16 @@
 package com.artronics.chapar.controller.entities.packet;
 
-import com.artronics.chapar.controller.entities.AbstractBaseEntity;
 import com.artronics.chapar.domain.entities.Buffer;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "packets")
-public class Packet extends AbstractBaseEntity {
-    private Buffer buffer;
+@MappedSuperclass
+public class Packet <T extends Enum<T> & PacketType> {
+    private Long id;
+
+    protected Buffer buffer;
+
+    protected T type;
 
     public Packet() {
     }
@@ -21,6 +23,16 @@ public class Packet extends AbstractBaseEntity {
         return new Packet(buffer);
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",nullable = false,unique = true)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buff_id")
     public Buffer getBuffer() {
@@ -30,4 +42,13 @@ public class Packet extends AbstractBaseEntity {
     public void setBuffer(Buffer buffer) {
         this.buffer = buffer;
     }
+
+    public T getType() {
+        return type;
+    }
+
+    public void setType(T type) {
+        this.type = type;
+    }
+
 }

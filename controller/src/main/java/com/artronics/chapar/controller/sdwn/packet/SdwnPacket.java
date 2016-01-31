@@ -1,4 +1,4 @@
-package com.artronics.chapar.controller.entities.packet;
+package com.artronics.chapar.controller.sdwn.packet;
 
 import java.util.List;
 

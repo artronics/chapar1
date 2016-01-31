@@ -1,4 +1,4 @@
-package com.artronics.chapar.domain.model.packet;
+package com.artronics.chapar.controller.entities.packet;
 
 public interface PacketType {
     enum Type{
