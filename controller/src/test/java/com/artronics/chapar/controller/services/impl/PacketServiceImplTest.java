@@ -83,6 +83,20 @@ public class PacketServiceImplTest {
         assertThat(packetQueue.size(),is(equalTo(2)));
     }
 
+    @Test
+    public void it_should_fill_generatedAt_field_with_each_packet() throws Exception {
+        Date d = new Date();
+        when(timeRepo.getDbNowTime()).thenReturn(d);
+
+        addBuffers();
+        packetService.checkForNewBuffersFromClients();
+
+        List<Packet> packets = new ArrayList<>();
+        packetQueue.drainTo(packets);
+
+        packets.forEach(p->assertThat(p.getGeneratedAt(),is(equalTo(d))));
+    }
+
     private void addBuffers() {
         addBuffers(null);
     }

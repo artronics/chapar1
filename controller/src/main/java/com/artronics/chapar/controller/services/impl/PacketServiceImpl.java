@@ -45,8 +45,9 @@ public class PacketServiceImpl implements PacketService{
                     bufferRepo.save(b);
 
                     Packet packet = Packet.create(b);
-                    packetQueue.add(packet);
+                    packet.setGeneratedAt(timeRepo.getDbNowTime());
 
+                    packetQueue.add(packet);
                 });
             }
         });
