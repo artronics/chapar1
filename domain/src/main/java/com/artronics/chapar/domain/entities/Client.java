@@ -15,6 +15,13 @@ public class Client{
     protected Date created;
     protected Date updated;
 
+    public Client() {
+    }
+
+    public Client(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",nullable = false,unique = true)
