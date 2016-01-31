@@ -1,6 +1,6 @@
 package com.artronics.chapar.controller.sdwn.helpers;
 
-import com.artronics.chapar.controller.sdwn.packet.SdwnPacket;
+import com.artronics.chapar.controller.sdwn.packet.SdwnPacketConstants;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketUtils;
 import com.artronics.chapar.domain.entities.Buffer;
@@ -41,13 +41,13 @@ public class FakeSdwnBufferFactory
     public static List<Integer> createHeader(int src, int dst, int len, SdwnPacketType type){
         return new ArrayList<>(Arrays.asList(
                 len,
-                SdwnPacket.DEF_NET_ID,
+                SdwnPacketConstants.DEF_NET_ID,
                 SdwnPacketUtils.getHighAddress(src),
                 SdwnPacketUtils.getLowAddress(src),
                 SdwnPacketUtils.getHighAddress(dst),
                 SdwnPacketUtils.getLowAddress(dst),
                 type.getValue(),
-                SdwnPacket.DEF_MAX_TTL,
+                SdwnPacketConstants.DEF_MAX_TTL,
                 SdwnPacketUtils.getHighAddress(0),
                 SdwnPacketUtils.getLowAddress(0)
         ));

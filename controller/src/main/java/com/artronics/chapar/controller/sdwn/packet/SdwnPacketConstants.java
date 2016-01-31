@@ -2,7 +2,7 @@ package com.artronics.chapar.controller.sdwn.packet;
 
 import java.util.List;
 
-public interface SdwnPacket {
+public interface SdwnPacketConstants {
     Integer HEADER_LEN = 10;
     Integer DEF_NET_ID=1;
     Integer DEF_MAX_TTL=20;

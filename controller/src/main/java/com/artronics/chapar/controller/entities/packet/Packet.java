@@ -3,6 +3,7 @@ package com.artronics.chapar.controller.entities.packet;
 import com.artronics.chapar.domain.entities.Buffer;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @MappedSuperclass
 public class Packet <T extends Enum<T> & PacketType> {
@@ -11,6 +12,8 @@ public class Packet <T extends Enum<T> & PacketType> {
     protected Buffer buffer;
 
     protected T type;
+
+    protected Date generatedAt;
 
     public Packet() {
     }
@@ -43,12 +46,23 @@ public class Packet <T extends Enum<T> & PacketType> {
         this.buffer = buffer;
     }
 
+    @Column(name = "type",nullable = false)
     public T getType() {
         return type;
     }
 
     public void setType(T type) {
         this.type = type;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "gen_at",columnDefinition = "DATETIME(6)")
+    public Date getGeneratedAt() {
+        return generatedAt;
+    }
+
+    public void setGeneratedAt(Date generatedAt) {
+        this.generatedAt = generatedAt;
     }
 
 }

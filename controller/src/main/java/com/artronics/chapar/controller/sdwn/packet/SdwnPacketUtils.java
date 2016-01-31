@@ -3,8 +3,8 @@ package com.artronics.chapar.controller.sdwn.packet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.artronics.chapar.controller.sdwn.packet.SdwnPacket.ByteIndex.*;
-import static com.artronics.chapar.controller.sdwn.packet.SdwnPacket.HEADER_LEN;
+import static com.artronics.chapar.controller.sdwn.packet.SdwnPacketConstants.ByteIndex.*;
+import static com.artronics.chapar.controller.sdwn.packet.SdwnPacketConstants.HEADER_LEN;
 public class SdwnPacketUtils {
 
     public static int getBattery(List<Integer> content)
