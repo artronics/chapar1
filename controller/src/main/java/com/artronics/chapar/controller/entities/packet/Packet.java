@@ -1,6 +1,8 @@
 package com.artronics.chapar.controller.entities.packet;
 
 import com.artronics.chapar.domain.entities.Buffer;
+import com.artronics.chapar.domain.entities.address.Address;
+import com.artronics.chapar.domain.entities.address.UnicastAddress;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +12,12 @@ public class Packet <T extends Enum<T> & PacketType> {
     private Long id;
 
     protected Buffer buffer;
+
+    protected Long srcLocalAddress;
+    protected Long dstLocalAddress;
+
+    private UnicastAddress srcAddress;
+    private Address dstAddress;
 
     protected T type;
 
@@ -40,6 +48,44 @@ public class Packet <T extends Enum<T> & PacketType> {
 
     public void setBuffer(Buffer buffer) {
         this.buffer = buffer;
+    }
+
+    @Transient
+    public Long getSrcLocalAddress() {
+        return srcLocalAddress;
+    }
+
+    public void setSrcLocalAddress(Long srcLocalAddress) {
+        this.srcLocalAddress = srcLocalAddress;
+    }
+
+    @Transient
+    public Long getDstLocalAddress() {
+        return dstLocalAddress;
+    }
+
+    public void setDstLocalAddress(Long dstLocalAddress) {
+        this.dstLocalAddress = dstLocalAddress;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "src_add")
+    public UnicastAddress getSrcAddress() {
+        return srcAddress;
+    }
+
+    public void setSrcAddress(UnicastAddress srcAddress) {
+        this.srcAddress = srcAddress;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dst_add")
+    public Address getDstAddress() {
+        return dstAddress;
+    }
+
+    public void setDstAddress(Address dstAddress) {
+        this.dstAddress = dstAddress;
     }
 
     @Column(name = "type",nullable = false)
