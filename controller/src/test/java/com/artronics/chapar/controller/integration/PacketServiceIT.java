@@ -2,6 +2,7 @@ package com.artronics.chapar.controller.integration;
 
 import com.artronics.chapar.controller.BaseControllerTestConfig;
 import com.artronics.chapar.controller.config.ControllerResourceConfig;
+import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.controller.services.impl.PacketServiceImpl;
 import com.artronics.chapar.domain.entities.Buffer;
@@ -22,10 +23,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PacketServiceIT.ConfigIT.class})
-@TestPropertySource({"classpath:application-dev.properties","classpath:controller-test-config.properties"})
+@TestPropertySource({"classpath:controller-test-config.properties"})
 public class PacketServiceIT {
     private final static Logger log = Logger.getLogger(PacketServiceIT.class);
 
@@ -39,6 +44,8 @@ public class PacketServiceIT {
     private PacketService packetService;
     @Resource(name = "registeredClients")
     private Map<Client,Client> registeredClients;
+    @Resource(name = "packetQueue")
+    private BlockingQueue<Packet> packetQueue;
 
     private Client client;
     @Before
@@ -50,10 +57,22 @@ public class PacketServiceIT {
     }
 
     @Test
-    public void it_should_Name() throws Exception {
+    public void it_should_add_processedAt_timestamp_to_buffers() throws Exception {
         saveRxBuffers();
-        packetService.checkRxBuffers();
+        packetService.checkForRxBuffers();
 
+       List<Buffer> buffs = bufferRepo.getProcessedRxBuffs();
+
+        assertThat(buffs.size(),is(equalTo(2)));
+        buffs.forEach(b->assertThat(b.getProcessedAt(),is(notNullValue())));
+    }
+
+    @Test
+    public void it_should_fill_packetQueue_with_generated_packets_out_of_buffers() throws Exception {
+        saveRxBuffers();
+        packetService.checkForRxBuffers();
+
+        assertThat(packetQueue.size(),is(equalTo(2)));
     }
 
     private void saveRxBuffers(){
@@ -69,7 +88,7 @@ public class PacketServiceIT {
     @Configuration
     @ComponentScan(basePackages = {"com.artronics.chapar.domain"})
     @Import({PersistenceConfig.class, BaseControllerTestConfig.class, ControllerResourceConfig.class})
-    @PropertySource("classpath:application-dev.properties")
+    @PropertySource("classpath:mysql-config.properties")
     static class ConfigIT{
 
         @Bean(name = "registeredClients")

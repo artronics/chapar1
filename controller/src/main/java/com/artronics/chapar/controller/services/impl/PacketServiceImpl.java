@@ -28,7 +28,7 @@ public class PacketServiceImpl implements PacketService{
     private TimeRepo timeRepo;
 
     @Override
-    public void checkRxBuffers() {
+    public void checkForRxBuffers() {
         checkForNewBuffersFromClients();
     }
 
