@@ -2,12 +2,15 @@ package com.artronics.chapar.controller.config;
 
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -23,6 +26,11 @@ public class ControllerResourceConfig {
     @Bean(name = "packetQueue")
     public BlockingQueue<Packet> getPacketQueue(){
         return new LinkedBlockingQueue<>();
+    }
+
+    @Bean(name = "unicastAddresses")
+    public Set<UnicastAddress> getUnicastAddresses(){
+        return new HashSet<>();
     }
 
 }

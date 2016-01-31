@@ -4,9 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//@MappedSuperclass
 public class Address {
     private Long id;
+
+    private Long localAddress;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -17,6 +19,15 @@ public class Address {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Column(name = "local_add")
+    public Long getLocalAddress() {
+        return localAddress;
+    }
+
+    public void setLocalAddress(Long localAddress) {
+        this.localAddress = localAddress;
     }
 
 }
