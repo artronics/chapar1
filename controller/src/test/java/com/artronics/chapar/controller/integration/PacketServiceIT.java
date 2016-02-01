@@ -103,6 +103,17 @@ public class PacketServiceIT {
     }
 
     @Test
+    public void it_should_add_persisted_packet_into_queue() throws Exception {
+        saveRxBuffers();
+
+        packetService.checkForRxBuffers();
+
+        Packet packet = packetQueue.take();
+
+        assertThat(packet.getId(),is(notNullValue()));
+    }
+
+    @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void it_should_persist_src_and_dst_address() throws Exception {
         saveRxBuffers();
