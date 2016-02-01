@@ -23,8 +23,8 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
     private volatile boolean isStarted = false;
 
     private AddressRegistrationService addressRegistrationService;
-    private SensorRegistrationService sensorRegistrationService;
-    private NetworkStructure networkStructure;
+    protected SensorRegistrationService sensorRegistrationService;
+    protected NetworkStructure networkStructure;
 
     private BlockingQueue<Packet> packetQueue;
 

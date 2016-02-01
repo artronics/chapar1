@@ -25,6 +25,7 @@ public class SensorRegistrationServiceImpl implements SensorRegistrationService{
         networkStructure.addSensor(sensor);
 
         sensorRepo.save(sensor);
+        log.debug("Register new Sensor: "+sensor);
 
         return sensor;
     }

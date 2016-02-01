@@ -13,6 +13,9 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
 
     public SdwnNetworkController() {
         reportPacketProcessor = new ReportPacketProcessor();
+
+        reportPacketProcessor.setNetworkStructure(networkStructure);
+        reportPacketProcessor.setSensorRegistrationService(sensorRegistrationService);
     }
 
     @Override
@@ -31,4 +34,5 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
     private Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
         return reportPacketProcessor.processReportPacket(packet);
     }
+
 }
