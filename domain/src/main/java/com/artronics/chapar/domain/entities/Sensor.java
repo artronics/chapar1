@@ -1,5 +1,6 @@
-package com.artronics.chapar.controller.entities;
+package com.artronics.chapar.domain.entities;
 
+import com.artronics.chapar.domain.model.NetworkComponent;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "sensors")
-public class Sensor extends AbstractBaseEntity {
+public class Sensor extends AbstractBaseEntity implements NetworkComponent{
     private final static Logger log = Logger.getLogger(Sensor.class);
 
     private Long address;
