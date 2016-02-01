@@ -17,6 +17,7 @@ public class NetworkStructureImpl implements NetworkStructure{
     private final GraphDelegator graphDelegator;
     private final UndirectedWeightedGraph<Sensor,SensorLink> sensorsGraph;
 
+    private Controller controller;
 
     @Autowired
     public NetworkStructureImpl(GraphDelegator graphDelegator) {
@@ -26,8 +27,17 @@ public class NetworkStructureImpl implements NetworkStructure{
 
     @Override
     public boolean addController(Controller controller) {
+        if (this.controller!=null)
+            throw new IllegalStateException("There is already a controller registered. This version of Chapar does not support multiple controllers");
 
-        throw new NotImplementedException();
+        this.controller = controller;
+
+        return true;
+    }
+
+    @Override
+    public Controller getController() {
+        return controller;
     }
 
     @Override
