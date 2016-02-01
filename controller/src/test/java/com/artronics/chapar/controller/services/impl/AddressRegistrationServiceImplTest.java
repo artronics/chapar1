@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -99,6 +100,17 @@ public class AddressRegistrationServiceImplTest {
         boolean isMatched = keySet.stream().anyMatch(a->a.getId().equals(123L));
 
         assertTrue(isMatched);
+    }
+
+    @Test
+    public void it_should_return_unicastAddress_if_we_ask_for_resolving_a_unicastAddress() throws Exception {
+        UnicastAddress ua = new UnicastAddress();
+        unicastAddresses.put(ua,ua);
+
+        List<UnicastAddress> resolvedAdd = addressRegistrationService.resolveAddress(ua);
+
+        assertThat(resolvedAdd.size(),is(equalTo(1)));
+        assertThat(resolvedAdd.get(0),is(equalTo(ua)));
     }
 
     private void returnAddWithId() {
