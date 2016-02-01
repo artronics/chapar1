@@ -4,7 +4,6 @@ import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.model.NetworkComponent;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,9 +11,11 @@ import java.util.List;
 @Entity
 @Table(name = "sensors")
 public class Sensor extends AbstractBaseEntity implements NetworkComponent{
-    private final static Logger log = Logger.getLogger(Sensor.class);
 
     private UnicastAddress address;
+
+    //Normal as default value
+    private Type type = Type.NORMAL;
 
     private Double battery;
 
@@ -35,6 +36,14 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
     @JoinColumn(name = "add_id")
     public UnicastAddress getAddress() {
         return address;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setAddress(UnicastAddress address) {
@@ -87,6 +96,12 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
         eb.append(this.address,that.address);
 
         return eb.isEquals();
+    }
+
+    public enum Type
+    {
+        SINK,
+        NORMAL
     }
 
 }
