@@ -2,6 +2,7 @@ package com.artronics.chapar.controller.services.impl;
 
 import com.artronics.chapar.controller.services.ClientRegistrationService;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.ClientRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,16 @@ import java.util.Map;
 public class ClientRegistrationServiceImpl implements ClientRegistrationService {
     private final static Logger log = Logger.getLogger(ClientRegistrationServiceImpl.class);
 
+    private NetworkStructure networkStructure;
+
     private ClientRepo clientRepo;
 
     private Map<Client,Client> registeredClients;
 
     @Override
     public Client registerDevice(Client client) {
-        Client persistedClient = clientRepo.save(client);
+        Client persistedClient = persistClient(client);
+
         registeredClients.put(persistedClient,persistedClient);
 
         log.debug("New Client has been registered. ID: "+persistedClient.getId());
@@ -28,9 +32,22 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
         return persistedClient;
     }
 
+    private Client persistClient(Client client){
+        client.setController(networkStructure.getController());
+
+        Client persistedClient = clientRepo.save(client);
+
+        return persistedClient;
+    }
+
     @Override
     public Client registerDevice(Client client, Long sinkAddress) {
         return registerDevice(client);
+    }
+
+    @Autowired
+    public void setNetworkStructure(NetworkStructure networkStructure) {
+        this.networkStructure = networkStructure;
     }
 
     @Autowired
