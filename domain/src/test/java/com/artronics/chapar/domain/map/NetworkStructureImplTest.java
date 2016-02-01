@@ -28,14 +28,4 @@ public class NetworkStructureImplTest {
         client = new Client(10L,controller);
     }
 
-
-    @Test
-    public void it_should_addClient_and_return_true_if_asked_containsClient() throws Exception {
-        Client client = new Client(1L);
-        assertFalse(networkStructure.containsClient(client));
-
-        networkStructure.addClient(client);
-
-        assertThat(networkStructure.containsClient(client),is(true));
-    }
 }

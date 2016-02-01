@@ -1,6 +1,7 @@
 package com.artronics.chapar.controller.sdwn;
 
 import com.artronics.chapar.controller.controller.NetworkController;
+import com.artronics.chapar.controller.sdwn.controller.SdwnNetworkController;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 public class SdwnNetworkControllerTest {
 
     @InjectMocks
-    private NetworkController<SdwnPacketType> controller;
+    private SdwnNetworkController controller;
 
     @Before
     public void setUp() throws Exception {
