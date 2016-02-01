@@ -12,6 +12,7 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
 
     @Override
     public Packet<SdwnPacketType> processPacket(Packet<SdwnPacketType> packet) {
+        super.processPacket(packet);
         switch (packet.getType()){
             case REPORT:
                 processReportPacket(packet);
