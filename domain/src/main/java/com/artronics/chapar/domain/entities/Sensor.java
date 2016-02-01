@@ -6,8 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "sensors")
@@ -19,7 +18,21 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
     public Sensor() {
     }
 
-    public Sensor(UnicastAddress address) {
+    private Sensor(UnicastAddress address) {
+        this.address = address;
+    }
+
+    public static Sensor create(UnicastAddress address){
+        return new Sensor(address);
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "add_id")
+    public UnicastAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(UnicastAddress address) {
         this.address = address;
     }
 

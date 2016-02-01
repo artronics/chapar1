@@ -23,8 +23,8 @@ public class JGraphTDelegatorTest {
         graphDelegator = new JGraphTDelegator();
 
         Client client = new Client(new Controller());
-        s1 = new Sensor(UnicastAddress.create(client,10L));
-        s2 = new Sensor(UnicastAddress.create(client,20L));
+        s1 = Sensor.create(UnicastAddress.create(client,10L));
+        s2 = Sensor.create(UnicastAddress.create(client,20L));
     }
 
     @Test
