@@ -1,10 +1,12 @@
 package com.artronics.chapar.domain.repositories;
 
 import com.artronics.chapar.domain.BaseCoreTestConfig;
-import org.apache.log4j.Logger;
+import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Controller;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,15 +19,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource("classpath:mysql-config.properties")
 @Ignore("This is a parent config class. No tests here!")
 public class BaseRepoTestConfig {
-    private final static Logger log = Logger.getLogger(BaseRepoTestConfig.class);
+    @Autowired
+    private ControllerRepo controllerRepo;
+    @Autowired
+    protected ClientRepo clientRepo;
 
-    public BaseRepoTestConfig() {
-    }
+    protected Controller controller;
+    protected Client client;
+
 
     @Before
     public void setUp() throws Exception {
+        controller = new Controller();
+        controllerRepo.save(controller);
 
-
+        client = new Client(controller);
+        clientRepo.save(client);
     }
 
     @Configuration

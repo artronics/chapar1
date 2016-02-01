@@ -24,18 +24,11 @@ public class BufferRepoTest extends BaseRepoTestConfig {
     @Autowired
     private BufferRepo bufferRepo;
 
-    @Autowired
-    private ClientRepo clientRepo;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-    }
-
-    @Test
-    public void it_should_Name() throws Exception {
-
     }
 
     @Test
@@ -52,13 +45,9 @@ public class BufferRepoTest extends BaseRepoTestConfig {
 
     @Test
     public void it_should_persist_buffer_with_registeredClient() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-        Client perC = clientRepo.findOne(c.getId());
-
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5));
         b.setDirection(RX);
-        b.setClient(perC);
+        b.setClient(client);
 
         bufferRepo.save(b);
 
@@ -95,13 +84,10 @@ public class BufferRepoTest extends BaseRepoTestConfig {
 
     @Test
     public void it_should_persist() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5));
         b.setDirection(RX);
 
-        bufferRepo.persist(b,c.getId());
+        bufferRepo.persist(b,client.getId());
     }
 
     /*
@@ -110,84 +96,69 @@ public class BufferRepoTest extends BaseRepoTestConfig {
      */
     @Test
     public void it_should_return_tx_ready_buffers() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-
-        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,c);
-        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,c);
-        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,c);
-        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,c);
-        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,client);
+        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,client);
+        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,client);
+        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,client);
+        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX,client);
 
         bufferRepo.save(new ArrayList<Buffer>(Arrays.asList(b,b2,b3,b4,b5)));
 
-        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(c);
+        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(client);
 
         assertThat(readyBuffs.size(),is(equalTo(3)));
     }
 
     @Test
     public void it_should_just_select_passed_client_buffers() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-
-        Client c2 = new Client();
+        Client c2 = new Client(controller);
         clientRepo.save(c2);
 
-        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,c);
-        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,c);
+        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,client);
+        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,client);
         Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,c2);//This is for client 2
-        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,c);
-        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,client);
+        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX,client);
 
         bufferRepo.save(new ArrayList<Buffer>(Arrays.asList(b,b2,b3,b4,b5)));
 
-        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(c);
+        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(client);
 
         assertThat(readyBuffs.size(),is(equalTo(2)));
     }
 
     @Test
     public void it_should_send_those_buffers_with_sentAt_equals_null() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-
-        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,c);
-        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,c);
-        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,client);
+        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,client);
+        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,client);
         b3.setSentAt(new Date());
-        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,c);
-        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,client);
+        Buffer b5 = new Buffer(Arrays.asList(1,2,3), TX,client);
 
         bufferRepo.save(new ArrayList<Buffer>(Arrays.asList(b,b2,b3,b4,b5)));
 
-        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(c);
+        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(client);
 
         assertThat(readyBuffs.size(),is(equalTo(2)));
     }
 
     @Test
     public void it_should_return_empty_list_when_there_is_no_buffer() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-
-        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(c);
+        List<Buffer> readyBuffs= bufferRepo.getReadyTxBuffers(client);
 
         assertThat(readyBuffs.size(),is(equalTo(0)));
     }
 
     @Test
     public void it_should_getProcessedRxBuffs() throws Exception {
-        Client c = new Client();
-        clientRepo.save(c);
-
-        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,c);
+        Buffer b = new Buffer(Arrays.asList(1,2,3), RX,client);
         b.setProcessedAt(new Date());
 
-        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,c);
+        Buffer b2 = new Buffer(Arrays.asList(1,2,3), RX,client);
 
-        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,c);
-        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,c);
+        Buffer b3 = new Buffer(Arrays.asList(1,2,3), TX,client);
+        Buffer b4 = new Buffer(Arrays.asList(1,2,3), TX,client);
         b4.setProcessedAt(new Date());
 
         bufferRepo.save(new ArrayList<>(Arrays.asList(b,b2,b3)));
@@ -196,4 +167,5 @@ public class BufferRepoTest extends BaseRepoTestConfig {
 
         assertThat(buffs.size(),is(equalTo(1)));
     }
+
 }

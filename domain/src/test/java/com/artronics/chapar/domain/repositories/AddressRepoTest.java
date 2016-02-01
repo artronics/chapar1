@@ -1,6 +1,7 @@
 package com.artronics.chapar.domain.repositories;
 
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.address.Address;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import org.junit.Before;
@@ -16,6 +17,8 @@ public class AddressRepoTest extends BaseRepoTestConfig{
     private AddressRepo addressRepo;
     @Autowired
     private ClientRepo clientRepo;
+    @Autowired
+    private ControllerRepo controllerRepo;
 
     private Client client;
 
@@ -23,8 +26,10 @@ public class AddressRepoTest extends BaseRepoTestConfig{
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        Controller ctrl = new Controller();
+        controllerRepo.save(ctrl);
 
-        client = new Client();
+        client = new Client(ctrl);
         clientRepo.save(client);
     }
 
