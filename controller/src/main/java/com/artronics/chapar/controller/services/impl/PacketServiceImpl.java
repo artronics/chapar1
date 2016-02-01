@@ -47,12 +47,12 @@ public class PacketServiceImpl implements PacketService{
             if (!buffers.isEmpty()) {
                 log.debug("Received "+buffers.size()+ " new buffer from Client id:"+client.getId());
 
-                buffers.forEach(b->createPacketRegisterAndAddToQueue(b,client));
+                buffers.forEach(b-> createAndRegisterPacketAndAddToQueue(b,client));
             }
         });
     }
 
-    private void createPacketRegisterAndAddToQueue(Buffer b,Client client) {
+    private void createAndRegisterPacketAndAddToQueue(Buffer b, Client client) {
         b.setProcessedAt(timeRepo.getDbNowTime());
         bufferRepo.save(b);
 
