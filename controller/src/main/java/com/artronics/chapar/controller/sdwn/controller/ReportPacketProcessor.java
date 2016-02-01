@@ -42,15 +42,7 @@ class ReportPacketProcessor {
 
         registerNeighborsIfNecessary(links);
 
-
-
         return packet;
-    }
-
-    private void registerNeighborsIfNecessary(Set<SensorLink> links) {
-        links.stream()
-                .filter(l -> !networkStructure.containsSensor(l.getDstSensor()))
-                .forEach(l -> sensorRegistrationService.registerSensor(l.getDstSensor()));
     }
 
     private void updateSrc(Packet<SdwnPacketType> packet) {
@@ -63,6 +55,12 @@ class ReportPacketProcessor {
         src.setLinks(new ArrayList<>(createSensorLinks(packet)));
 
         sensorRepo.save(src);
+    }
+
+    private void registerNeighborsIfNecessary(Set<SensorLink> links) {
+        links.stream()
+                .filter(l -> !networkStructure.containsSensor(l.getDstSensor()))
+                .forEach(l -> sensorRegistrationService.registerSensor(l.getDstSensor()));
     }
 
     public Set<SensorLink> createSensorLinks(Packet packet) {
