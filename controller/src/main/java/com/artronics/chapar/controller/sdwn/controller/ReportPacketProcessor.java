@@ -9,8 +9,10 @@ import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
+import com.artronics.chapar.domain.repositories.SensorRepo;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,17 +27,45 @@ class ReportPacketProcessor {
     private SensorRegistrationService sensorRegistrationService;
     private NetworkStructure networkStructure;
 
+    private SensorRepo sensorRepo;
+
     public ReportPacketProcessor() {
         weightCalculator = new RssiSimpleWeightCalculator();
     }
 
-    Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet){
-        assert packet.getType()==SdwnPacketType.REPORT;
+    Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
+        assert packet.getType() == SdwnPacketType.REPORT;
+
+        updateSrc(packet);
+
+        Set<SensorLink> links = createSensorLinks(packet);
+
+        registerNeighborsIfNecessary(links);
+
+
 
         return packet;
     }
 
-    public Set<SensorLink> createSensorLinks(Packet packet){
+    private void registerNeighborsIfNecessary(Set<SensorLink> links) {
+        links.stream()
+                .filter(l -> !networkStructure.containsSensor(l.getDstSensor()))
+                .forEach(l -> sensorRegistrationService.registerSensor(l.getDstSensor()));
+    }
+
+    private void updateSrc(Packet<SdwnPacketType> packet) {
+        //When we get a report packet it means that the sensor inside db must be update
+        //with new instance. This sensor corresponds to source address of packet
+        UnicastAddress ua = packet.getSrcAddress();
+        Sensor src = Sensor.create(ua);
+
+        src.setBattery((double) SdwnPacketUtils.getBattery(packet.getBuffer().getContent()));
+        src.setLinks(new ArrayList<>(createSensorLinks(packet)));
+
+        sensorRepo.save(src);
+    }
+
+    public Set<SensorLink> createSensorLinks(Packet packet) {
         List<Integer> content = packet.getBuffer().getContent();
         Client client = packet.getSrcAddress().getClient();
 
@@ -48,8 +78,8 @@ class ReportPacketProcessor {
 
             Double weight = weightCalculator.calculate(rssi);
 
-            Sensor sensor = Sensor.create(UnicastAddress.create(client,add.longValue()));
-            SensorLink neighbor = new SensorLink(sensor,weight);
+            Sensor sensor = Sensor.create(UnicastAddress.create(client, add.longValue()));
+            SensorLink neighbor = new SensorLink(sensor, weight);
             links.add(neighbor);
         }
 
@@ -67,4 +97,9 @@ class ReportPacketProcessor {
     public void setNetworkStructure(NetworkStructure networkStructure) {
         this.networkStructure = networkStructure;
     }
+
+    public void setSensorRepo(SensorRepo sensorRepo) {
+        this.sensorRepo = sensorRepo;
+    }
+
 }

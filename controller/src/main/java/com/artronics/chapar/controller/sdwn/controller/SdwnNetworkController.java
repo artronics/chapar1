@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketType>{
     private final static Logger log = Logger.getLogger(SdwnNetworkController.class);
+
     private final ReportPacketProcessor reportPacketProcessor;
 
     public SdwnNetworkController() {
@@ -16,6 +17,7 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
 
         reportPacketProcessor.setNetworkStructure(networkStructure);
         reportPacketProcessor.setSensorRegistrationService(sensorRegistrationService);
+        reportPacketProcessor.setSensorRepo(sensorRepo);
     }
 
     @Override

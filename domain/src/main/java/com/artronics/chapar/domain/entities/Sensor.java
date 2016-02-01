@@ -16,6 +16,8 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
 
     private UnicastAddress address;
 
+    private Double battery;
+
     private List<SensorLink> links;
 
     public Sensor() {
@@ -39,7 +41,14 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
         this.address = address;
     }
 
-//    @OneToMany(fetch = FetchType.EAGER)
+    public Double getBattery() {
+        return battery;
+    }
+
+    public void setBattery(Double battery) {
+        this.battery = battery;
+    }
+
     @ElementCollection(fetch = FetchType.EAGER,targetClass = SensorLink.class)
     @CollectionTable(name = "sen_links")
     @Column(name = "links")

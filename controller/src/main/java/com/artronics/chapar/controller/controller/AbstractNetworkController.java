@@ -7,6 +7,7 @@ import com.artronics.chapar.controller.services.SensorRegistrationService;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
+import com.artronics.chapar.domain.repositories.SensorRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,8 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
     private AddressRegistrationService addressRegistrationService;
     protected SensorRegistrationService sensorRegistrationService;
     protected NetworkStructure networkStructure;
+
+    protected SensorRepo sensorRepo;
 
     private BlockingQueue<Packet> packetQueue;
 
@@ -66,6 +69,11 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
     @Autowired
     public void setNetworkStructure(NetworkStructure networkStructure) {
         this.networkStructure = networkStructure;
+    }
+
+    @Autowired
+    public void setSensorRepo(SensorRepo sensorRepo) {
+        this.sensorRepo = sensorRepo;
     }
 
     @Resource(name = "packetQueue")
