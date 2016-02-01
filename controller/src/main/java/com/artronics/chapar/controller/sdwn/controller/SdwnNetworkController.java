@@ -1,4 +1,4 @@
-package com.artronics.chapar.controller.sdwn;
+package com.artronics.chapar.controller.sdwn.controller;
 
 import com.artronics.chapar.controller.controller.AbstractNetworkController;
 import com.artronics.chapar.controller.entities.packet.Packet;
@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketType>{
     private final static Logger log = Logger.getLogger(SdwnNetworkController.class);
+    private final ReportPacketProcessor reportPacketProcessor;
+
+    public SdwnNetworkController() {
+        reportPacketProcessor = new ReportPacketProcessor();
+    }
 
     @Override
     public Packet<SdwnPacketType> processPacket(Packet<SdwnPacketType> packet) {
@@ -24,6 +29,6 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
     }
 
     private Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
-        return null;
+        return reportPacketProcessor.processReportPacket(packet);
     }
 }
