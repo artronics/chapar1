@@ -24,6 +24,15 @@ public class Client{
         this.id = id;
     }
 
+    public Client(Controller controller) {
+        this.controller = controller;
+    }
+
+    public Client(Long id, Controller controller) {
+        this.id = id;
+        this.controller = controller;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",nullable = false,unique = true)

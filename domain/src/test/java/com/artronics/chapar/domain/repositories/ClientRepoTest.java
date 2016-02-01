@@ -2,6 +2,7 @@ package com.artronics.chapar.domain.repositories;
 
 import com.artronics.chapar.domain.BaseCoreTestConfig;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,18 +24,22 @@ public class ClientRepoTest {
 
     @Autowired
     ClientRepo clientRepo;
+    @Autowired
+    private ControllerRepo controllerRepo;
 
     private Client client;
+    private Controller controller;
 
     @Before
     public void setUp() throws Exception {
-
-
+        controller = new Controller();
+        controllerRepo.save(controller);
     }
 
     @Test
     public void it_should_save_a_Client() throws Exception {
         client = new Client();
+        client.setController(controller);
         clientRepo.save(client);
 
         Client c = clientRepo.findOne(client.getId());
