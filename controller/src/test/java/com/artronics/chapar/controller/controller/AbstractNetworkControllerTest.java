@@ -8,6 +8,7 @@ import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.address.Address;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
+import com.artronics.chapar.domain.map.NetworkStructure;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -28,6 +29,8 @@ public class AbstractNetworkControllerTest {
     private AddressRegistrationService addressRegistrationService;
     @Mock
     private SensorRegistrationService sensorRegistrationService;
+    @Mock
+    private NetworkStructure networkStructure;
 
     private Packet packet;
 
@@ -80,5 +83,16 @@ public class AbstractNetworkControllerTest {
         verify(sensorRegistrationService,times(1)).registerSensor(eq(Sensor.create((UnicastAddress) dstAdd)));
     }
 
+    @Test
+    public void it_should_ask_for_sensor_registration_if_it_is_not_already_registered() throws Exception {
+        when(networkStructure.containsSensor(any(Sensor.class))).thenReturn(true);
+        when(addressRegistrationService.resolveAddress(dstAdd)).thenReturn(new ArrayList<UnicastAddress>(
+                Arrays.asList((UnicastAddress) dstAdd)
+        ));
+
+        networkController.processPacket(packet);
+
+        verifyNoMoreInteractions(sensorRegistrationService);
+    }
 
 }

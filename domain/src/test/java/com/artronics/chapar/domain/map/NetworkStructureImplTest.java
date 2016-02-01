@@ -14,7 +14,8 @@ import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 
 public class NetworkStructureImplTest {
     private NetworkStructureImpl networkStructure;
@@ -80,7 +81,6 @@ public class NetworkStructureImplTest {
         networkStructure.addSensor(sensor);
 
         Sensor newSensor = Sensor.create(UnicastAddress.create(client,1000L));
-        assertNotSame(networkStructure.getSensor(sensor),newSensor);
 
         networkStructure.addSensor(newSensor);
         assertSame(networkStructure.getSensor(sensor),newSensor);
