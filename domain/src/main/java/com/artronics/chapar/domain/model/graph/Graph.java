@@ -1,9 +1,6 @@
-package com.artronics.chapar.domain.map.graph;
+package com.artronics.chapar.domain.model.graph;
 
-import com.artronics.chapar.domain.model.Vertex;
-
-public interface GraphOperations {
-
+public interface Graph<V extends Vertex,E extends Edge>{
     /**
      * Adds the specified vertex to this graph if not already present. More
      * formally, adds the specified vertex, <code>v</code>, to this graph if
@@ -22,7 +19,7 @@ public interface GraphOperations {
      * null</code>.
      */
 
-    boolean addVertex(Vertex vertex);
+    boolean addVertex(V vertex);
 
     /**
      * Returns <tt>true</tt> if this graph contains the specified vertex. More
@@ -34,5 +31,5 @@ public interface GraphOperations {
      *
      * @return <tt>true</tt> if this graph contains the specified vertex.
      */
-    boolean containsVertex(Vertex vertex);
+    boolean containsVertex(V vertex);
 }

@@ -1,4 +1,6 @@
 package com.artronics.chapar.domain.model;
 
-public interface Node extends Vertex{
+import com.artronics.chapar.domain.model.graph.Vertex;
+
+public interface Node extends Vertex {
 }

@@ -1,5 +1,6 @@
 package com.artronics.chapar.domain.entities;
 
+import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.model.NetworkComponent;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -13,20 +14,12 @@ import javax.persistence.Table;
 public class Sensor extends AbstractBaseEntity implements NetworkComponent{
     private final static Logger log = Logger.getLogger(Sensor.class);
 
-    private Long address;
+    private UnicastAddress address;
 
     public Sensor() {
     }
 
-    public Sensor(Long address) {
-        this.address = address;
-    }
-
-    public Long getAddress() {
-        return address;
-    }
-
-    public void setAddress(Long address) {
+    public Sensor(UnicastAddress address) {
         this.address = address;
     }
 

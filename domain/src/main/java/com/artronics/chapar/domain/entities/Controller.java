@@ -11,6 +11,13 @@ import javax.persistence.*;
 public class Controller implements NetworkComponent{
     private Long id;
 
+    public Controller() {
+    }
+
+    public Controller(long id) {
+        this.id = id;
+    }
+
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
