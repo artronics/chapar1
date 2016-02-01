@@ -1,6 +1,7 @@
 package com.artronics.chapar.domain.map;
 
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.map.graph.GraphDelegator;
 import org.apache.log4j.Logger;
@@ -15,6 +16,11 @@ public class NetworkStructureImpl implements NetworkStructure{
     @Autowired
     public NetworkStructureImpl(GraphDelegator graphDelegator) {
         this.graphDelegator = graphDelegator;
+    }
+
+    @Override
+    public boolean addController(Controller controller) {
+        return graphDelegator.addVertex(controller);
     }
 
     @Override
