@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "sensors")
@@ -14,6 +15,8 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
     private final static Logger log = Logger.getLogger(Sensor.class);
 
     private UnicastAddress address;
+
+    private List<SensorLink> links;
 
     public Sensor() {
     }
@@ -34,6 +37,18 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
 
     public void setAddress(UnicastAddress address) {
         this.address = address;
+    }
+
+//    @OneToMany(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER,targetClass = SensorLink.class)
+    @CollectionTable(name = "sen_links")
+    @Column(name = "links")
+    public List<SensorLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<SensorLink> links) {
+        this.links = links;
     }
 
     @Override
