@@ -4,6 +4,7 @@ import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
+import com.artronics.chapar.domain.model.NetworkComponent;
 import com.artronics.chapar.domain.model.graph.GraphDelegator;
 import com.artronics.chapar.domain.model.graph.UndirectedWeightedGraph;
 import org.apache.log4j.Logger;
@@ -23,6 +24,11 @@ public class NetworkStructureImpl implements NetworkStructure{
 
     private Controller controller;
     private Map<Sensor,Sensor> registeredSensors;
+
+    public NetworkStructureImpl(GraphDelegator graphDelegator, UndirectedWeightedGraph<Sensor, SensorLink> sensorsGraph) {
+        this.graphDelegator = graphDelegator;
+        this.sensorsGraph = sensorsGraph;
+    }
 
     @Autowired
     public NetworkStructureImpl(GraphDelegator graphDelegator) {
@@ -59,7 +65,8 @@ public class NetworkStructureImpl implements NetworkStructure{
     public boolean addSensor(Sensor sensor) {
         registeredSensors.put(sensor,sensor);
 
-        return sensorsGraph.addVertex(sensor);
+        boolean b = sensorsGraph.addVertex(sensor);
+        return b;
     }
 
     @Override
@@ -77,5 +84,17 @@ public class NetworkStructureImpl implements NetworkStructure{
     public void setRegisteredSensors(Map<Sensor, Sensor> registeredSensors) {
         this.registeredSensors = registeredSensors;
     }
+
+    @Override
+    public boolean isIsolated(NetworkComponent netComponent) {
+        if (netComponent instanceof Sensor){
+            return sensorsGraph.edgesOf((Sensor) netComponent).isEmpty();
+        }
+
+        else {
+            throw new NotImplementedException();
+        }
+    }
+
 
 }

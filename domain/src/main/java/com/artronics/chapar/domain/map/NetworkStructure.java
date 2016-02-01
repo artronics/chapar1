@@ -3,6 +3,7 @@ package com.artronics.chapar.domain.map;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
+import com.artronics.chapar.domain.model.NetworkComponent;
 
 public interface NetworkStructure {
     boolean addClient(Client client);
@@ -18,4 +19,7 @@ public interface NetworkStructure {
     boolean addController(Controller controller);
 
     Controller getController();
+
+    boolean isIsolated(NetworkComponent netComponent);
+
 }

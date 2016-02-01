@@ -5,6 +5,8 @@ import com.artronics.chapar.domain.model.graph.UndirectedWeightedGraph;
 import com.artronics.chapar.domain.model.graph.Vertex;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
+import java.util.Set;
+
 public class JGraphTUndirectedWeightedGraphWrapper<V extends Vertex,E extends Edge>
         implements UndirectedWeightedGraph<V,E>{
 
@@ -27,4 +29,10 @@ public class JGraphTUndirectedWeightedGraphWrapper<V extends Vertex,E extends Ed
     public ListenableUndirectedWeightedGraph<V, E> getGraph() {
         return graph;
     }
+
+    @Override
+    public Set<E> edgesOf(V vertex) {
+        return graph.edgesOf(vertex);
+    }
+
 }
