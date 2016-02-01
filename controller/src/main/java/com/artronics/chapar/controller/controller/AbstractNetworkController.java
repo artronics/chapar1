@@ -38,7 +38,7 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
                 while (!packetQueue.isEmpty()){
                     try {
                         Packet<T> packet = packetQueue.take();
-                        processePacket(packet);
+                        processPacket(packet);
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();

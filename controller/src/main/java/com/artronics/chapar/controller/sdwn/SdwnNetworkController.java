@@ -1,7 +1,28 @@
 package com.artronics.chapar.controller.sdwn;
 
+import com.artronics.chapar.controller.controller.AbstractNetworkController;
+import com.artronics.chapar.controller.entities.packet.Packet;
+import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
-public class SdwnNetworkController {
+@Component
+public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketType>{
     private final static Logger log = Logger.getLogger(SdwnNetworkController.class);
+
+    @Override
+    public Packet<SdwnPacketType> processPacket(Packet<SdwnPacketType> packet) {
+        switch (packet.getType()){
+            case REPORT:
+                processReportPacket(packet);
+                return packet;
+
+        }
+
+        return null;
+    }
+
+    private Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
+        return null;
+    }
 }

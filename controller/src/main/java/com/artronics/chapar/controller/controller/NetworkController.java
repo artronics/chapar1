@@ -6,5 +6,5 @@ import com.artronics.chapar.controller.entities.packet.PacketType;
 public interface NetworkController<T extends Enum<T> & PacketType> {
     void start();
 
-    Packet<T> processePacket(Packet<T> packet);
+    Packet<T> processPacket(Packet<T> packet);
 }
