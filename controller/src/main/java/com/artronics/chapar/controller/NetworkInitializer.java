@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller;
 
+import com.artronics.chapar.controller.controller.NetworkController;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.ControllerRepo;
@@ -17,6 +18,8 @@ public class NetworkInitializer implements ApplicationListener<ContextRefreshedE
 
     private NetworkStructure networkStructure;
 
+    private NetworkController networkController;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         log.debug("Initializing Chapar's Controller Application");
@@ -24,11 +27,23 @@ public class NetworkInitializer implements ApplicationListener<ContextRefreshedE
         controllerRepo.save(controller);
 
         networkStructure.addController(controller);
+
+        networkController.start();
     }
 
     @Autowired
     public void setControllerRepo(ControllerRepo controllerRepo) {
         this.controllerRepo = controllerRepo;
+    }
+
+    @Autowired
+    public void setNetworkStructure(NetworkStructure networkStructure) {
+        this.networkStructure = networkStructure;
+    }
+
+    @Autowired
+    public void setNetworkController(NetworkController networkController) {
+        this.networkController = networkController;
     }
 
 }

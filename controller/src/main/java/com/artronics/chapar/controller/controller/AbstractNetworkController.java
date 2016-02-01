@@ -53,6 +53,11 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
         this.addressRegistrationService = addressRegistrationService;
     }
 
+    @Autowired
+    public void setSensorRegistrationService(SensorRegistrationService sensorRegistrationService) {
+        this.sensorRegistrationService = sensorRegistrationService;
+    }
+
     @Resource(name = "packetQueue")
     public void setPacketQueue(BlockingQueue<Packet> packetQueue) {
         this.packetQueue = packetQueue;

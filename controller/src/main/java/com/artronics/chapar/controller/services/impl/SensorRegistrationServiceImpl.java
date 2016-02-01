@@ -29,4 +29,9 @@ public class SensorRegistrationServiceImpl implements SensorRegistrationService{
         return sensor;
     }
 
+    @Autowired
+    public void setSensorRepo(SensorRepo sensorRepo) {
+        this.sensorRepo = sensorRepo;
+    }
+
 }
