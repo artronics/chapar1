@@ -14,6 +14,7 @@ import com.artronics.chapar.controller.services.impl.PacketRegistrationServiceIm
 import com.artronics.chapar.controller.services.impl.PacketServiceImpl;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.address.Address;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.repositories.*;
@@ -43,6 +44,8 @@ public class PacketServiceIT {
     private FakeSdwnBufferFactory fakeBufferFactory = new FakeSdwnBufferFactory();
 
     @Autowired
+    private ControllerRepo controllerRepo;
+    @Autowired
     private ClientRepo clientRepo;
     @Autowired
     private BufferRepo bufferRepo;
@@ -68,8 +71,9 @@ public class PacketServiceIT {
     private Address dstAdd;
     @Before
     public void setUp() throws Exception {
-
-        client = new Client();
+        Controller ctrl = new Controller();
+        controllerRepo.save(ctrl);
+        client = new Client(ctrl);
         clientRepo.save(client);
         registeredClients.put(client,client);
 

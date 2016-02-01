@@ -6,12 +6,10 @@ import com.artronics.chapar.controller.entities.packet.SdwnPacket;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.address.Address;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
-import com.artronics.chapar.domain.repositories.AddressRepo;
-import com.artronics.chapar.domain.repositories.BufferRepo;
-import com.artronics.chapar.domain.repositories.ClientRepo;
-import com.artronics.chapar.domain.repositories.PersistenceConfig;
+import com.artronics.chapar.domain.repositories.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +37,8 @@ public class PacketRepoTest {
     @Autowired
     private AddressRepo addressRepo;
     @Autowired
+    private ControllerRepo controllerRepo;
+    @Autowired
     private ClientRepo clientRepo;
     @Autowired
     private BufferRepo bufferRepo;
@@ -50,7 +50,9 @@ public class PacketRepoTest {
 
     @Before
     public void setUp() throws Exception {
-        client = new Client();
+        Controller ctrl = new Controller();
+        controllerRepo.save(ctrl);
+        client = new Client(ctrl);
         clientRepo.save(client);
 
         srcAdd = UnicastAddress.create(client,1000L);
