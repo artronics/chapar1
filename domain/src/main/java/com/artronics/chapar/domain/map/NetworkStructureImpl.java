@@ -1,6 +1,7 @@
 package com.artronics.chapar.domain.map;
 
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.map.graph.GraphDelegator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,13 @@ public class NetworkStructureImpl implements NetworkStructure{
         return graphDelegator.containsVertex(client);
     }
 
+    @Override
+    public boolean addSensor(Sensor sensor) {
+        return graphDelegator.addVertex(sensor);
+    }
+
+    @Override
+    public boolean containsSensor(Sensor sensor) {
+        return graphDelegator.containsVertex(sensor);
+    }
 }
