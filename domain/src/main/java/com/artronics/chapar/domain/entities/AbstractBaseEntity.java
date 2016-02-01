@@ -1,4 +1,4 @@
-package com.artronics.chapar.controller.entities;
+package com.artronics.chapar.domain.entities;
 
 import org.apache.log4j.Logger;
 

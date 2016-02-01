@@ -1,5 +1,6 @@
 package com.artronics.chapar.domain.entities;
 
+import com.artronics.chapar.domain.model.NetworkComponent;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -8,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "clients")
-public class Client{
+public class Client implements NetworkComponent{
 
     protected Long id;
 
