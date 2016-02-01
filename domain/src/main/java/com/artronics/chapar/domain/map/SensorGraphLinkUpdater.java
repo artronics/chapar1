@@ -9,4 +9,6 @@ public interface SensorGraphLinkUpdater {
 
     void update(Sensor srcSensor, Set<SensorLink> links, Set<Sensor> islandSensors);
 
+    void update(Sensor srcSensor, Set<SensorLink> links);
+
 }

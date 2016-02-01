@@ -14,6 +14,8 @@ public interface NetworkStructure {
 
     Sensor getSensor(Sensor sensor);
 
+    boolean hasLink(Sensor src,Sensor dst);
+
     boolean containsSensor(Sensor sensor);
 
     boolean addController(Controller controller);

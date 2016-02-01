@@ -35,4 +35,9 @@ public class JGraphTUndirectedWeightedGraphWrapper<V extends Vertex,E extends Ed
         return graph.edgesOf(vertex);
     }
 
+    @Override
+    public boolean containsEdge(V sourceVertex, V targetVertex) {
+        return graph.containsEdge(sourceVertex,targetVertex);
+    }
+
 }

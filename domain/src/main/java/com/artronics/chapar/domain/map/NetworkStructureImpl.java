@@ -76,6 +76,11 @@ public class NetworkStructureImpl implements NetworkStructure{
     }
 
     @Override
+    public boolean hasLink(Sensor src, Sensor dst) {
+        return sensorsGraph.containsEdge(src,dst);
+    }
+
+    @Override
     public boolean containsSensor(Sensor sensor) {
         return sensorsGraph.containsVertex(sensor);
     }
