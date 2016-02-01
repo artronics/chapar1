@@ -8,9 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -29,8 +27,8 @@ public class ControllerResourceConfig {
     }
 
     @Bean(name = "unicastAddresses")
-    public Set<UnicastAddress> getUnicastAddresses(){
-        return new HashSet<>();
+    public Map<UnicastAddress,UnicastAddress> getUnicastAddresses(){
+        return new HashMap<>();
     }
 
 }
