@@ -12,6 +12,8 @@ public class Client{
 
     protected Long id;
 
+    private Controller controller;
+
     protected Date created;
     protected Date updated;
 
@@ -31,6 +33,16 @@ public class Client{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ctrl_id",nullable = false)
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public Date getCreated()
