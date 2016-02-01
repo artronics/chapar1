@@ -2,6 +2,7 @@ package com.artronics.chapar.controller.config;
 
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,11 @@ public class ControllerResourceConfig {
 
     @Bean(name = "unicastAddresses")
     public Map<UnicastAddress,UnicastAddress> getUnicastAddresses(){
+        return new HashMap<>();
+    }
+
+    @Bean(name = "registeredSensors")
+    public Map<Sensor,Sensor> getRegisteredSensors(){
         return new HashMap<>();
     }
 

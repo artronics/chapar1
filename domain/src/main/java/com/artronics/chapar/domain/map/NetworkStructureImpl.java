@@ -11,13 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.annotation.Resource;
+import java.util.Map;
+
 @Component
 public class NetworkStructureImpl implements NetworkStructure{
     private final static Logger log = Logger.getLogger(NetworkStructureImpl.class);
+
     private final GraphDelegator graphDelegator;
     private final UndirectedWeightedGraph<Sensor,SensorLink> sensorsGraph;
 
     private Controller controller;
+    private Map<Sensor,Sensor> registeredSensors;
 
     @Autowired
     public NetworkStructureImpl(GraphDelegator graphDelegator) {
@@ -52,11 +57,25 @@ public class NetworkStructureImpl implements NetworkStructure{
 
     @Override
     public boolean addSensor(Sensor sensor) {
+        registeredSensors.put(sensor,sensor);
+
         return sensorsGraph.addVertex(sensor);
+    }
+
+    @Override
+    public Sensor getSensor(Sensor sensor) {
+
+        return registeredSensors.get(sensor);
     }
 
     @Override
     public boolean containsSensor(Sensor sensor) {
         return sensorsGraph.containsVertex(sensor);
     }
+
+    @Resource(name = "registeredSensors")
+    public void setRegisteredSensors(Map<Sensor, Sensor> registeredSensors) {
+        this.registeredSensors = registeredSensors;
+    }
+
 }
