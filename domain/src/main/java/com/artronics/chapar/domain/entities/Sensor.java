@@ -1,6 +1,5 @@
-package com.artronics.chapar.controller.entities;
+package com.artronics.chapar.domain.entities;
 
-import com.artronics.chapar.domain.entities.AbstractBaseEntity;
 import com.artronics.chapar.domain.model.NetworkComponent;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
