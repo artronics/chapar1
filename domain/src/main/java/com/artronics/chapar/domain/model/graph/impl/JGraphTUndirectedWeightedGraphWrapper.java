@@ -4,6 +4,7 @@ import com.artronics.chapar.domain.model.graph.Edge;
 import com.artronics.chapar.domain.model.graph.UndirectedWeightedGraph;
 import com.artronics.chapar.domain.model.graph.Vertex;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Set;
 
@@ -40,4 +41,10 @@ public class JGraphTUndirectedWeightedGraphWrapper<V extends Vertex,E extends Ed
         return graph.containsEdge(sourceVertex,targetVertex);
     }
 
+    @Override
+    public Double getWeight(V src, V dst) {
+//        DefaultWeightedEdge e =graph.getEdge(src,dst);
+//        graph.getEdgeWeight()
+        throw new NotImplementedException();
+    }
 }

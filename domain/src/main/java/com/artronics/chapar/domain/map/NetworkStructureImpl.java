@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class NetworkStructureImpl implements NetworkStructure{
@@ -34,6 +35,8 @@ public class NetworkStructureImpl implements NetworkStructure{
     public NetworkStructureImpl(GraphDelegator graphDelegator) {
         this.graphDelegator = graphDelegator;
         this.sensorsGraph = graphDelegator.createUndirectedWeightedGraph(Sensor.class,SensorLink.class);
+
+        this.registeredSensors = new HashMap<>();
     }
 
     @Override
@@ -76,6 +79,11 @@ public class NetworkStructureImpl implements NetworkStructure{
     }
 
     @Override
+    public Set<Sensor> getNeighbors(Sensor sensor) {
+        return null;
+    }
+
+    @Override
     public boolean hasLink(Sensor src, Sensor dst) {
         return sensorsGraph.containsEdge(src,dst);
     }
@@ -85,7 +93,6 @@ public class NetworkStructureImpl implements NetworkStructure{
         return sensorsGraph.containsVertex(sensor);
     }
 
-    @Resource(name = "registeredSensors")
     public void setRegisteredSensors(Map<Sensor, Sensor> registeredSensors) {
         this.registeredSensors = registeredSensors;
     }
@@ -101,5 +108,8 @@ public class NetworkStructureImpl implements NetworkStructure{
         }
     }
 
-
+    @Override
+    public Set<SensorLink> getLinks(Sensor sensor) {
+        return null;
+    }
 }

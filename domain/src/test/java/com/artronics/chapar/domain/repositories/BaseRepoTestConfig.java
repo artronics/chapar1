@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BaseRepoTestConfig.class,BaseCoreTestConfig.class,PersistenceConfig.class})
-//@TestPropertySource("classpath:h2-config.properties")
-@TestPropertySource("classpath:mysql-config.properties")
+@TestPropertySource("classpath:h2-config.properties")
+//@TestPropertySource("classpath:mysql-config.properties")
 @Ignore("This is a parent config class. No tests here!")
 public class BaseRepoTestConfig {
     @Autowired

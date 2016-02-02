@@ -53,7 +53,7 @@ public class TimeRepoTest {
 
     @Configuration
     @ComponentScan(basePackages = {
-            "com.artronics.chapar.domain"
+            "com.artronics.chapar.domain.repositories"
     })
     static class Config{
 

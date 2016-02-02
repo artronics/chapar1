@@ -7,8 +7,12 @@ import com.artronics.chapar.domain.exceptions.SensorNotRegistered;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SensorGraphLinkUpdaterImplTest extends BaseNetStructureGraphTest{
     private SensorGraphLinkUpdaterImpl updater;
@@ -39,6 +43,20 @@ public class SensorGraphLinkUpdaterImplTest extends BaseNetStructureGraphTest{
 
         updater = new SensorGraphLinkUpdaterImpl();
         updater.setNetworkStructure(networkStructure);
+    }
+
+    @Test
+    public void it_should_drop_links_which_are_not_present_in_new_set() throws SensorNotRegistered {
+        SensorLink l136_135 = new SensorLink(sensor135,23D);
+        Set<SensorLink> links = new HashSet<>(Arrays.asList(l136_135));
+
+        //when we send links to updater it should drop links from 136 to 30 and from 136 to 137
+        updater.update(sensor136,links);
+
+        assertFalse(networkStructure.hasLink(sensor136, sensor30));
+        assertFalse(networkStructure.hasLink(sensor136, sensor137));
+
+        assertTrue(networkStructure.hasLink(sensor136, sensor135));
     }
 
     /*
