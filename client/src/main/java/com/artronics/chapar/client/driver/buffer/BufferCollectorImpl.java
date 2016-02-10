@@ -64,12 +64,14 @@ public class BufferCollectorImpl implements BufferCollector
         return tmp;
     }
 
+    @Override
     @Value("${com.artronics.chapar.client.buffer.startByte}")
     public void setStartByte(int startByte)
     {
         this.startByte = startByte;
     }
 
+    @Override
     @Value("${com.artronics.chapar.client.buffer.stopByte}")
     public void setStopByte(int stopByte)
     {
