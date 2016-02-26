@@ -50,7 +50,7 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
                 addressRegistrationService.resolveAddress(packet.getDstAddress());
 
         addresses.stream()
-                .filter(address -> !networkStructure.containsSensor(srcSensor))
+                .filter(address -> !networkStructure.containsSensor(Sensor.create(address)))
                 .forEach(address -> sensorRegistrationService.registerSensor(Sensor.create(address)));
 
         return packet;
