@@ -3,6 +3,7 @@ package com.artronics.chapar.controller.sdwn.controller;
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.sdwn.helpers.FakeSdwnBufferFactory;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
+import com.artronics.chapar.controller.services.AddressRegistrationService;
 import com.artronics.chapar.controller.services.SensorRegistrationService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
@@ -12,10 +13,14 @@ import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.SensorRepo;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.List;
 import java.util.Set;
@@ -28,12 +33,15 @@ import static org.mockito.Mockito.*;
 
 public class ReportPacketProcessorTest {
 
+    @InjectMocks
     private ReportPacketProcessor processor;
 
     @Mock
     private SensorRepo sensorRepo;
     @Mock
     private SensorRegistrationService sensorRegistrationService;
+    @Mock
+    private AddressRegistrationService addressRegistrationService;
     @Mock
     private NetworkStructure networkStructure;
 
@@ -53,11 +61,7 @@ public class ReportPacketProcessorTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        processor = new ReportPacketProcessor();
         processor.setWeightCalculator(new FixedWeightCalculator());
-        processor.setSensorRepo(sensorRepo);
-        processor.setSensorRegistrationService(sensorRegistrationService);
-        processor.setNetworkStructure(networkStructure);
 
         srcAdd = UnicastAddress.create(client,srcLocalAdd);
         dstAdd = UnicastAddress.create(client,dstLocalAdd);
@@ -99,6 +103,62 @@ public class ReportPacketProcessorTest {
 
         assertThat(cSensor.getLinks(),is(notNullValue()));
         assertThat(cSensor.getLinks().size(),is(equalTo(3)));
+    }
+
+    //srcNode has a list of NodeLink. for each link there is a dstNode
+    //During persistence of srcNode these links should contains a dstNode
+    //which must be persisted before.
+    @Test
+    public void it_should_set_links_of_src_node_with_registered_dstNode() throws Exception {
+        Packet packet = getPacket();
+
+        when(networkStructure.containsSensor(any(Sensor.class))).thenReturn(false);
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Object[] args = invocationOnMock.getArguments();
+                ((Sensor)args[0]).setId(12345L);
+                return args[0];
+            }
+        }).
+        when(sensorRegistrationService).registerSensor(any(Sensor.class));
+
+        processor.processReportPacket(packet);
+        Sensor cSensor = captureSensorRepoArg();
+
+        cSensor.getLinks().forEach(l->
+                assertThat(l.getDstSensor().getId(),is(notNullValue()))
+        );
+    }
+
+    @Ignore("fix it")
+    @Test
+    public void it_should_set_links_of_src_node_with_registered_dstNode_address() throws Exception {
+        Packet packet = getPacket();
+
+        when(networkStructure.containsSensor(any(Sensor.class))).thenReturn(false);
+
+        UnicastAddress address = UnicastAddress.create(client, 123456L);
+        address.setId(1200L);
+        when(sensorRegistrationService.registerSensor(any(Sensor.class))).thenReturn(Sensor.create(address));
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Object[] args = invocationOnMock.getArguments();
+
+                return UnicastAddress.create((Client)args[1],(Long)args[0]);
+            }
+        }).
+                when(addressRegistrationService).registerUnicastAddress(anyLong(),eq(client));
+
+        processor.processReportPacket(packet);
+        Sensor cSensor = captureSensorRepoArg();
+
+        cSensor.getLinks().forEach(l->
+                assertThat(l.getDstSensor().getAddress().getId(),is(notNullValue()))
+        );
     }
 
     private Sensor captureSensorRepoArg(){

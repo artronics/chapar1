@@ -23,7 +23,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -149,7 +152,6 @@ public class PacketServiceIT {
         return b.getContent();
     }
 
-    @Configuration
     @ComponentScan(basePackages = {"com.artronics.chapar.domain"})
     @Import({PersistenceConfig.class, BaseControllerTestConfig.class, ControllerResourceConfig.class})
     @PropertySource("classpath:mysql-config.properties")
