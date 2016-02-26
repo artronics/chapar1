@@ -8,7 +8,17 @@ import com.artronics.chapar.domain.model.NetworkComponent;
 
 import java.util.Set;
 
+/**
+ * The interface Network structure.
+ */
 public interface NetworkStructure {
+
+    /**
+     * Use this method when a {@link Client} asks for registration.
+     *
+     * @param client the client
+     * @return the boolean
+     */
     boolean addClient(Client client);
 
     boolean containsClient(Client client);
