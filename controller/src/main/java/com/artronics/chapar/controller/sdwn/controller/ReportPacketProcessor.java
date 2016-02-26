@@ -11,12 +11,15 @@ import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.SensorRepo;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 class ReportPacketProcessor {
     private final static Logger log = Logger.getLogger(ReportPacketProcessor.class);
 
@@ -28,10 +31,6 @@ class ReportPacketProcessor {
     private NetworkStructure networkStructure;
 
     private SensorRepo sensorRepo;
-
-    public ReportPacketProcessor() {
-        weightCalculator = new RssiSimpleWeightCalculator();
-    }
 
     Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
         assert packet.getType() == SdwnPacketType.REPORT;
@@ -54,7 +53,12 @@ class ReportPacketProcessor {
         src.setBattery((double) SdwnPacketUtils.getBattery(packet.getBuffer().getContent()));
         src.setLinks(new ArrayList<>(createSensorLinks(packet)));
 
-        sensorRepo.save(src);
+        try {
+            sensorRepo.save(src);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(src);
     }
 
     private void registerNeighborsIfNecessary(Set<SensorLink> links) {
@@ -84,18 +88,22 @@ class ReportPacketProcessor {
         return links;
     }
 
+    @Autowired
     public void setWeightCalculator(WeightCalculator weightCalculator) {
         this.weightCalculator = weightCalculator;
     }
 
+    @Autowired
     public void setSensorRegistrationService(SensorRegistrationService sensorRegistrationService) {
         this.sensorRegistrationService = sensorRegistrationService;
     }
 
+    @Autowired
     public void setNetworkStructure(NetworkStructure networkStructure) {
         this.networkStructure = networkStructure;
     }
 
+    @Autowired
     public void setSensorRepo(SensorRepo sensorRepo) {
         this.sensorRepo = sensorRepo;
     }

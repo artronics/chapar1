@@ -4,21 +4,14 @@ import com.artronics.chapar.controller.controller.AbstractNetworkController;
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.sdwn.packet.SdwnPacketType;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketType>{
     private final static Logger log = Logger.getLogger(SdwnNetworkController.class);
 
-    private final ReportPacketProcessor reportPacketProcessor;
-
-    public SdwnNetworkController() {
-        reportPacketProcessor = new ReportPacketProcessor();
-
-        reportPacketProcessor.setNetworkStructure(networkStructure);
-        reportPacketProcessor.setSensorRegistrationService(sensorRegistrationService);
-        reportPacketProcessor.setSensorRepo(sensorRepo);
-    }
+    private ReportPacketProcessor reportPacketProcessor;
 
     @Override
     public Packet<SdwnPacketType> processPacket(Packet<SdwnPacketType> packet) {
@@ -37,4 +30,8 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
         return reportPacketProcessor.processReportPacket(packet);
     }
 
+    @Autowired
+    public void setReportPacketProcessor(ReportPacketProcessor reportPacketProcessor) {
+        this.reportPacketProcessor = reportPacketProcessor;
+    }
 }
