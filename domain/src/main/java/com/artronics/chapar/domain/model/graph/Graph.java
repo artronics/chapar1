@@ -63,4 +63,26 @@ public interface Graph<V extends Vertex,E extends Edge>{
      */
      boolean containsEdge(V sourceVertex, V targetVertex);
 
+    /**
+     * Returns the source vertex of an edge. For an undirected graph, source and
+     * target are distinguishable designations (but without any mathematical
+     * meaning).
+     *
+     * @param e edge of interest
+     *
+     * @return source vertex
+     */
+    V getEdgeSource(E e);
+
+    /**
+     * Returns the target vertex of an edge. For an undirected graph, source and
+     * target are distinguishable designations (but without any mathematical
+     * meaning).
+     *
+     * @param e edge of interest
+     *
+     * @return target vertex
+     */
+    V getEdgeTarget(E e);
+
 }

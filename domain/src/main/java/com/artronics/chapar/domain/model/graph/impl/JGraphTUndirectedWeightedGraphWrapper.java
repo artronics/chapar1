@@ -53,4 +53,14 @@ public class JGraphTUndirectedWeightedGraphWrapper<V extends Vertex,E extends Ed
         return graph.getEdgeWeight(edge);
     }
 
+    @Override
+    public V getEdgeSource(E e) {
+        return graph.getEdgeSource(e);
+    }
+
+    @Override
+    public V getEdgeTarget(E e) {
+        return graph.getEdgeTarget(e);
+    }
+
 }
