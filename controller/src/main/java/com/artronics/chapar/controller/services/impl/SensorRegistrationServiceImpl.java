@@ -22,6 +22,9 @@ public class SensorRegistrationServiceImpl implements SensorRegistrationService{
 
     @Override
     public Sensor registerSensor(Sensor sensor) {
+        if (networkStructure.containsSensor(sensor))
+            return networkStructure.getSensor(sensor);
+
         networkStructure.addSensor(sensor);
 
         sensorRepo.save(sensor);
