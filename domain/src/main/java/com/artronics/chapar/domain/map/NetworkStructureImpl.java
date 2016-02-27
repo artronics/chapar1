@@ -21,7 +21,7 @@ public class NetworkStructureImpl implements NetworkStructure{
     private final static Logger log = Logger.getLogger(NetworkStructureImpl.class);
 
     private final GraphDelegator graphDelegator;
-    private final UndirectedWeightedGraph<Sensor,SensorLink> sensorsGraph;
+    private UndirectedWeightedGraph<Sensor,SensorLink> sensorsGraph;
 
     private Controller controller;
     private Map<Sensor,Sensor> registeredSensors;
@@ -34,7 +34,7 @@ public class NetworkStructureImpl implements NetworkStructure{
     @Autowired
     public NetworkStructureImpl(GraphDelegator graphDelegator) {
         this.graphDelegator = graphDelegator;
-        this.sensorsGraph = graphDelegator.createUndirectedWeightedGraph(Sensor.class,SensorLink.class);
+//        this.sensorsGraph = graphDelegator.createUndirectedWeightedGraph(Sensor.class,SensorLink.class);
 
         this.registeredSensors = new HashMap<>();
     }

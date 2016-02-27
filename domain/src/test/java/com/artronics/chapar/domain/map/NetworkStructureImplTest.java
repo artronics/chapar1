@@ -5,7 +5,6 @@ import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.model.graph.GraphDelegator;
-import com.artronics.chapar.domain.model.graph.impl.JGraphTDelegator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +29,7 @@ public class NetworkStructureImplTest {
 
     @Before
     public void setUp() throws Exception {
-        graphDelegator = new JGraphTDelegator();
+//        graphDelegator = new JGraphTDelegator();
         registeredSensors = new HashMap<>();
 
         networkStructure = new NetworkStructureImpl(graphDelegator);

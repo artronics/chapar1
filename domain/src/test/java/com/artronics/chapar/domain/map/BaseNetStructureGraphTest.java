@@ -1,7 +1,6 @@
 package com.artronics.chapar.domain.map;
 
 import com.artronics.chapar.domain.entities.Sensor;
-import com.artronics.chapar.domain.model.graph.impl.JGraphTDelegator;
 import com.artronics.chapar.domain.model.graph.impl.JGraphTUndirectedWeightedGraphWrapper;
 import org.junit.Before;
 
@@ -19,7 +18,7 @@ public class BaseNetStructureGraphTest extends BaseGraphTest{
 
         //Add sample graph as sensorGraph
         JGraphTUndirectedWeightedGraphWrapper gw = new JGraphTUndirectedWeightedGraphWrapper(sampleGraph1);
-        networkStructure = new NetworkStructureImpl(new JGraphTDelegator(),gw);
+//        networkStructure = new NetworkStructureImpl(new JGraphTDelegator(),gw);
 
         registeredSensors = new HashMap<>();
 
