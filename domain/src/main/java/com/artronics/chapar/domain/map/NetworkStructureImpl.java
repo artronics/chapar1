@@ -4,9 +4,6 @@ import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
-import com.artronics.chapar.domain.model.NetworkComponent;
-import com.artronics.chapar.domain.model.graph.GraphDelegator;
-import com.artronics.chapar.domain.model.graph.UndirectedWeightedGraph;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,23 +17,14 @@ import java.util.Set;
 public class NetworkStructureImpl implements NetworkStructure{
     private final static Logger log = Logger.getLogger(NetworkStructureImpl.class);
 
-    private final GraphDelegator graphDelegator;
-    private UndirectedWeightedGraph<Sensor,SensorLink> sensorsGraph;
+    private NodeMap nodeMap;
 
     private Controller controller;
     private Map<Sensor,Sensor> registeredSensors;
+    private NodeMapUpdater nodeMapUpdater;
 
-    public NetworkStructureImpl(GraphDelegator graphDelegator, UndirectedWeightedGraph<Sensor, SensorLink> sensorsGraph) {
-        this.graphDelegator = graphDelegator;
-        this.sensorsGraph = sensorsGraph;
-    }
-
-    @Autowired
-    public NetworkStructureImpl(GraphDelegator graphDelegator) {
-        this.graphDelegator = graphDelegator;
-//        this.sensorsGraph = graphDelegator.createUndirectedWeightedGraph(Sensor.class,SensorLink.class);
-
-        this.registeredSensors = new HashMap<>();
+    public NetworkStructureImpl() {
+        registeredSensors = new HashMap<>();
     }
 
     @Override
@@ -65,11 +53,10 @@ public class NetworkStructureImpl implements NetworkStructure{
     }
 
     @Override
-    public boolean addSensor(Sensor sensor) {
+    public void addSensor(Sensor sensor) {
         registeredSensors.put(sensor,sensor);
 
-        boolean b = sensorsGraph.addVertex(sensor);
-        return b;
+        nodeMap.addNode(sensor);
     }
 
     @Override
@@ -85,12 +72,17 @@ public class NetworkStructureImpl implements NetworkStructure{
 
     @Override
     public boolean hasLink(Sensor src, Sensor dst) {
-        return sensorsGraph.containsEdge(src,dst);
+        return nodeMap.hasLink(src,dst);
     }
 
     @Override
     public boolean containsSensor(Sensor sensor) {
-        return sensorsGraph.containsVertex(sensor);
+        return nodeMap.contains(sensor);
+    }
+
+    @Override
+    public void updateMap(Sensor srcSensor, Set<SensorLink> links, Set<Sensor> isolatedSensors) {
+        nodeMapUpdater.update(srcSensor,links,isolatedSensors);
     }
 
     public void setRegisteredSensors(Map<Sensor, Sensor> registeredSensors) {
@@ -98,18 +90,23 @@ public class NetworkStructureImpl implements NetworkStructure{
     }
 
     @Override
-    public boolean isIsolated(NetworkComponent netComponent) {
-        if (netComponent instanceof Sensor){
-            return sensorsGraph.edgesOf((Sensor) netComponent).isEmpty();
-        }
-
-        else {
-            throw new NotImplementedException();
-        }
+    public boolean isIsolated(Sensor sensor) {
+        return nodeMap.isIsland(sensor);
     }
 
     @Override
     public Set<SensorLink> getLinks(Sensor sensor) {
-        return null;
+        return nodeMap.getLinks(sensor);
     }
+
+    @Autowired
+    public void setNodeMap(NodeMap nodeMap) {
+        this.nodeMap = nodeMap;
+    }
+
+    @Autowired
+    public void setNodeMapUpdater(NodeMapUpdater nodeMapUpdater) {
+        this.nodeMapUpdater = nodeMapUpdater;
+    }
+
 }

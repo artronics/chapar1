@@ -8,12 +8,14 @@ import com.artronics.chapar.domain.model.graph.impl.JGraphTDelegator;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class NodeMapImpl implements NodeMap {
     protected ListenableUndirectedWeightedGraph<Sensor, DefaultWeightedEdge> graph =
             new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);

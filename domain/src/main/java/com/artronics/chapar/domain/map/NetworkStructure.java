@@ -4,7 +4,6 @@ import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
-import com.artronics.chapar.domain.model.NetworkComponent;
 
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public interface NetworkStructure {
 
     boolean containsClient(Client client);
 
-    boolean addSensor(Sensor sensor);
+    void addSensor(Sensor sensor);
 
     Sensor getSensor(Sensor sensor);
 
@@ -37,8 +36,9 @@ public interface NetworkStructure {
 
     Controller getController();
 
-    boolean isIsolated(NetworkComponent netComponent);
+    boolean isIsolated(Sensor sensor);
 
     Set<SensorLink> getLinks(Sensor sensor);
 
+    void updateMap(Sensor srcSensor, Set<SensorLink> links, Set<Sensor> isolatedSensors);
 }
