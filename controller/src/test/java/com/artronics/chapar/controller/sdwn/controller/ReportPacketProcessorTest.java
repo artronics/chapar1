@@ -11,7 +11,9 @@ import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
+import com.artronics.chapar.domain.map.NodeMap;
 import com.artronics.chapar.domain.repositories.SensorRepo;
+import com.artronics.chapar.domain.support.NodeMapPrinter;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -44,6 +46,8 @@ public class ReportPacketProcessorTest {
     private AddressRegistrationService addressRegistrationService;
     @Mock
     private NetworkStructure networkStructure;
+    @Mock
+    private NodeMapPrinter nodeMapPrinter;
 
     private Set<SensorLink> links;
     private Client client = new Client(1L);
@@ -62,12 +66,15 @@ public class ReportPacketProcessorTest {
         MockitoAnnotations.initMocks(this);
 
         processor.setWeightCalculator(new FixedWeightCalculator());
+        processor.setNodeMapPrinter(nodeMapPrinter);
 
         srcAdd = UnicastAddress.create(client,srcLocalAdd);
         dstAdd = UnicastAddress.create(client,dstLocalAdd);
 
         srcSensor = Sensor.create(srcAdd);
         dstSensor = Sensor.create(dstAdd);
+
+        when(nodeMapPrinter.printDeviceMap(any(NodeMap.class),any(Client.class))).thenReturn("Mock print.");
     }
 
     /*

@@ -136,6 +136,12 @@ public class ClientBufferServiceImpl implements ClientBufferService{
                         e1.printStackTrace();
                     }
                 }
+
+                try {
+                    Thread.sleep(deviceTxRate);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

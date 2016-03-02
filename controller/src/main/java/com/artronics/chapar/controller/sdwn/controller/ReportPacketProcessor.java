@@ -37,6 +37,8 @@ class ReportPacketProcessor {
 
     private SensorRepo sensorRepo;
 
+    private Set<Sensor> isolatedSensors= new HashSet<>();
+
     Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
         assert packet.getType() == SdwnPacketType.REPORT;
 
@@ -46,8 +48,10 @@ class ReportPacketProcessor {
 
         Sensor src = updateSrc(packet,regLinks);
 
-        Set<Sensor> isolatedSensors= new HashSet<>();
+        isolatedSensors.clear();
         networkStructure.updateMap(src,new HashSet<>(regLinks),isolatedSensors);
+
+        removeIsolatedSensors(isolatedSensors);
 
         System.out.println(
                 nodeMapPrinter.printDeviceMap(networkStructure.getNodeMap(), packet.getSrcAddress().getClient()));
@@ -109,6 +113,15 @@ class ReportPacketProcessor {
         return links;
     }
 
+    private void removeIsolatedSensors(Set<Sensor> isolatedSensors){
+        if (!isolatedSensors.isEmpty()) {
+            isolatedSensors.forEach(sensor -> {
+                log.debug("Find island " + sensor);
+                sensorRegistrationService.unregisterSensor(sensor);
+            });
+        }
+    }
+
     @Autowired
     public void setWeightCalculator(WeightCalculator weightCalculator) {
         this.weightCalculator = weightCalculator;
@@ -132,6 +145,10 @@ class ReportPacketProcessor {
     @Autowired
     public void setSensorRepo(SensorRepo sensorRepo) {
         this.sensorRepo = sensorRepo;
+    }
+
+    public void setNodeMapPrinter(NodeMapPrinter nodeMapPrinter) {
+        this.nodeMapPrinter = nodeMapPrinter;
     }
 
 }

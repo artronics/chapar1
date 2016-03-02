@@ -58,6 +58,9 @@ public class SensorRegistrationServiceImplTest {
 
     @Test
     public void it_should_unregisterSensor() throws Exception {
+        sensorRegistrationService.registerSensor(sensor);
+
+        when(networkStructure.containsSensor(sensor)).thenReturn(true);
         sensorRegistrationService.unregisterSensor(sensor);
 
         verify(networkStructure,times(1)).removeSensor(sensor);
