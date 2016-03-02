@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.http.controllers;
 
+import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.domain.entities.Buffer;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,18 @@ public class PacketControllerTest extends BaseControllerTest{
         mockMvc.perform(post("/client/1/buffer")
                 .contentType(MediaType.APPLICATION_JSON)
         .content(buff))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void it_should_receive_a_json_of_Packet() throws Exception {
+        Packet packet = new Packet(new Buffer(Arrays.asList(1,2,3,4)));
+        String jPacket = toJson(packet);
+
+        mockMvc.perform(post("/client/1/packet")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jPacket))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
