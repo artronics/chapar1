@@ -98,6 +98,18 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
         return eb.isEquals();
     }
 
+    @Override
+    public String toString() {
+        return printShortNode(this);
+    }
+
+    public static String printShortNode(Sensor sensor)
+    {
+        String s = sensor.getType() == Sensor.Type.SINK ? "Sink: " : "Sensor: ";
+
+        return String.format(s + "%-3d ", sensor.getAddress().getLocalAddress());
+    }
+
     public enum Type
     {
         SINK,
