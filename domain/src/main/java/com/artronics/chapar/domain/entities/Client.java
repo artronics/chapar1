@@ -116,4 +116,13 @@ public class Client implements NetworkComponent{
         return eb.isEquals();
     }
 
+    @Override
+    public String toString()
+    {
+        String s = "Client:->ID:";
+        s+=getId()==null? "[UNK]": getId().toString();
+
+        return s;
+    }
+
 }

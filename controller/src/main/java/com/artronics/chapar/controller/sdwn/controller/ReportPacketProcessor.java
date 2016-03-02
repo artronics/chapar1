@@ -11,6 +11,7 @@ import com.artronics.chapar.domain.entities.SensorLink;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.SensorRepo;
+import com.artronics.chapar.domain.support.NodeMapPrinter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,8 @@ class ReportPacketProcessor {
     private AddressRegistrationService addressRegistrationService;
     private NetworkStructure networkStructure;
 
+    private NodeMapPrinter nodeMapPrinter = new NodeMapPrinter();
+
     private SensorRepo sensorRepo;
 
     Packet<SdwnPacketType> processReportPacket(Packet<SdwnPacketType> packet) {
@@ -45,6 +48,9 @@ class ReportPacketProcessor {
 
         Set<Sensor> isolatedSensors= new HashSet<>();
         networkStructure.updateMap(src,new HashSet<>(regLinks),isolatedSensors);
+
+        System.out.println(
+                nodeMapPrinter.printDeviceMap(networkStructure.getNodeMap(), packet.getSrcAddress().getClient()));
 
         return packet;
     }

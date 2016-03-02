@@ -40,5 +40,7 @@ public interface NetworkStructure {
 
     Set<SensorLink> getLinks(Sensor sensor);
 
+    NodeMap getNodeMap();
+
     void updateMap(Sensor srcSensor, Set<SensorLink> links, Set<Sensor> isolatedSensors);
 }

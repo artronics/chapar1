@@ -95,6 +95,11 @@ public class NetworkStructureImpl implements NetworkStructure{
     }
 
     @Override
+    public NodeMap getNodeMap() {
+        return nodeMap;
+    }
+
+    @Override
     public Set<SensorLink> getLinks(Sensor sensor) {
         return nodeMap.getLinks(sensor);
     }
