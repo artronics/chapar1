@@ -41,12 +41,15 @@ class ReportPacketProcessor {
 
         List<SensorLink> regLinks=registerNeighborsIfNecessary(links);
 
-        updateSrc(packet,regLinks);
+        Sensor src = updateSrc(packet,regLinks);
+
+        Set<Sensor> isolatedSensors= new HashSet<>();
+        networkStructure.updateMap(src,new HashSet<>(regLinks),isolatedSensors);
 
         return packet;
     }
 
-    private void updateSrc(Packet<SdwnPacketType> packet,List<SensorLink> regLinks) {
+    private Sensor updateSrc(Packet<SdwnPacketType> packet,List<SensorLink> regLinks) {
         //When we get a report packet it means that the sensor inside db must be update
         //with new instance. This sensor corresponds to source address of packet
         UnicastAddress ua = packet.getSrcAddress();
@@ -56,6 +59,8 @@ class ReportPacketProcessor {
         src.setLinks(regLinks);
 
         sensorRepo.save(src);
+
+        return src;
     }
 
     private List<SensorLink> registerNeighborsIfNecessary(Set<SensorLink> links) {
