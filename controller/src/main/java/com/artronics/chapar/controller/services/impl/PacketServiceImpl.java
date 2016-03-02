@@ -72,6 +72,24 @@ public class PacketServiceImpl implements PacketService{
         packetQueue.add(packet);
     }
 
+    @Override
+    public Packet receivePacket(Packet packet) throws MalformedPacketException {
+        validatePacket(packet);
+
+
+        return packet;
+    }
+
+    private void validatePacket(Packet packet) throws MalformedPacketException {
+        if (
+                packet.getSrcAddress()==null ||
+                packet.getSrcAddress().getClient()==null ||
+                !registeredClients.containsKey(packet.getSrcAddress().getClient())){
+
+            throw new MalformedPacketException();
+        }
+    }
+
     @Resource(name = "registeredClients")
     public void setRegisteredClients(Map<Client, Client> registeredClients) {
         this.registeredClients = registeredClients;

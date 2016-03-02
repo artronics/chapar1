@@ -6,6 +6,7 @@ import com.artronics.chapar.controller.exceptions.MalformedPacketException;
 import com.artronics.chapar.controller.services.PacketRegistrationService;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
+import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.repositories.BufferRepo;
 import com.artronics.chapar.domain.repositories.TimeRepo;
 import org.junit.Before;
@@ -134,5 +135,41 @@ public class PacketServiceImplTest {
         List<Buffer> allBuffs = cap.getAllValues();
         allBuffs.forEach(b-> assertThat(b.getProcessedAt(),is(notNullValue())));
     }
+
+    /*
+        receivePacket tests
+     */
+
+    @Test(expected = MalformedPacketException.class)
+    public void it_should_throw_exp_if_src_address_is_null() throws Exception {
+        Packet packet = new Packet(new Buffer(Arrays.asList(1,2,3,4,5,6,78,7,5,4,3)));
+        packet.setDstAddress(new UnicastAddress());
+
+        packetService.receivePacket(packet);
+    }
+
+    @Test(expected = MalformedPacketException.class)
+    public void it_should_throw_exp_if_client_is_null() throws Exception {
+        Packet packet = new Packet(new Buffer(Arrays.asList(1,2,3,4,5,6,78,7,5,4,3)));
+        packet.setDstAddress(new UnicastAddress());
+        UnicastAddress srcAddress = new UnicastAddress();
+        srcAddress.setLocalAddress(123L);
+        packet.setSrcAddress(srcAddress);
+
+        packetService.receivePacket(packet);
+    }
+
+    @Test(expected = MalformedPacketException.class)
+    public void it_should_throw_exp_if_client_is_not_registered() throws Exception {
+        Packet packet = new Packet(new Buffer(Arrays.asList(1,2,3,4,5,6,78,7,5,4,3)));
+        packet.setDstAddress(new UnicastAddress());
+        UnicastAddress srcAddress = new UnicastAddress();
+        srcAddress.setClient(new Client());
+        srcAddress.setLocalAddress(123L);
+        packet.setSrcAddress(srcAddress);
+
+        packetService.receivePacket(packet);
+    }
+
 
 }
