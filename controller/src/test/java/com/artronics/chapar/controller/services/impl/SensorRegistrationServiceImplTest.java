@@ -1,6 +1,8 @@
 package com.artronics.chapar.controller.services.impl;
 
+import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Sensor;
+import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.SensorRepo;
 import org.junit.Before;
@@ -26,6 +28,7 @@ public class SensorRegistrationServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         sensor = new Sensor();
+        sensor.setAddress(UnicastAddress.create(new Client(12L),12345L));
     }
 
     @Test
@@ -53,4 +56,17 @@ public class SensorRegistrationServiceImplTest {
         verify(sensorRepo,times(1)).save(sensor);
     }
 
+    @Test
+    public void it_should_unregisterSensor() throws Exception {
+        sensorRegistrationService.unregisterSensor(sensor);
+
+        verify(networkStructure,times(1)).removeSensor(sensor);
+    }
+
+    @Test
+    public void it_should_call_removeSensor_if_sensor_had_registered_before() throws Exception {
+        sensorRegistrationService.unregisterSensor(new Sensor());
+
+        verify(networkStructure,times(0)).removeSensor(any(Sensor.class));
+    }
 }

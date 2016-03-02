@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SensorRegistrationServiceImpl implements SensorRegistrationService{
+public class SensorRegistrationServiceImpl implements SensorRegistrationService {
     private final static Logger log = Logger.getLogger(SensorRegistrationServiceImpl.class);
 
     private NetworkStructure networkStructure;
@@ -28,9 +28,15 @@ public class SensorRegistrationServiceImpl implements SensorRegistrationService{
         networkStructure.addSensor(sensor);
 
         sensorRepo.save(sensor);
-        log.debug("Register new Sensor: "+sensor);
+        log.debug("Register new Sensor: " + sensor);
 
         return sensor;
+    }
+
+    @Override
+    public void unregisterSensor(Sensor sensor) {
+        if (networkStructure.containsSensor(sensor))
+            networkStructure.removeSensor(sensor);
     }
 
     @Autowired

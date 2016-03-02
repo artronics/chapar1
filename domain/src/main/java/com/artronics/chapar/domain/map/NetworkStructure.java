@@ -24,6 +24,8 @@ public interface NetworkStructure {
 
     void addSensor(Sensor sensor);
 
+    void removeSensor(Sensor sensor);
+
     Sensor getSensor(Sensor sensor);
 
     Set<Sensor> getNeighbors(Sensor sensor);

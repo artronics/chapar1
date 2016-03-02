@@ -4,4 +4,6 @@ import com.artronics.chapar.domain.entities.Sensor;
 
 public interface SensorRegistrationService {
     Sensor registerSensor(Sensor sensor);
+
+    void unregisterSensor(Sensor sensor);
 }

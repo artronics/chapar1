@@ -12,13 +12,13 @@ import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class NetworkStructureImplTest {
     private NetworkStructureImpl networkStructure;
 
     private Map<Sensor,Sensor> registeredSensors;
+    private NodeMap nodeMap;
 
     private Controller controller;
     private Client client;
@@ -30,7 +30,9 @@ public class NetworkStructureImplTest {
 
         networkStructure = new NetworkStructureImpl();
         networkStructure.setRegisteredSensors(registeredSensors);
-        networkStructure.setNodeMap(new NodeMapImpl());
+
+        nodeMap = new NodeMapImpl();
+        networkStructure.setNodeMap(nodeMap);
 
         controller = new Controller(1L);
         client = new Client(10L,controller);
@@ -80,6 +82,24 @@ public class NetworkStructureImplTest {
 
         networkStructure.addSensor(newSensor);
         assertSame(networkStructure.getSensor(sensor),newSensor);
+    }
+
+    @Test
+    public void it_should_removeSensor_from_registeredSensors() throws Exception {
+        networkStructure.addSensor(sensor);
+        assertTrue(registeredSensors.containsKey(sensor));
+
+        networkStructure.removeSensor(sensor);
+        assertFalse(registeredSensors.containsKey(sensor));
+    }
+
+    @Test
+    public void it_should_removeSensor_from_nodeMap() throws Exception {
+        networkStructure.addSensor(sensor);
+        assertTrue(nodeMap.contains(sensor));
+
+        networkStructure.removeSensor(sensor);
+        assertFalse(nodeMap.contains(sensor));
     }
 
 }

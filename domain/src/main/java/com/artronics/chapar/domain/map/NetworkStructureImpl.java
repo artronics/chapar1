@@ -60,6 +60,12 @@ public class NetworkStructureImpl implements NetworkStructure{
     }
 
     @Override
+    public void removeSensor(Sensor sensor) {
+        registeredSensors.remove(sensor);
+        nodeMap.removeNode(sensor);
+    }
+
+    @Override
     public Sensor getSensor(Sensor sensor) {
 
         return registeredSensors.get(sensor);
