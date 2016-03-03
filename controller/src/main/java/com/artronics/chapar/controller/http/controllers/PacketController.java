@@ -17,7 +17,8 @@ public class PacketController {
 
     @RequestMapping(value = "/buffer",method = {RequestMethod.POST,RequestMethod.GET})
     public void receivePacket(@PathVariable int id, @RequestBody Buffer buffer){
-        log.debug(buffer);
+        log.debug("receive packet from http request.");
+            packetService.receiveBuffer(buffer);
     }
 
     @RequestMapping(value = "/packet",method = {RequestMethod.POST})

@@ -52,6 +52,16 @@ public class PacketServiceImpl implements PacketService{
         });
     }
 
+    @Override
+    public void receiveBuffer(Buffer buffer) {
+        buffer.setReceivedAt(timeRepo.getDbNowTime());
+        Client regClient=registeredClients.get(buffer.getClient());
+        buffer.setClient(regClient);
+        bufferRepo.save(buffer);
+
+        createAndRegisterPacketAndAddToQueue(buffer,buffer.getClient());
+    }
+
     private void createAndRegisterPacketAndAddToQueue(Buffer b, Client client) {
         b.setProcessedAt(timeRepo.getDbNowTime());
         bufferRepo.save(b);
