@@ -37,7 +37,7 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
     private ClientRepo clientRepo;
 
     private boolean disDeviceDriver = false;
-    private boolean testRunner=false;
+    private boolean testRunner = false;
     private ClientTestExecutor clientTestExecutor;
 
     @Override
@@ -76,14 +76,11 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
         deviceDriver.open();
     }
 
-    private void startTestRunner(){
+    private void startTestRunner() {
         clientTestExecutor.setRegClient(registeredClient);
-        try {
-            clientTestExecutor.sendDataPacket();
+        clientTestExecutor.setDelayBeforeStart(20000);
 
-        } catch (URISyntaxException | IOException e) {
-            e.printStackTrace();
-        }
+        clientTestExecutor.start();
     }
 
     @Autowired

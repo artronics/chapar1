@@ -1,10 +1,10 @@
 package com.artronics.chapar.client;
 
-import com.artronics.chapar.client.http.BaseHttpClient;
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.BufferRepo;
 import com.artronics.chapar.domain.repositories.TimeRepo;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +15,21 @@ import java.util.Arrays;
 
 @Component
 public class ClientTestExecutor {
+    private final static Logger log = Logger.getLogger(ClientTestExecutor.class);
+
     private static int seqNum = 0;
-    private BaseHttpClient baseHttpClient;
     private Client regClient;
+
+    private long delayBeforeStart=30000;
+    private long priodicity= 3000;
 
     private TimeRepo timeRepo;
     private BufferRepo bufferRepo;
+
+    public void start(){
+        Thread th = new Thread(new TestExecutor());
+        th.start();
+    }
 
     public void sendDataPacket() throws URISyntaxException, IOException {
         Buffer dataBuff = createDataBuff(regClient, 10, 30);
@@ -65,6 +74,10 @@ public class ClientTestExecutor {
         this.regClient = regClient;
     }
 
+    public void setDelayBeforeStart(long delayBeforeStart) {
+        this.delayBeforeStart = delayBeforeStart;
+    }
+
     @Autowired
     public void setTimeRepo(TimeRepo timeRepo) {
         this.timeRepo = timeRepo;
@@ -73,6 +86,27 @@ public class ClientTestExecutor {
     @Autowired
     public void setBufferRepo(BufferRepo bufferRepo) {
         this.bufferRepo = bufferRepo;
+    }
+
+    private class TestExecutor implements Runnable{
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(delayBeforeStart);
+
+                log.debug("start data buffer sender.");
+                while (true){
+                    log.debug("sending data buffer");
+                    sendDataPacket();
+                    Thread.sleep(priodicity);
+                }
+
+            } catch (InterruptedException | URISyntaxException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 }
