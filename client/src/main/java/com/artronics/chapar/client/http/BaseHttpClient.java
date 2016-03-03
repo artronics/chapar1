@@ -129,7 +129,7 @@ public class BaseHttpClient {
         return createUri(null, segments);
     }
 
-    protected static String toJson(Object msg) throws JsonProcessingException {
+    public static String toJson(Object msg) throws JsonProcessingException {
 
         return OBJECT_MAPPER.writeValueAsString(msg);
     }

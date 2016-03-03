@@ -36,9 +36,14 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
     private ClientRepo clientRepo;
 
+    private boolean disDeviceDriver = false;
+    private boolean testRunner=false;
+    private ClientTestExecutor clientTestExecutor;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        startDevice();
+        if (!disDeviceDriver)
+            startDevice();
 
         Client client = new Client();
         try {
@@ -61,6 +66,9 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
             //TODO use an strategy to retry registration process
             clientRegistrationFailed.printStackTrace();
         }
+
+        if (testRunner)
+            startTestRunner();
     }
 
     private void startDevice() {
@@ -68,6 +76,15 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
         deviceDriver.open();
     }
 
+    private void startTestRunner(){
+        clientTestExecutor.setRegClient(registeredClient);
+        try {
+            clientTestExecutor.sendDataPacket();
+
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Autowired
     @Qualifier("deviceDriverSerialPort")
@@ -104,4 +121,20 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
     public void setControllerUrl(String controllerUrl) {
         this.controllerUrl = controllerUrl;
     }
+
+    @Value("${com.artronics.chapar.client.test_runner}")
+    public void setTestRunner(boolean testRunner) {
+        this.testRunner = testRunner;
+    }
+
+    @Value("${com.artronics.chapar.client.disable_device_driver}")
+    public void setDisDeviceDriver(boolean disDeviceDriver) {
+        this.disDeviceDriver = disDeviceDriver;
+    }
+
+    @Autowired
+    public void setClientTestExecutor(ClientTestExecutor clientTestExecutor) {
+        this.clientTestExecutor = clientTestExecutor;
+    }
+
 }
