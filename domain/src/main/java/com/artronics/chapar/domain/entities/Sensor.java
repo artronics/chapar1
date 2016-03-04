@@ -38,6 +38,7 @@ public class Sensor extends AbstractBaseEntity implements NetworkComponent{
         return address;
     }
 
+    @Enumerated(EnumType.STRING)
     public Type getType() {
         return type;
     }

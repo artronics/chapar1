@@ -14,6 +14,7 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
     private PacketLogger<SdwnPacketType> packetLogger;
 
     private ReportPacketProcessor reportPacketProcessor;
+    private DataPacketProcessor dataPacketProcessor;
 
     @Override
     public Packet<SdwnPacketType> processPacket(Packet<SdwnPacketType> packet) {
@@ -39,12 +40,17 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
     private Packet<SdwnPacketType> processDataPacket(Packet<SdwnPacketType> packet){
         packetLogger.log(packet);
 
-        return packet;
+        return dataPacketProcessor.processDataPacket(packet);
     }
 
     @Autowired
     public void setReportPacketProcessor(ReportPacketProcessor reportPacketProcessor) {
         this.reportPacketProcessor = reportPacketProcessor;
+    }
+
+    @Autowired
+    public void setDataPacketProcessor(DataPacketProcessor dataPacketProcessor) {
+        this.dataPacketProcessor = dataPacketProcessor;
     }
 
     @Autowired
