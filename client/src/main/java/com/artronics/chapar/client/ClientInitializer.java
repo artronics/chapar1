@@ -4,7 +4,6 @@ import com.artronics.chapar.client.driver.DeviceDriver;
 import com.artronics.chapar.client.exceptions.ClientRegistrationFailed;
 import com.artronics.chapar.client.http.BaseHttpClient;
 import com.artronics.chapar.client.services.ClientBufferService;
-import com.artronics.chapar.client.test.DBClientTestExecutor;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.ClientRepo;
 import org.apache.log4j.Logger;
@@ -37,14 +36,9 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
     private ClientRepo clientRepo;
 
-    private boolean disDeviceDriver = false;
-    private boolean testRunner = false;
-    private DBClientTestExecutor clientTestExecutor;
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (!disDeviceDriver)
-            startDevice();
+        startDevice();
 
         Client client = new Client();
         try {
@@ -68,8 +62,6 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
             clientRegistrationFailed.printStackTrace();
         }
 
-        if (testRunner)
-            startTestRunner();
     }
 
     private void startDevice() {
@@ -77,12 +69,6 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
         deviceDriver.open();
     }
 
-    private void startTestRunner() {
-        clientTestExecutor.setRegClient(registeredClient);
-        clientTestExecutor.setDelayBeforeStart(20000);
-
-        clientTestExecutor.start();
-    }
 
     @Autowired
     @Qualifier("deviceDriverSerialPort")
@@ -118,21 +104,6 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
     @Value("${com.artronics.chapar.controller.url}")
     public void setControllerUrl(String controllerUrl) {
         this.controllerUrl = controllerUrl;
-    }
-
-    @Value("${com.artronics.chapar.client.test_runner}")
-    public void setTestRunner(boolean testRunner) {
-        this.testRunner = testRunner;
-    }
-
-    @Value("${com.artronics.chapar.client.disable_device_driver}")
-    public void setDisDeviceDriver(boolean disDeviceDriver) {
-        this.disDeviceDriver = disDeviceDriver;
-    }
-
-    @Autowired
-    public void setClientTestExecutor(DBClientTestExecutor clientTestExecutor) {
-        this.clientTestExecutor = clientTestExecutor;
     }
 
 }

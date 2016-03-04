@@ -1,4 +1,4 @@
-package com.artronics.chapar.client.test;
+package com.artronics.chapar.test;
 
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.repositories.BufferRepo;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("dBClientTestExecutor")
-public class DBClientTestExecutor extends BaseClientTestExecutor{
+public class DBClientTestExecutor extends BaseClientTestExecutor {
     private final static Logger log = Logger.getLogger(DBClientTestExecutor.class);
 
     private TimeRepo timeRepo;

@@ -1,4 +1,4 @@
-package com.artronics.chapar.client.test;
+package com.artronics.chapar.test;
 
 import com.artronics.chapar.domain.entities.Client;
 

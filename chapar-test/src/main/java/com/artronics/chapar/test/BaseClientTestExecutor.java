@@ -1,13 +1,15 @@
-package com.artronics.chapar.client.test;
+package com.artronics.chapar.test;
 
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class BaseClientTestExecutor  implements ClientTestExecutor{
+public abstract class BaseClientTestExecutor implements ClientTestExecutor {
     private final static Logger log = Logger.getLogger(BaseClientTestExecutor.class);
 
     protected static int seqNum = 0;
@@ -16,7 +18,7 @@ public abstract class BaseClientTestExecutor  implements ClientTestExecutor{
     protected long delayBeforeStart=30000;
     protected long priodicity= 3000;
 
-    protected abstract void sendDataPacket();
+    protected abstract void sendDataPacket() throws IOException, URISyntaxException;
 
     protected Buffer createDataBuff(Client client, int payloadSize, int dst) {
         assert payloadSize > 9;
@@ -65,6 +67,10 @@ public abstract class BaseClientTestExecutor  implements ClientTestExecutor{
                 }
 
             } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
