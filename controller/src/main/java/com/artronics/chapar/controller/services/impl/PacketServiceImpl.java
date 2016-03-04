@@ -54,12 +54,15 @@ public class PacketServiceImpl implements PacketService{
 
     @Override
     public void receiveBuffer(Buffer buffer) {
-        buffer.setReceivedAt(timeRepo.getDbNowTime());
-        Client regClient=registeredClients.get(buffer.getClient());
-        buffer.setClient(regClient);
-        bufferRepo.save(buffer);
+        //If the direction of buffer is tx, it means we just need to
+        //redirect it to client to send to sink device
+        if (buffer.getDirection()== Buffer.Direction.TX) {
+            Client regClient = registeredClients.get(buffer.getClient());
+            buffer.setClient(regClient);
+            bufferRepo.save(buffer);
 
-        createAndRegisterPacketAndAddToQueue(buffer,buffer.getClient());
+            createAndRegisterPacketAndAddToQueue(buffer, buffer.getClient());
+        }
     }
 
     private void createAndRegisterPacketAndAddToQueue(Buffer b, Client client) {

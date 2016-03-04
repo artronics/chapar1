@@ -14,7 +14,6 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
     private PacketLogger<SdwnPacketType> packetLogger;
 
     private ReportPacketProcessor reportPacketProcessor;
-    private DataPacketProcessor dataPacketProcessor;
 
     @Override
     public Packet<SdwnPacketType> processPacket(Packet<SdwnPacketType> packet) {
@@ -25,6 +24,9 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
                 return packet;
             case DATA:
                 processDataPacket(packet);
+                return packet;
+            case RL_REQ:
+                processRuleRequestPacket(packet);
                 return packet;
 
         }
@@ -39,18 +41,20 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
 
     private Packet<SdwnPacketType> processDataPacket(Packet<SdwnPacketType> packet){
         packetLogger.log(packet);
+        //Do nothing. all the process of registration and persistence is
+        //already done in base class
+        return packet;
+    }
 
-        return dataPacketProcessor.processDataPacket(packet);
+    private Packet<SdwnPacketType> processRuleRequestPacket(Packet<SdwnPacketType> packet){
+        packetLogger.log(packet);
+
+        return packet;
     }
 
     @Autowired
     public void setReportPacketProcessor(ReportPacketProcessor reportPacketProcessor) {
         this.reportPacketProcessor = reportPacketProcessor;
-    }
-
-    @Autowired
-    public void setDataPacketProcessor(DataPacketProcessor dataPacketProcessor) {
-        this.dataPacketProcessor = dataPacketProcessor;
     }
 
     @Autowired
