@@ -88,6 +88,7 @@ public class Packet <T extends Enum<T> & PacketType> {
         this.dstAddress = dstAddress;
     }
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "type",nullable = false)
     public T getType() {
         return type;
