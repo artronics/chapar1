@@ -4,6 +4,7 @@ import com.artronics.chapar.client.driver.DeviceDriver;
 import com.artronics.chapar.client.exceptions.ClientRegistrationFailed;
 import com.artronics.chapar.client.http.BaseHttpClient;
 import com.artronics.chapar.client.services.ClientBufferService;
+import com.artronics.chapar.client.test.DBClientTestExecutor;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.repositories.ClientRepo;
 import org.apache.log4j.Logger;
@@ -38,7 +39,7 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
     private boolean disDeviceDriver = false;
     private boolean testRunner = false;
-    private ClientTestExecutor clientTestExecutor;
+    private DBClientTestExecutor clientTestExecutor;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -130,7 +131,7 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
     }
 
     @Autowired
-    public void setClientTestExecutor(ClientTestExecutor clientTestExecutor) {
+    public void setClientTestExecutor(DBClientTestExecutor clientTestExecutor) {
         this.clientTestExecutor = clientTestExecutor;
     }
 
