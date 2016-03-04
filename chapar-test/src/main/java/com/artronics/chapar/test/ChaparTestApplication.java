@@ -3,9 +3,14 @@ package com.artronics.chapar.test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {
+		"com.artronics.chapar.test",
+		"com.artronics.chapar.domain"
+})
 public class ChaparTestApplication {
 
 	public static void main(String[] args) {

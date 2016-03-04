@@ -19,12 +19,24 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
     private long clientId;
     private BaseHttpClient httpClient;
 
-
+    public HttpClientTestExecutor() {
+        try {
+            httpClient = new BaseHttpClient("localhost:8080");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void start() {
         regClient = new Client(clientId,new Controller(controllerId));
-
+        try {
+            sendDataPacket();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
