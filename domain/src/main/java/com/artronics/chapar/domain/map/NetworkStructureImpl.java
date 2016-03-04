@@ -4,12 +4,14 @@ import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
+import com.artronics.chapar.domain.exceptions.RouteNotFound;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -74,6 +76,11 @@ public class NetworkStructureImpl implements NetworkStructure{
     @Override
     public Set<Sensor> getNeighbors(Sensor sensor) {
         return null;
+    }
+
+    @Override
+    public List<Sensor> getShortestPath(Sensor source, Sensor target) throws RouteNotFound {
+         return nodeMap.getShortestPath(source,target);
     }
 
     @Override

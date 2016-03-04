@@ -4,7 +4,9 @@ import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Controller;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
+import com.artronics.chapar.domain.exceptions.RouteNotFound;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,6 +31,8 @@ public interface NetworkStructure {
     Sensor getSensor(Sensor sensor);
 
     Set<Sensor> getNeighbors(Sensor sensor);
+
+    List<Sensor> getShortestPath(Sensor source, Sensor target) throws RouteNotFound;
 
     boolean hasLink(Sensor src,Sensor dst);
 
