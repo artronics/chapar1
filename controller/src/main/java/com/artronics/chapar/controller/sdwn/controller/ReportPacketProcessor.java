@@ -24,6 +24,7 @@ import java.util.Set;
 @Component
 class ReportPacketProcessor {
     private final static Logger log = Logger.getLogger(ReportPacketProcessor.class);
+    private final static Logger mapLog = Logger.getLogger("com.artronics.chapar.logger.map");
 
     public final static int NEIGHBOR_INDEX = 13;
 
@@ -53,7 +54,7 @@ class ReportPacketProcessor {
 
         removeIsolatedSensors(isolatedSensors);
 
-        System.out.println(
+        mapLog.debug(
                 nodeMapPrinter.printDeviceMap(networkStructure.getNodeMap(), packet.getSrcAddress().getClient()));
 
         return packet;

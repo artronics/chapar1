@@ -17,6 +17,12 @@ public class SdwnPacketLogger extends BasePacketLogger<SdwnPacketType> {
     private static final String RL_REQ= BASE+".ruleRequest";
     private static final Logger RR_LOG = Logger.getLogger(RL_REQ);
 
+    private static final String RL_RES= BASE+".ruleResponse";
+    private static final Logger RRES_LOG = Logger.getLogger(RL_RES);
+
+    private static final String OPN_PT= BASE+".openPath";
+    private static final Logger OP_LOG = Logger.getLogger(OPN_PT);
+
     @Override
     public void log(Packet<SdwnPacketType> packet) {
         super.log(packet);
@@ -29,6 +35,12 @@ public class SdwnPacketLogger extends BasePacketLogger<SdwnPacketType> {
                 break;
             case RL_REQ:
                 RR_LOG.debug("rule request packet received");
+                break;
+            case RL_RES:
+                RRES_LOG.debug("rule response packet received");
+                break;
+            case OPN_PT:
+                OP_LOG.debug("open path packet received");
                 break;
         }
     }

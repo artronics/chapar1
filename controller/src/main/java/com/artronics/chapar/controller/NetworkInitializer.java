@@ -27,6 +27,7 @@ public class NetworkInitializer implements ApplicationListener<ContextRefreshedE
         controllerRepo.save(controller);
 
         networkStructure.addController(controller);
+        log.debug("Controller added to network structure with ID: "+controller.getId());
 
         networkController.start();
     }

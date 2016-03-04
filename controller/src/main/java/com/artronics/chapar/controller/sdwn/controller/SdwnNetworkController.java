@@ -29,7 +29,12 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
             case RL_REQ:
                 processRuleRequestPacket(packet);
                 return packet;
-
+            case OPN_PT:
+                processOpenPathPacket(packet);
+                return packet;
+            case RL_RES:
+                processRuleResponsePacket(packet);
+                return packet;
         }
 
         return null;
@@ -50,6 +55,18 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
     private Packet<SdwnPacketType> processRuleRequestPacket(Packet<SdwnPacketType> packet){
         packetLogger.log(packet);
         ruleRequestPacketProcessor.processRuleRequestPacket(packet);
+
+        return packet;
+    }
+
+    private Packet<SdwnPacketType> processOpenPathPacket(Packet<SdwnPacketType> packet){
+        packetLogger.log(packet);
+
+        return packet;
+    }
+
+    private Packet<SdwnPacketType> processRuleResponsePacket(Packet<SdwnPacketType> packet){
+        packetLogger.log(packet);
 
         return packet;
     }
