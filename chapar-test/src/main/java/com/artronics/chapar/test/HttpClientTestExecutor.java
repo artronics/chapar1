@@ -34,13 +34,11 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
     @Override
     public void start() {
         regClient = new Client(clientId,new Controller(controllerId));
-        try {
-            sendDataPacket();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+
+        delayBeforeStart = 1000;
+
+        Thread th = new Thread(new TestExecutor());
+        th.start();
     }
 
     @Override

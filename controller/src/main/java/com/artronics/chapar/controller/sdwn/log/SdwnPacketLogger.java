@@ -28,20 +28,27 @@ public class SdwnPacketLogger extends BasePacketLogger<SdwnPacketType> {
         super.log(packet);
         switch (packet.getType()){
             case REPORT:
-                REP_LOG.debug("report packet received");
+                REP_LOG.debug("REPORT: " +printGeneralPacketInfo(packet));
                 break;
             case DATA:
-                DATA_LOG.debug("data packet received");
+                DATA_LOG.debug("DATA: " +printGeneralPacketInfo(packet));
                 break;
             case RL_REQ:
-                RR_LOG.debug("rule request packet received");
+                RR_LOG.debug("RULE_REQ: "+printGeneralPacketInfo(packet));
                 break;
             case RL_RES:
-                RRES_LOG.debug("rule response packet received");
+                RRES_LOG.debug("RULE_RES: "+printGeneralPacketInfo(packet));
                 break;
             case OPN_PT:
-                OP_LOG.debug("open path packet received");
+                OP_LOG.debug("OPEN_PTH: "+printGeneralPacketInfo(packet));
                 break;
         }
+    }
+
+    private String printGeneralPacketInfo(Packet<SdwnPacketType> packet){
+        String s="SRC: "+packet.getSrcAddress();
+        s+="DST: "+packet.getDstAddress();
+
+        return s;
     }
 }

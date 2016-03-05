@@ -30,4 +30,8 @@ public class Address {
         this.localAddress = localAddress;
     }
 
+    @Override
+    public String toString() {
+        return localAddress.toString();
+    }
 }

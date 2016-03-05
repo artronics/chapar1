@@ -54,8 +54,6 @@ class ReportPacketProcessor {
 
         removeIsolatedSensors(isolatedSensors);
 
-        mapLog.debug(
-                nodeMapPrinter.printDeviceMap(networkStructure.getNodeMap(), packet.getSrcAddress().getClient()));
 
         return packet;
     }
@@ -119,7 +117,11 @@ class ReportPacketProcessor {
             isolatedSensors.forEach(sensor -> {
                 log.debug("Find island " + sensor);
                 sensorRegistrationService.unregisterSensor(sensor);
+
+                mapLog.debug(nodeMapPrinter.printDeviceMap(
+                        networkStructure.getNodeMap(),sensor.getAddress().getClient()));
             });
+
         }
     }
 
