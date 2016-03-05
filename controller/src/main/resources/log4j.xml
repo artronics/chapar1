@@ -41,7 +41,7 @@
     </logger>
 
     <logger name="com.artronics.chapar.logger.map" additivity="false">
-        <level value="warn"/>
+        <level value="debug"/>
         <appender-ref ref="console"></appender-ref>
     </logger>
 

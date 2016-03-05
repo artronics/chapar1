@@ -8,4 +8,6 @@ public interface ClientTestExecutor {
     void setDelayBeforeStart(long delayBeforeStart);
 
     void setRegClient(Client regClient);
+
+    void setNumOfTransmit(int num);
 }

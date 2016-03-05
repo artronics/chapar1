@@ -47,7 +47,7 @@ public class SdwnPacketLogger extends BasePacketLogger<SdwnPacketType> {
 
     private String printGeneralPacketInfo(Packet<SdwnPacketType> packet){
         String s="SRC: "+packet.getSrcAddress();
-        s+="DST: "+packet.getDstAddress();
+        s+=" DST: "+packet.getDstAddress();
 
         return s;
     }

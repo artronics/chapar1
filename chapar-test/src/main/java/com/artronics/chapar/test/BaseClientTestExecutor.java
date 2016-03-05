@@ -17,6 +17,7 @@ public abstract class BaseClientTestExecutor implements ClientTestExecutor {
 
     protected long delayBeforeStart=30000;
     protected long priodicity= 3000;
+    protected int numOfTransmit=0;
 
     protected abstract void sendDataPacket() throws IOException, URISyntaxException;
 
@@ -58,12 +59,22 @@ public abstract class BaseClientTestExecutor implements ClientTestExecutor {
         public void run() {
             try {
                 Thread.sleep(delayBeforeStart);
+                int count=0;
+                boolean cond=true;
 
                 log.debug("start data buffer sender.");
-                while (true){
+                while (cond){
                     log.debug("sending data buffer");
                     sendDataPacket();
                     Thread.sleep(priodicity);
+
+                    if (numOfTransmit>0){
+                        count++;
+                        if (count==numOfTransmit) {
+                            cond = false;
+                            log.debug("stop test transmitter.");
+                        }
+                    }
                 }
 
             } catch (InterruptedException e) {
@@ -85,6 +96,11 @@ public abstract class BaseClientTestExecutor implements ClientTestExecutor {
     @Override
     public void setDelayBeforeStart(long delayBeforeStart) {
         this.delayBeforeStart = delayBeforeStart;
+    }
+
+    @Override
+    public void setNumOfTransmit(int numOfTransmit) {
+        this.numOfTransmit = numOfTransmit;
     }
 
 }

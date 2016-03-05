@@ -29,6 +29,8 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
+        numOfTransmit=20;
     }
 
     @Override
