@@ -8,7 +8,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-		"com.artronics.chapar.test",
+		"com.artronics.chapar.test.test",
 		"com.artronics.chapar.domain"
 })
 public class ChaparTestApplication {

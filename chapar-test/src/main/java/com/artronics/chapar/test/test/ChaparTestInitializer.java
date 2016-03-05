@@ -1,4 +1,4 @@
-package com.artronics.chapar.test;
+package com.artronics.chapar.test.test;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

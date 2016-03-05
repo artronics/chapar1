@@ -1,4 +1,4 @@
-package com.artronics.chapar.test;
+package com.artronics.chapar.test.test;
 
 import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;

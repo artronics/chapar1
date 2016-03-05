@@ -1,4 +1,4 @@
-package com.artronics.chapar.test;
+package com.artronics.chapar.test.test;
 
 import com.artronics.chapar.client.http.BaseHttpClient;
 import com.artronics.chapar.domain.entities.Buffer;
@@ -39,6 +39,24 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
 
         delayBeforeStart = 1000;
 
+        //first send a single data to start the process of
+        //sending rule req and open path packet
+        log.debug("Sending first data buffer");
+        try {
+            sendDataPacket();
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        //then wait for a while so controller send open path
+        log.debug("Waiting...");
+        try {
+            Thread.sleep(15000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        log.debug("start transmitter thread.");
+        //Now start sending data buffers
         Thread th = new Thread(new TestExecutor());
         th.start();
     }
