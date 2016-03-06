@@ -16,7 +16,7 @@ public abstract class BaseClientTestExecutor implements ClientTestExecutor {
     protected Client regClient;
 
     protected long delayBeforeStart=30000;
-    protected long priodicity= 3000;
+    protected long priodicity= 500;
     protected int numOfTransmit=0;
 
     protected abstract void sendDataPacket() throws IOException, URISyntaxException;

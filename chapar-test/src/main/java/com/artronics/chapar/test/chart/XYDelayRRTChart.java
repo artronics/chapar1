@@ -17,9 +17,9 @@ import java.util.List;
 
 public class XYDelayRRTChart extends ApplicationFrame{
     private final static Logger log = Logger.getLogger(XYDelayRRTChart.class);
-    private List<Long> rtt;
+    private List<Float> rtt;
 
-    public XYDelayRRTChart(String title,List<Long> rtt) {
+    public XYDelayRRTChart(String title,List<Float> rtt) {
         super(title);
         setRtt(rtt);
 
@@ -36,7 +36,7 @@ public class XYDelayRRTChart extends ApplicationFrame{
         final XYPlot plot = xylineChart.getXYPlot( );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
         renderer.setSeriesPaint( 0 , Color.RED );
-        renderer.setSeriesStroke( 0 , new BasicStroke( 4.0f ) );
+        renderer.setSeriesStroke( 0 , new BasicStroke( 1.1f ) );
         plot.setRenderer( renderer );
         setContentPane( chartPanel );
     }
@@ -54,7 +54,7 @@ public class XYDelayRRTChart extends ApplicationFrame{
         return dataset;
     }
 
-    public void setRtt(List<Long> rtt) {
+    public void setRtt(List<Float> rtt) {
         this.rtt = rtt;
     }
 }

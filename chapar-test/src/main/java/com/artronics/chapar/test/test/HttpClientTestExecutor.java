@@ -30,7 +30,7 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
             e.printStackTrace();
         }
 
-        numOfTransmit=20;
+        numOfTransmit=500;
     }
 
     @Override

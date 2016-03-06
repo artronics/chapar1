@@ -29,16 +29,17 @@ public class RuleRequestPacketProcessor {
     Packet<SdwnPacketType> processRuleRequestPacket(Packet<SdwnPacketType> packet){
         assert packet.getType()==SdwnPacketType.RL_REQ;
 
+        //extract source and dst sensor for calculating shortest path
+        Sensor src = Sensor.create(packet.getSrcAddress());
+        //Rule request packet must have a dst address of unicast
+        Address dstAdd = packet.getDstAddress();
+        UnicastAddress uAdd = UnicastAddress.create(packet.getBuffer().getClient(),dstAdd.getLocalAddress());
+
+        Sensor dst = Sensor.create(uAdd);
+
+        Buffer openPathBuff=null;
         //first see if the source address is equal to node.
         if (packet.getSrcAddress().getLocalAddress()==0L){
-            //extract source and dst sensor for calculating shortest path
-            Sensor src = Sensor.create(packet.getSrcAddress());
-            //Rule request packet must have a dst address of unicast
-            Address dstAdd = packet.getDstAddress();
-            UnicastAddress uAdd = UnicastAddress.create(packet.getBuffer().getClient(),dstAdd.getLocalAddress());
-
-            Sensor dst = Sensor.create(uAdd);
-
             List<Sensor> path = new ArrayList<>();
             try {
                 path = networkStructure.getShortestPath(src,dst);
@@ -47,15 +48,27 @@ public class RuleRequestPacketProcessor {
                 routeNotFound.printStackTrace();
             }
 
-            Buffer ruleResBuff = createOpenPathBuffer(src.getAddress().getLocalAddress()
+            openPathBuff= createOpenPathBuffer(src.getAddress().getLocalAddress()
             ,dst.getAddress().getLocalAddress(),path);
 
-            ruleResBuff.setDirection(Buffer.Direction.TX);
-            ruleResBuff.setClient(dst.getAddress().getClient());
+        }
+        else {
+            List<Sensor> path = new ArrayList<>();
+            try {
+                path = networkStructure.getShortestPath(dst,src);
 
-            bufferRepo.save(ruleResBuff);
+            } catch (RouteNotFound routeNotFound) {
+                routeNotFound.printStackTrace();
+            }
+            openPathBuff= createOpenPathBuffer(dst.getAddress().getLocalAddress()
+                    ,src.getAddress().getLocalAddress(),path);
+
         }
 
+        openPathBuff.setDirection(Buffer.Direction.TX);
+        openPathBuff.setClient(dst.getAddress().getClient());
+
+        bufferRepo.save(openPathBuff);
         return packet;
     }
 
