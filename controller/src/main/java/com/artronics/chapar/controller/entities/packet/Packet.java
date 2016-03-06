@@ -40,7 +40,7 @@ public class Packet <T extends Enum<T> & PacketType> {
     public void setId(Long id) {
         this.id = id;
     }
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "buff_id")
     public Buffer getBuffer() {
         return buffer;
