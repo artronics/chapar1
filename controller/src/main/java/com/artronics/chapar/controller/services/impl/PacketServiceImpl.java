@@ -1,5 +1,6 @@
 package com.artronics.chapar.controller.services.impl;
 
+import com.artronics.chapar.controller.controller.NetworkController;
 import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.entities.packet.PacketFactory;
 import com.artronics.chapar.controller.exceptions.MalformedPacketException;
@@ -26,6 +27,8 @@ public class PacketServiceImpl implements PacketService{
 
     private Map<Client,Client> registeredClients;
     private BlockingQueue<Packet> packetQueue;
+
+    private NetworkController networkController;
 
     private PacketFactory packetFactory;
     private PacketRegistrationService packetRegistrationService;
@@ -65,7 +68,31 @@ public class PacketServiceImpl implements PacketService{
         }
     }
 
+    @Override
+    public Buffer receiveBufferAndGetResponse(Buffer buffer) {
+        Client regClient = registeredClients.get(buffer.getClient());
+        buffer.setClient(regClient);
+        bufferRepo.save(buffer);
+
+        return createAndRegisterPacketAndSendToController(buffer,regClient);
+    }
+
     private void createAndRegisterPacketAndAddToQueue(Buffer b, Client client) {
+        Packet packet = createAndRegisterPacket(b, client);
+
+        packetQueue.add(packet);
+    }
+
+    private Buffer createAndRegisterPacketAndSendToController(Buffer b, Client client) {
+        Packet packet = createAndRegisterPacket(b, client);
+
+        Packet resPacket =networkController.processPacket(packet);
+
+        return resPacket.getBuffer();
+    }
+
+
+    private Packet createAndRegisterPacket(Buffer b, Client client) {
         b.setProcessedAt(timeRepo.getDbNowTime());
         bufferRepo.save(b);
 
@@ -81,8 +108,7 @@ public class PacketServiceImpl implements PacketService{
         packet.setGeneratedAt(timeRepo.getDbNowTime());
 
         packetRegistrationService.registerPacket(packet,client);
-
-        packetQueue.add(packet);
+        return packet;
     }
 
     @Override
@@ -111,6 +137,11 @@ public class PacketServiceImpl implements PacketService{
     @Resource(name = "packetQueue")
     public void setPacketQueue(BlockingQueue<Packet> packetQueue) {
         this.packetQueue = packetQueue;
+    }
+
+    @Autowired
+    public void setNetworkController(NetworkController networkController) {
+        this.networkController = networkController;
     }
 
     @Autowired

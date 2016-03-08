@@ -4,9 +4,14 @@ import com.artronics.chapar.controller.entities.packet.Packet;
 import com.artronics.chapar.controller.exceptions.MalformedPacketException;
 import com.artronics.chapar.controller.services.PacketService;
 import com.artronics.chapar.domain.entities.Buffer;
+import com.artronics.chapar.domain.entities.Client;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 @RestController
 @RequestMapping("/client/{id}")
@@ -14,11 +19,19 @@ public class PacketController {
     private final static Logger log = Logger.getLogger(PacketController.class);
 
     private PacketService packetService;
+    private Map<Client,BlockingQueue<Buffer>> bufferQueues;
 
     @RequestMapping(value = "/buffer",method = {RequestMethod.POST,RequestMethod.GET})
-    public void receivePacket(@PathVariable int id, @RequestBody Buffer buffer){
+    public Buffer receivePacket(@PathVariable Long id, @RequestBody Buffer buffer){
         log.debug("receive packet from http request.");
-            packetService.receiveBuffer(buffer);
+        Buffer response = new Buffer();
+        response=packetService.receiveBufferAndGetResponse(buffer);
+
+
+//        List<Buffer> buffers = new ArrayList<>();
+//        bufferQueues.get(new Client(id)).drainTo(buffers);
+
+        return response;
     }
 
     @RequestMapping(value = "/packet",method = {RequestMethod.POST})
@@ -32,6 +45,11 @@ public class PacketController {
         }
 
         return packet;
+    }
+
+    @Resource(name = "bufferQueues")
+    public void setBufferQueues(Map<Client, BlockingQueue<Buffer>> bufferQueues) {
+        this.bufferQueues = bufferQueues;
     }
 
     @Autowired

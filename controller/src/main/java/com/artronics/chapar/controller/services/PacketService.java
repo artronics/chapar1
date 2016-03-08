@@ -11,4 +11,6 @@ public interface PacketService{
 
     void receiveBuffer(Buffer buffer);
 
+    Buffer receiveBufferAndGetResponse(Buffer buffer);
+
 }

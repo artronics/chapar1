@@ -1,6 +1,7 @@
 package com.artronics.chapar.controller.config;
 
 import com.artronics.chapar.controller.entities.packet.Packet;
+import com.artronics.chapar.domain.entities.Buffer;
 import com.artronics.chapar.domain.entities.Client;
 import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
@@ -25,6 +26,11 @@ public class ControllerResourceConfig {
     @Bean(name = "packetQueue")
     public BlockingQueue<Packet> getPacketQueue(){
         return new LinkedBlockingQueue<>();
+    }
+
+    @Bean(name = "bufferQueues")
+    public Map<Client,BlockingQueue<Buffer>> getBufferQueues(){
+        return new HashMap<>();
     }
 
     @Bean(name = "unicastAddresses")
