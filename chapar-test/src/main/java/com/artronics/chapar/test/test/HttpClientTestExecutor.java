@@ -63,7 +63,7 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
 
     @Override
     protected void sendDataPacket() throws IOException, URISyntaxException {
-        Buffer b = createDataBuff(regClient,10,30);
+        Buffer b = createDataBuff(regClient,30,30);
         b.setDirection(Buffer.Direction.TX);
         b.setReceivedAt(timeRepo.getDbNowTime());
         String bJson= BaseHttpClient.toJson(b);

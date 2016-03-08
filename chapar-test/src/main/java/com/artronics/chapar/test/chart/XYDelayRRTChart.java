@@ -24,7 +24,7 @@ public class XYDelayRRTChart extends ApplicationFrame{
         setRtt(rtt);
 
         JFreeChart xylineChart = ChartFactory.createXYLineChart(
-                "RTT",
+                title,
                 "Packet" ,
                 "RTT" ,
                 createDataset() ,

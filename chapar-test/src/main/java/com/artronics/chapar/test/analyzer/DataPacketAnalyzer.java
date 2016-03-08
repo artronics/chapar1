@@ -31,9 +31,10 @@ public class DataPacketAnalyzer implements Analyzer {
     public void start() {
         client = new Client(clientId);
 
-        getFromBuffers();
+//        getFromBuffers();
+        getFromPackets();
 
-        XYDelayRRTChart chart = new XYDelayRRTChart("RTT Title", rttSet);
+        XYDelayRRTChart chart = new XYDelayRRTChart("30 Payload,one hop, db RTT", rttSet);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
@@ -42,6 +43,8 @@ public class DataPacketAnalyzer implements Analyzer {
 
     private void getFromBuffers() {
         List<Buffer> rxBuffs = bufferRepo.getProcessedRxBuffs();
+        int count = 0;
+        int sum = 0;
         for (int i = 0; i < rxBuffs.size(); i++) {
             //filter data buffers
             if (rxBuffs.get(i).getContent().get(6) != 0)
@@ -63,33 +66,56 @@ public class DataPacketAnalyzer implements Analyzer {
             }
 
             rttSet.add(rtt);
+            sum += rtt;
         }
+        System.out.println(sum / rxBuffs.size());
     }
 
     private void getFromPackets() {
         List<SdwnPacket> packets = packetRepo.getDataPackets(client);
-        //remove the first one since there is no response for this data packet
-        packets.remove(0);
+        int misPackets = 0;
+        int overFlowMiss=0;
+        float avg=0;
+        int sum=0;
+        log.debug(packets.size());
+        for (int i = 0; i < packets.size(); i += 1) {
+            if (packets.get(i).getBuffer().getDirection() == Buffer.Direction.RX)
+                continue;
 
-//        packets.sort(new PacketComparator());
-        printDataSet(packets);
-        for (int i = 0; i < 502; i += 2) {
-            if (packets.get(i).getBuffer().getSentAt() != null &&
-                    packets.get(i + 1).getBuffer().getSentAt() != null) {
-                packets.remove(i);
+            if (packets.get(i).getBuffer().getSentAt() == null)
+                continue;
+
+            Long txTime = packets.get(i).getBuffer().getSentAt().getTime();
+            Long rxTime = null;
+            int seq = packets.get(i).getBuffer().getContent().get(19);
+            //look for rx packet with in next 20 packets
+            for (int j = i + 1; j < i + 100; j++) {
+                if (packets.get(j).getBuffer().getContent().get(19) == seq) {
+                    rxTime = packets.get(j).getBuffer().getReceivedAt().getTime();
+                    break;
+                }
+            }
+            if (rxTime == null) {
+                misPackets++;
                 continue;
             }
-            Long nxtTime = packets.get(i + 1).getBuffer().getReceivedAt().getTime();
-            Long time = packets.get(i).getBuffer().getSentAt().getTime();
-            Long diff = nxtTime - time;
-//            rttSet.add(diff);
-            log.debug(diff);
-        }
-    }
 
-    public void drawRTT() {
-        List<SdwnPacket> packets = packetRepo.getDataPackets(new Client(clientId));
-        printDataSet(packets);
+            Long diff = Math.abs(rxTime-txTime);
+            rttSet.add(diff.floatValue());
+            sum+=diff;
+//            Long diff = rxTime - txTime;
+//            if (diff > 0) {
+//                rttSet.add(diff.floatValue());
+//                sum+=diff;
+//            }
+//            else
+//                overFlowMiss++;
+        }
+        avg = sum/rttSet.size();
+        log.debug("total rtt packets: " + rttSet.size());
+        log.debug("avg: "+avg);
+//        log.debug("mis packets: "+misPackets);
+//        log.debug("missed packets because of overflow in delay: "+overFlowMiss);
     }
 
     private void printDataSet(List<SdwnPacket> packets) {
