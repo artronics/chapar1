@@ -5,6 +5,7 @@ import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
 import com.artronics.chapar.domain.repositories.SensorRepo;
+import com.artronics.chapar.domain.support.NodeMapPrinter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +21,8 @@ public class SensorRegistrationServiceImplTest {
     private NetworkStructure networkStructure;
     @Mock
     private SensorRepo sensorRepo;
+    @Mock
+    private NodeMapPrinter mapPrinter;
 
     private Sensor sensor;
 
@@ -29,6 +32,8 @@ public class SensorRegistrationServiceImplTest {
 
         sensor = new Sensor();
         sensor.setAddress(UnicastAddress.create(new Client(12L),12345L));
+
+        when(mapPrinter.printDeviceMap(anyObject(),anyObject())).thenReturn("mock print");
     }
 
     @Test

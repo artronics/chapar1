@@ -11,7 +11,6 @@ import com.artronics.chapar.domain.entities.Sensor;
 import com.artronics.chapar.domain.entities.SensorLink;
 import com.artronics.chapar.domain.entities.address.UnicastAddress;
 import com.artronics.chapar.domain.map.NetworkStructure;
-import com.artronics.chapar.domain.map.NodeMap;
 import com.artronics.chapar.domain.repositories.SensorRepo;
 import com.artronics.chapar.domain.support.NodeMapPrinter;
 import org.junit.Before;
@@ -74,7 +73,8 @@ public class ReportPacketProcessorTest {
         srcSensor = Sensor.create(srcAdd);
         dstSensor = Sensor.create(dstAdd);
 
-        when(nodeMapPrinter.printDeviceMap(any(NodeMap.class),any(Client.class))).thenReturn("Mock print.");
+//        when(nodeMapPrinter.printDeviceMap(any(NodeMap.class),any(Client.class))).thenReturn("Mock print.");
+        when(nodeMapPrinter.printDeviceMap(anyObject(),anyObject())).thenReturn("mock print");
     }
 
     /*
