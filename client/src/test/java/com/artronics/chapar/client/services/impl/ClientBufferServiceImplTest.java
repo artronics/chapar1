@@ -55,7 +55,7 @@ public class ClientBufferServiceImplTest {
     @Test
     public void it_should_set_direction_RX_if_call_to_send_buffer() throws Exception {
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5,6,7));
-        bufferService.sendBuffer(b);
+        bufferService.sendBufferToController(b);
 
         assertThat(b.getDirection(),is(equalTo(RX)));
     }
@@ -63,7 +63,7 @@ public class ClientBufferServiceImplTest {
     @Test
     public void it_should_add_registeredClient_to_buffer() throws Exception {
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5,6,7));
-        bufferService.sendBuffer(b);
+        bufferService.sendBufferToController(b);
 
         assertThat(b.getClient(),is(equalTo(registeredClient)));
     }
@@ -71,7 +71,7 @@ public class ClientBufferServiceImplTest {
     @Test
     public void it_should_add_receivedAt_field() throws Exception {
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5,6,7));
-        bufferService.sendBuffer(b);
+        bufferService.sendBufferToController(b);
 
         assertThat(b.getReceivedAt(),is(notNullValue()));
     }
@@ -79,7 +79,7 @@ public class ClientBufferServiceImplTest {
     @Test
     public void it_should_persist_buffer() throws Exception {
         Buffer b = new Buffer(Arrays.asList(1,2,3,4,5,6,7));
-        bufferService.sendBuffer(b);
+        bufferService.sendBufferToController(b);
 
         verify(bufferRepo,times(1)).save(b);
         verifyNoMoreInteractions(bufferRepo);

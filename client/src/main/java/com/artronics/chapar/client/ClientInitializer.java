@@ -82,6 +82,7 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
     }
 
     @Autowired
+    @Qualifier("syncRestClientBufferServiceImpl")
     public void setBufferService(ClientBufferService bufferService) {
         this.bufferService = bufferService;
     }

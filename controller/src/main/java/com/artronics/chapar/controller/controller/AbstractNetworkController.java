@@ -33,10 +33,10 @@ public abstract class AbstractNetworkController<T extends Enum<T> & PacketType>
 
     @Override
     public void start() {
-        log.debug("Starting base Network Controller.");
-        isStarted = true;
-        Thread t = new Thread(new PacketListener(), "PCK-LST");
-        t.start();
+//        log.debug("Starting base Network Controller.");
+//        isStarted = true;
+//        Thread t = new Thread(new PacketListener(), "PCK-LST");
+//        t.start();
     }
 
     @Override

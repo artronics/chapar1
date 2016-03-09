@@ -134,7 +134,7 @@ public class BaseHttpClient {
         return OBJECT_MAPPER.writeValueAsString(msg);
     }
 
-    protected static Object toObject(String msg , Class clazz) throws IOException {
+    public static Object toObject(String msg , Class clazz) throws IOException {
 
         return OBJECT_MAPPER.readValue(msg,clazz);
     }

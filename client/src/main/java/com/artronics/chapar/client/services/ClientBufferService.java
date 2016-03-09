@@ -9,7 +9,11 @@ public interface ClientBufferService {
 
     void stop();
 
-    Buffer sendBuffer(Buffer buffer);
+    Buffer sendBufferToController(Buffer buffer,Buffer.Direction dir);
+
+    Buffer sendBufferToController(Buffer buffer);
+
+    Buffer sendBufferToSink(Buffer buffer);
 
     void setRegisteredClient(Client client);
 }

@@ -22,8 +22,11 @@ public class PacketController {
     private Map<Client,BlockingQueue<Buffer>> bufferQueues;
 
     @RequestMapping(value = "/buffer",method = {RequestMethod.POST,RequestMethod.GET})
+    @ResponseBody
     public Buffer receivePacket(@PathVariable Long id, @RequestBody Buffer buffer){
         log.debug("receive packet from http request.");
+        Client client = new Client(id);
+        buffer.setClient(client);
         Buffer response = new Buffer();
         response=packetService.receiveBufferAndGetResponse(buffer);
 

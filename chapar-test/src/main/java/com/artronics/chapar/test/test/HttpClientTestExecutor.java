@@ -57,8 +57,8 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
 
         log.debug("start transmitter thread.");
         //Now start sending data buffers
-        Thread th = new Thread(new TestExecutor());
-        th.start();
+//        Thread th = new Thread(new TestExecutor());
+//        th.start();
     }
 
     @Override

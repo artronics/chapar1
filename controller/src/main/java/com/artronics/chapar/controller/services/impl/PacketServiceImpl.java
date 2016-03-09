@@ -12,7 +12,6 @@ import com.artronics.chapar.domain.repositories.BufferRepo;
 import com.artronics.chapar.domain.repositories.TimeRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,7 +40,7 @@ public class PacketServiceImpl implements PacketService{
         checkForNewBuffersFromClients();
     }
 
-    @Scheduled(fixedRateString = "${com.artronics.chapar.controller.scheduler.rate}")
+//    @Scheduled(fixedRateString = "${com.artronics.chapar.controller.scheduler.rate}")
     public void checkForNewBuffersFromClients(){
         Set<Client> clients = registeredClients.keySet();
         clients.forEach(client -> {
@@ -88,7 +87,7 @@ public class PacketServiceImpl implements PacketService{
 
         Packet resPacket =networkController.processPacket(packet);
 
-        return resPacket.getBuffer();
+        return resPacket==null? null: resPacket.getBuffer();
     }
 
 

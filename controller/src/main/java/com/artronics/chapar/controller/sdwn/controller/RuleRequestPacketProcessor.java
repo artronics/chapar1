@@ -69,7 +69,9 @@ public class RuleRequestPacketProcessor {
         openPathBuff.setClient(dst.getAddress().getClient());
 
         bufferRepo.save(openPathBuff);
-        return packet;
+        Packet resPacket = new Packet(openPathBuff);
+
+        return resPacket;
     }
 
     public static Buffer createOpenPathBuffer(Long srcLocalAdd, Long dstLocalAdd, List<Sensor> path){
