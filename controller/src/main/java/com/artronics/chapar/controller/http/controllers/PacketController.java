@@ -27,17 +27,18 @@ public class PacketController {
         log.debug("receive packet from http request.");
         Client client = new Client(id);
         buffer.setClient(client);
+        log.debug("Request:  "+Buffer.soutBuffer(buffer));
+
         Buffer response = new Buffer();
         response=packetService.receiveBufferAndGetResponse(buffer);
-
-
-//        List<Buffer> buffers = new ArrayList<>();
-//        bufferQueues.get(new Client(id)).drainTo(buffers);
+        if (response != null) {
+            log.debug("Response: "+Buffer.soutBuffer(response));
+        }
 
         return response;
     }
 
-    @RequestMapping(value = "/packet",method = {RequestMethod.POST})
+//    @RequestMapping(value = "/packet",method = {RequestMethod.POST})
     public Packet receivePacket(@PathVariable long id, @RequestBody Packet packet){
         log.debug("receive packet from http request.");
         try {

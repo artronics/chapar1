@@ -31,8 +31,8 @@ public class DataPacketAnalyzer implements Analyzer {
     public void start() {
         client = new Client(clientId);
 
-//        getFromBuffers();
-        getFromPackets();
+        getFromBuffers();
+//        getFromPackets();
 
         XYDelayRRTChart chart = new XYDelayRRTChart("30 Payload,one hop, db RTT", rttSet);
         chart.pack();
@@ -44,11 +44,14 @@ public class DataPacketAnalyzer implements Analyzer {
     private void getFromBuffers() {
         List<Buffer> rxBuffs = bufferRepo.getProcessedRxBuffs();
         int count = 0;
-        int sum = 0;
+        float sum = 0;
+        int total = rxBuffs.size();
         for (int i = 0; i < rxBuffs.size(); i++) {
             //filter data buffers
-            if (rxBuffs.get(i).getContent().get(6) != 0)
+            if (rxBuffs.get(i).getContent().get(6) != 0) {
+                total--;
                 continue;
+            }
             float start = 0;
             float stop = 0;
             start = ((rxBuffs.get(i).getContent().get(11) & 0xFF)
@@ -66,9 +69,12 @@ public class DataPacketAnalyzer implements Analyzer {
             }
 
             rttSet.add(rtt);
+            log.debug(rtt);
             sum += rtt;
         }
-        System.out.println(sum / rxBuffs.size());
+        log.debug("Total Data RX Packets: "+total);
+        log.debug("RTT sum: "+sum);
+        log.debug("Average RTT: "+sum / total);
     }
 
     private void getFromPackets() {

@@ -64,8 +64,9 @@ public class BufferDistributorImpl implements BufferDistributor
         log.debug("This buffer contains " + buffers.size() + " packets");
 
         for (List<Integer> buff : buffers) {
-            log.debug("Sending buffer");
             Buffer buffer = new Buffer(buff);
+            buffer.setDirection(Buffer.Direction.RX);
+            log.debug(Buffer.soutBuffer(buffer));
             RxBufferReadyEvent e = new RxBufferReadyEvent(this,buffer);
 
             publisher.publishEvent(e);
@@ -74,9 +75,12 @@ public class BufferDistributorImpl implements BufferDistributor
 
     @EventListener
     public void txBufferReadyHandler(TxBuffersReadyEvent e){
-        List<Integer> b = new ArrayList<>(e.getBuffer().getContent());
+        Buffer buffer = e.getBuffer();
+        List<Integer> b = new ArrayList<>(buffer.getContent());
         if (b.isEmpty())
             return;
+
+        log.debug(Buffer.soutBuffer(buffer));
 
         b.add(0, startByte);
         b.add(stopByte);

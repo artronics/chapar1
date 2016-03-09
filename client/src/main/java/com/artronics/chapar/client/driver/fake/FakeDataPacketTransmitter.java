@@ -24,7 +24,7 @@ public class FakeDataPacketTransmitter {
     public void sendNextData() {
         if (transmitterIsEnabled) {
             clientBufferService.sendBufferToController
-                    (createDataBuff(10, 30,0), Buffer.Direction.TX);
+                    (createDataBuff(10, 0,30), Buffer.Direction.TX);
         }
     }
 
@@ -48,7 +48,6 @@ public class FakeDataPacketTransmitter {
                 1,//NetId
                 addH_src,
                 addL_src,
-                0,
                 addH,//dst
                 addL,
                 0,//data

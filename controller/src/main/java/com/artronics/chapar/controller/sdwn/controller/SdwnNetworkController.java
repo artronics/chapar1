@@ -25,11 +25,11 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
                 processReportPacket(packet);
                 return null;
             case DATA:
-                processDataPacket(packet);
-                return packet;
+                Packet resDPacket =processDataPacket(packet);
+                return resDPacket;
             case RL_REQ:
-                processRuleRequestPacket(packet);
-                return packet;
+                Packet resRPacket = processRuleRequestPacket(packet);
+                return resRPacket;
             case OPN_PT:
                 processOpenPathPacket(packet);
                 return null;
@@ -53,17 +53,18 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
 
         //if dir is tx it means we need to pass this packet to controller to
         //forward to client
-        if (packet.getBuffer().getDirection() == Buffer.Direction.TX)
+        if (packet.getBuffer().getDirection() == Buffer.Direction.TX){
             return packet;
+        }
 
         return null;
     }
 
     private Packet<SdwnPacketType> processRuleRequestPacket(Packet<SdwnPacketType> packet) {
         packetLogger.log(packet);
-        ruleRequestPacketProcessor.processRuleRequestPacket(packet);
+        Packet resPacket=ruleRequestPacketProcessor.processRuleRequestPacket(packet);
 
-        return packet;
+        return resPacket;
     }
 
     private Packet<SdwnPacketType> processOpenPathPacket(Packet<SdwnPacketType> packet) {

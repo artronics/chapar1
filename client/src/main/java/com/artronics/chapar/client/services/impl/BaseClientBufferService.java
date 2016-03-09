@@ -31,7 +31,6 @@ public abstract class BaseClientBufferService implements ClientBufferService {
 
     @Override
     public Buffer sendBufferToSink(Buffer buffer) {
-        log.debug(Buffer.soutBuffer(buffer));
         TxBuffersReadyEvent e = new TxBuffersReadyEvent(this, buffer);
         publisher.publishEvent(e);
 

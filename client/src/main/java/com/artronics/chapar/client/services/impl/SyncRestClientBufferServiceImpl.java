@@ -62,6 +62,7 @@ public class SyncRestClientBufferServiceImpl extends BaseClientBufferService {
 
         if (resBuffer != null) {
             sendBufferToSink(resBuffer);
+            persistBuffer(resBuffer, Buffer.Direction.TX);
         }
 
         return buffer;
