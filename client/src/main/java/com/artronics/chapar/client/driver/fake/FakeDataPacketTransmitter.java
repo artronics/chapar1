@@ -2,6 +2,7 @@ package com.artronics.chapar.client.driver.fake;
 
 import com.artronics.chapar.client.services.ClientBufferService;
 import com.artronics.chapar.domain.entities.Buffer;
+import com.artronics.chapar.domain.repositories.TimeRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,12 +20,16 @@ public class FakeDataPacketTransmitter {
 
     private ClientBufferService clientBufferService;
 
+    private TimeRepo timeRepo;
+
 
     @Scheduled(fixedRateString = "${com.artronics.chapar.client.buffer.scheduler.availability.rate}",initialDelay = 15000)
     public void sendNextData() {
         if (transmitterIsEnabled) {
+            Buffer dataBuff = createDataBuff(10, 0, 30);
+
             clientBufferService.sendBufferToController
-                    (createDataBuff(10, 0,30), Buffer.Direction.TX);
+                    (dataBuff, Buffer.Direction.TX);
         }
     }
 
@@ -66,6 +71,11 @@ public class FakeDataPacketTransmitter {
     @Value("${com.artronics.chapar.client.test.dataTransmitter}")
     public void setTransmitterIsEnabled(boolean transmitterIsEnabled) {
         this.transmitterIsEnabled = transmitterIsEnabled;
+    }
+
+    @Autowired
+    public void setTimeRepo(TimeRepo timeRepo) {
+        this.timeRepo = timeRepo;
     }
 
     @Autowired

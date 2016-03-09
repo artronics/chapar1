@@ -31,8 +31,8 @@ public class DataPacketAnalyzer implements Analyzer {
     public void start() {
         client = new Client(clientId);
 
-        getFromBuffers();
-//        getFromPackets();
+//        getFromBuffers();
+        getFromPackets();
 
         XYDelayRRTChart chart = new XYDelayRRTChart("30 Payload,one hop, db RTT", rttSet);
         chart.pack();
@@ -83,19 +83,24 @@ public class DataPacketAnalyzer implements Analyzer {
         int overFlowMiss=0;
         float avg=0;
         int sum=0;
+        int total=packets.size();
         log.debug(packets.size());
         for (int i = 0; i < packets.size(); i += 1) {
-            if (packets.get(i).getBuffer().getDirection() == Buffer.Direction.RX)
+            if (packets.get(i).getBuffer().getDirection() == Buffer.Direction.RX) {
+                total--;
                 continue;
-
-            if (packets.get(i).getBuffer().getSentAt() == null)
+            }
+            if (packets.get(i).getBuffer().getSentAt() == null) {
+                total--;
                 continue;
+            }
 
             Long txTime = packets.get(i).getBuffer().getSentAt().getTime();
             Long rxTime = null;
             int seq = packets.get(i).getBuffer().getContent().get(19);
             //look for rx packet with in next 20 packets
-            for (int j = i + 1; j < i + 100; j++) {
+            int distance= packets.size()-100>100?100:(packets.size()-100);
+            for (int j = i + 1; j < i + distance; j++) {
                 if (packets.get(j).getBuffer().getContent().get(19) == seq) {
                     rxTime = packets.get(j).getBuffer().getReceivedAt().getTime();
                     break;
@@ -103,6 +108,7 @@ public class DataPacketAnalyzer implements Analyzer {
             }
             if (rxTime == null) {
                 misPackets++;
+                total--;
                 continue;
             }
 
@@ -117,11 +123,11 @@ public class DataPacketAnalyzer implements Analyzer {
 //            else
 //                overFlowMiss++;
         }
-        avg = sum/rttSet.size();
-        log.debug("total rtt packets: " + rttSet.size());
+        avg = sum/total/2;
+        log.debug("total number of packets in query: " +rttSet.size());
+        log.debug("total number of Data Packets: "+ total);
+        log.debug("Total number of Data packets divided by 2: "+total/2);
         log.debug("avg: "+avg);
-//        log.debug("mis packets: "+misPackets);
-//        log.debug("missed packets because of overflow in delay: "+overFlowMiss);
     }
 
     private void printDataSet(List<SdwnPacket> packets) {

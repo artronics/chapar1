@@ -39,6 +39,13 @@ public class SyncRestClientBufferServiceImpl extends BaseClientBufferService {
     @Override
     public Buffer sendBufferToController(Buffer buffer,Buffer.Direction dir) {
         buffer.setDirection(dir);
+        //since this is a test node we assume that this is when
+        //client receives a tx packet
+        //here tx means that we want to send this packet to controller then
+        //controller forwards this packet and when we get it sentAt will be
+        //added to RX packet
+        buffer.setReceivedAt(timeRepo.getDbNowTime());
+
         String b = "{}";
         URI uri = null;
         CloseableHttpResponse res;
@@ -62,6 +69,8 @@ public class SyncRestClientBufferServiceImpl extends BaseClientBufferService {
 
         if (resBuffer != null) {
             sendBufferToSink(resBuffer);
+
+            resBuffer.setSentAt(timeRepo.getDbNowTime());
             persistBuffer(resBuffer, Buffer.Direction.TX);
         }
 
