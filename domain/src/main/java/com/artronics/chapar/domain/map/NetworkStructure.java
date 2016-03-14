@@ -22,6 +22,8 @@ public interface NetworkStructure {
      */
     boolean addClient(Client client);
 
+    List<Sensor> getSensors(Client client);
+
     boolean containsClient(Client client);
 
     void addSensor(Sensor sensor);

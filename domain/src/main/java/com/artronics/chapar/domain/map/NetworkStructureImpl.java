@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class NetworkStructureImpl implements NetworkStructure{
@@ -47,6 +44,20 @@ public class NetworkStructureImpl implements NetworkStructure{
     @Override
     public boolean addClient(Client client) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Sensor> getSensors(Client client) {
+        List<Sensor> sensors = new ArrayList<>();
+        for (Sensor sensor : registeredSensors.keySet()) {
+            if (sensor.getAddress().getClient().equals(client)){
+//                sensor.setLinks(new ArrayList<>(getLinks(sensor)));
+                sensors.add(sensor);
+            }
+
+        }
+
+        return sensors;
     }
 
     @Override
