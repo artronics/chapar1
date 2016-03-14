@@ -34,7 +34,7 @@ public class DataPacketAnalyzer implements Analyzer {
 //        getFromBuffers();
         getFromPackets();
 
-        XYDelayRRTChart chart = new XYDelayRRTChart("30 Payload,one hop, db RTT", rttSet);
+        XYDelayRRTChart chart = new XYDelayRRTChart("10 Payload,one hop, " + "Timestamps RTT", rttSet);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
@@ -65,10 +65,11 @@ public class DataPacketAnalyzer implements Analyzer {
                 rtt = (stop - start) / 250;
             }
 
+            log.debug(rtt);
             rttSet.add(rtt);
             sum += rtt;
         }
-        System.out.println(sum / rxBuffs.size());
+        System.out.println(sum / rttSet.size());
     }
 
     private void getFromPackets() {
