@@ -19,6 +19,9 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
     private final static Logger log = Logger.getLogger(HttpClientTestExecutor.class);
     private long controllerId;
     private long clientId;
+    private long targetClientId;
+
+    private Client targetClient;
     private BaseHttpClient httpClient;
 
     private TimeRepo timeRepo;
@@ -36,6 +39,8 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
     @Override
     public void start() {
         regClient = new Client(clientId,new Controller(controllerId));
+        targetClient = new Client(targetClientId,new Controller(controllerId));
+
 
         delayBeforeStart = 1000;
 
@@ -63,11 +68,11 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
 
     @Override
     protected void sendDataPacket() throws IOException, URISyntaxException {
-        Buffer b = createDataBuff(regClient,10,30);
+        Buffer b = createDataBuff(targetClient,10,30);
         b.setDirection(Buffer.Direction.TX);
         b.setReceivedAt(timeRepo.getDbNowTime());
         String bJson= BaseHttpClient.toJson(b);
-        URI uri=httpClient.createUri(clientId,"buffer");
+        URI uri=httpClient.createUri(targetClientId,"buffer");
         httpClient.sendRequest(bJson,uri);
     }
 
@@ -86,4 +91,8 @@ public class HttpClientTestExecutor extends BaseClientTestExecutor {
         this.clientId = clientId;
     }
 
+    @Value("${com.artronics.chapar.test.target_client_id}")
+    public void setTargetClientId(long targetClientId) {
+        this.targetClientId = targetClientId;
+    }
 }

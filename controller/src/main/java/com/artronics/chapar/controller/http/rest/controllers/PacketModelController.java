@@ -33,6 +33,7 @@ public class PacketModelController {
         for (SdwnPacket packet : packets) {
             PacketModel packetModel= new PacketModel();
 
+            packetModel.setRid(packet.getId());
             packetModel.setType(packet.getType());
             packetModel.setSrcAdd(packet.getSrcAddress().getLocalAddress());
             packetModel.setDstAdd(packet.getDstAddress().getLocalAddress());

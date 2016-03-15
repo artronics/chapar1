@@ -49,6 +49,7 @@ public class SdwnNetworkController extends AbstractNetworkController<SdwnPacketT
         packetLogger.log(packet);
         //Do nothing. all the process of registration and persistence is
         //already done in base class
+
         return packet;
     }
 

@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class PacketModel {
     private final static Logger log = Logger.getLogger(PacketModel.class);
+
+    private long rid;
     private SdwnPacketType type;
     private long clientId;
     private Buffer.Direction dir;
@@ -15,6 +17,14 @@ public class PacketModel {
     private Date receivedAt;
     private long srcAdd;
     private long dstAdd;
+
+    public long getRid() {
+        return rid;
+    }
+
+    public void setRid(long rid) {
+        this.rid = rid;
+    }
 
     public static Logger getLog() {
         return log;
